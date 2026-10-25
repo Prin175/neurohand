@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Device · NeuroHand</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="in-app">
+  <div class="app" id="app-shell">
+    <aside class="sidebar" id="sidebar" aria-label="App navigation">
+      <a class="logo" href="home.html"><span class="logo-mark"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h4l2-5 4 10 2-5h6"/></svg></span>NeuroHand</a>
+      <nav class="side-nav">
+        <a href="home.html"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h5v-6h4v6h5V9.5"/></svg>Home</a><a href="training.html"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></svg>Training</a><a href="progress.html"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 6-6"/></svg>Progress</a><a href="device.html" aria-current="page"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>Device</a><a class="is-soon" aria-disabled="true"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>Signal monitor<span class="soon">Soon</span></a>
+      </nav>
+      <div class="side-sep"></div>
+      <nav class="side-nav">
+        <a class="is-soon" aria-disabled="true"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></svg>Settings<span class="soon">Soon</span></a>
+        <a href="index.html"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg>Log out</a>
+      </nav>
+      <div class="side-foot">
+        <div class="side-device">
+            <div class="row"><strong>EEG headset</strong><span class="status off"><span class="dot"></span>Not connected</span></div>
+        </div>
+        <div class="user-chip"><span class="avatar">P1</span><div><strong>Participant P-01</strong><span>Patient</span></div></div>
+      </div>
+    </aside>
+    <div class="app-col">
+      <div class="app-top"><button class="icon-btn" id="app-menu" aria-label="Open navigation"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button><a class="logo" href="home.html"><span class="logo-mark"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h4l2-5 4 10 2-5h6"/></svg></span>NeuroHand</a><span class="status off"><span class="dot"></span>No headset</span></div>
+      <main class="main" id="main"><div class="main-inner">
+        <div class="page-title"><div><h1>Connect your headset</h1><p>Training needs a connected EEG headset. Turn it on and keep it within a few meters of this computer.</p></div></div>
+        <div class="grid-side">
+          <div class="card" id="device-card">
+            <div id="state-empty">
+              <h2>No headset connected</h2>
+              <p class="desc">Make sure Bluetooth is on, then search for nearby devices.</p>
+              <p style="margin-top:16px"><button class="btn btn-primary" id="search-btn">Search for devices</button></p>
+            </div>
+            <div id="state-searching" hidden>
+              <h2><span class="spinner"></span>&nbsp; Searching for devices</h2>
+              <p class="desc">Looking for EEG headsets nearby. This takes a few seconds.</p>
+            </div>
+            <div id="state-found" hidden>
+              <h2>1 device found</h2>
+              <div class="device-list">
+                <div class="device-row"><span class="logo-mark"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg></span>
+                  <div class="info"><strong>NeuroHand EEG headset</strong><span>NH-01 · Bluetooth · simulated</span></div>
+                  <a class="btn btn-primary btn-sm" href="home.html">Connect</a></div>
+              </div>
+            </div>
+          </div>
+          <aside class="side-help"><h3>Before you connect</h3><ol>
+            <li>Charge the headset if the light is orange.</li>
+            <li>Turn on Bluetooth on this computer.</li>
+            <li>Put the headset on so C3, Cz and C4 sit over the top of the head.</li></ol>
+            <p class="note" style="margin-top:14px">No hardware yet? Choose the simulated headset to try training with generated data.</p>
+          </aside>
+        </div>
+      </div></main>
+    </div>
+  </div>
+  <script src="js/main.js"></script>
+</body>
+</html>

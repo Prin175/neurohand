@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Home · NeuroHand</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="in-app">
+  <div class="app" id="app-shell">
+    <aside class="sidebar" id="sidebar" aria-label="App navigation">
+      <a class="logo" href="home.html"><span class="logo-mark"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h4l2-5 4 10 2-5h6"/></svg></span>NeuroHand</a>
+      <nav class="side-nav">
+        <a href="home.html" aria-current="page"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h5v-6h4v6h5V9.5"/></svg>Home</a><a href="training.html"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></svg>Training</a><a href="progress.html"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 6-6"/></svg>Progress</a><a href="device.html"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>Device</a><a class="is-soon" aria-disabled="true"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>Signal monitor<span class="soon">Soon</span></a>
+      </nav>
+      <div class="side-sep"></div>
+      <nav class="side-nav">
+        <a class="is-soon" aria-disabled="true"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></svg>Settings<span class="soon">Soon</span></a>
+        <a href="index.html"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg>Log out</a>
+      </nav>
+      <div class="side-foot">
+        <div class="side-device">
+            <div class="row"><strong>EEG headset</strong><span class="status ok"><span class="dot"></span>Connected</span></div>
+            <div class="meta"><span class="battery"><span class="batt"><i style="width:12.5px"></i></span><span class="tnum">78%</span></span><span class="battery"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20v-4M9 20v-8M14 20v-12M19 20V4"/></svg>Good</span></div>
+        </div>
+        <div class="user-chip"><span class="avatar">P1</span><div><strong>Participant P-01</strong><span>Patient</span></div></div>
+      </div>
+    </aside>
+    <div class="app-col">
+      <div class="app-top"><button class="icon-btn" id="app-menu" aria-label="Open navigation"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button><a class="logo" href="home.html"><span class="logo-mark"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h4l2-5 4 10 2-5h6"/></svg></span>NeuroHand</a><span class="status ok"><span class="dot"></span>Headset</span></div>
+      <main class="main" id="main"><div class="main-inner">
+        <div class="page-title"><div><h1>Good evening, P-01</h1><p>Your headset is connected and your next session is ready.</p></div></div>
+        <div class="grid-2">
+          <div class="card"><h2>Session 9</h2>
+            <p class="desc">20 trials of left and right hand imagery. Takes about 12 minutes.</p>
+            <div style="margin-top:18px"><div class="meter-label"><span>This week</span><span class="tnum">3 of 5 sessions</span></div><div class="meter"><i style="width:60%"></i></div></div>
+            <p style="margin-top:18px"><a class="btn btn-primary" href="training.html">Start training</a></p>
+          </div>
+          <div class="card"><div class="card-head"><h2>Headset</h2><span class="status ok"><span class="dot"></span>Connected</span></div>
+            <p class="desc">NeuroHand EEG headset · NH-01 · Bluetooth</p>
+            <dl class="kv"><div><dt>Battery</dt><dd><span class="battery"><span class="batt"><i style="width:12.5px"></i></span><span class="tnum">78%</span></span></dd></div><div><dt>Signal</dt><dd>Good</dd></div><div><dt>Connected</dt><dd class="tnum">22:41</dd></div></dl>
+            <p class="desc" style="font-size:.8125rem;margin-top:12px">Electrodes: C3 good, Cz good, C4 fair</p>
+            <p style="margin-top:14px"><a class="btn btn-ghost btn-sm" href="device.html">Manage device</a></p>
+          </div>
+        </div>
+        <div class="card"><div class="card-head"><h2>Recent sessions</h2><a href="progress.html" style="font-size:.875rem;font-weight:600">See all progress</a></div>
+          <div class="table-wrap"><table class="data">
+            <thead><tr><th>Session</th><th>Date</th><th class="r">Accuracy</th><th class="r">Duration</th></tr></thead>
+            <tbody><tr><td><strong>Session 8</strong></td><td>Thu 22 Oct</td><td class="r tnum">69%</td><td class="r tnum">12 min</td></tr><tr><td><strong>Session 7</strong></td><td>Wed 21 Oct</td><td class="r tnum">67%</td><td class="r tnum">12 min</td></tr><tr><td><strong>Session 6</strong></td><td>Mon 19 Oct</td><td class="r tnum">64%</td><td class="r tnum">11 min</td></tr></tbody>
+          </table></div>
+          <p class="subtle" style="font-size:.8125rem;margin-top:12px">Session results are simulated in this prototype.</p>
+        </div>
+      </div></main>
+    </div>
+  </div>
+  <script src="js/main.js"></script>
+</body>
+</html>

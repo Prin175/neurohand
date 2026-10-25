@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>NeuroHand</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header class="site-header"><div class="wrap header-row">
+    <a class="logo" href="index.html"><span class="logo-mark"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h4l2-5 4 10 2-5h6"/></svg></span>NeuroHand</a>
+    <nav class="site-nav" id="site-nav" aria-label="Main"><a href="#about">About</a><a href="#how">How it works</a><a href="#research">Research</a><a href="#contact">Contact</a></nav>
+    <div class="header-actions"><a class="btn btn-ghost btn-sm" href="login.html">Log in</a><a class="btn btn-primary btn-sm" href="login.html?mode=signup">Sign up</a></div>
+    <button class="icon-btn menu-btn" data-toggle="site-nav" aria-label="Menu" aria-expanded="false" aria-controls="site-nav"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+  </div></header>
+
+  <main id="main">
+    <section class="hero"><div class="wrap hero-grid">
+      <div>
+        <h1>Train your hand by imagining the movement.</h1>
+        <p class="lede">NeuroHand records EEG while you imagine moving your left or right hand. When the signal is recognized, a virtual hand on screen moves with you. It is a student research project exploring visual feedback for stroke rehabilitation.</p>
+        <div class="hero-actions"><a class="btn btn-primary" href="login.html?mode=signup">Create an account</a><a class="btn btn-ghost" href="login.html">Log in</a></div>
+        <p class="note">The current prototype uses simulated EEG data.</p>
+      </div>
+      <figure style="margin:0">
+        <!-- Replace this box with: <img src="images/session.jpg" alt="Participant wearing the EEG headset during a training session"> -->
+        <div class="photo-slot">[Photo: participant wearing the EEG headset during a training session]</div>
+        <figcaption class="note photo-caption">Replace with a photo from your own testing.</figcaption>
+      </figure>
+    </div></section>
+
+    <div class="steps-band" id="how"><div class="wrap steps">
+      <div class="step"><span class="n">1</span><div><h3>Connect the headset</h3><p>Pair your EEG headset with the app before each session.</p></div></div>
+      <div class="step"><span class="n">2</span><div><h3>Imagine the movement</h3><p>Follow the cue and imagine closing your left or right hand.</p></div></div>
+      <div class="step"><span class="n">3</span><div><h3>See the feedback</h3><p>The virtual hand moves when your signal is recognized.</p></div></div>
+    </div></div>
+
+    <section class="section" id="about"><div class="wrap two-col">
+      <div><p class="eyebrow">About</p><h2>A student project on brain-computer interfaces</h2></div>
+      <div class="prose"><p>After a stroke, many people lose movement in one hand. Imagining a movement activates many of the same motor areas as making it. NeuroHand asks whether showing that activity as a moving hand makes imagery practice more engaging.</p>
+        <p><strong>NeuroHand is not a medical device.</strong> It is a research prototype.</p></div>
+    </div></section>
+
+    <section class="section" id="research"><div class="wrap two-col">
+      <div><p class="eyebrow">Research</p><h2>Motor imagery with visual feedback</h2></div>
+      <div class="prose"><p>Imagining a hand movement reduces the 8–12 Hz mu rhythm over the opposite side of the motor cortex. NeuroHand records this over electrodes C3, Cz and C4 and turns it into feedback on screen.</p>
+        <p>The current phase tests the interface with simulated data. Sessions with volunteers will only start after ethics approval.</p></div>
+    </div></section>
+
+    <section class="section" id="contact"><div class="wrap two-col">
+      <div><p class="eyebrow">Contact</p><h2>Get in touch</h2></div>
+      <div class="prose"><p>Interested in taking part or collaborating? Email the project team at <strong>team-email@university.edu</strong>.</p>
+        <p class="note">Replace with your team's email address.</p></div>
+    </div></section>
+  </main>
+
+  <footer class="site-footer"><div class="wrap footer-row">
+    <span>NeuroHand is a student research prototype, not a medical device.</span>
+    <nav aria-label="Footer"><a href="#about">About</a><a href="#research">Research</a><a href="#contact">Contact</a><a href="login.html">Log in</a></nav>
+  </div></footer>
+  <script src="js/main.js"></script>
+</body>
+</html>

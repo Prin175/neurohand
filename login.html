@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Log in · NeuroHand</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="auth-page">
+    <div class="wrap auth-top"><a class="logo" href="index.html"><span class="logo-mark"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h4l2-5 4 10 2-5h6"/></svg></span>NeuroHand</a><a class="back" href="index.html">Back to home</a></div>
+    <main class="auth-main wrap" id="main">
+      <div class="auth-card">
+        <div><h1 id="auth-title">Log in</h1><p class="sub" id="auth-switch">New to NeuroHand? <a href="login.html?mode=signup">Sign up</a></p></div>
+        <form id="login-form" novalidate>
+          <fieldset style="border:0;padding:0;margin:0" class="field"><legend class="label" style="margin-bottom:6px">I am a</legend>
+            <div class="role-options">
+              <label class="role-option"><input type="radio" name="role" value="patient" checked><div><strong>Patient</strong><span>Do training sessions and see my progress</span></div></label>
+              <label class="role-option"><input type="radio" name="role" value="researcher"><div><strong>Researcher</strong><span>Manage devices and monitor EEG signals</span></div></label>
+            </div>
+          </fieldset>
+          <div class="field" id="name-field" hidden><label for="name">Full name</label><input class="input" id="name" autocomplete="name"></div>
+          <div class="field"><label for="email">Email</label><input class="input" id="email" type="email" autocomplete="email" required></div>
+          <div class="field"><div class="field-row"><label for="password">Password</label><a href="#" id="forgot" style="font-size:.8125rem">Forgot password?</a></div>
+            <input class="input" id="password" type="password" autocomplete="current-password" required></div>
+          <p class="error-text" id="form-error" hidden></p>
+          <button class="btn btn-primary btn-block" type="submit" id="submit">Log in</button>
+        </form>
+        <p class="note">NeuroHand is a student research prototype, not a medical device.</p>
+      </div>
+    </main>
+  </div>
+  <script src="js/main.js"></script>
+</body>
+</html>
