@@ -14,7 +14,7 @@
     <aside class="sidebar" id="sidebar" aria-label="App navigation">
       <a class="logo" href="home.html"><span class="logo-mark"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h4l2-5 4 10 2-5h6"/></svg></span>NeuroHand</a>
       <nav class="side-nav">
-        <a href="home.html" aria-current="page"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h5v-6h4v6h5V9.5"/></svg>Home</a><a href="training.html"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></svg>Training</a><a href="progress.html"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 6-6"/></svg>Progress</a><a href="device.html"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>Device</a><a class="is-soon" aria-disabled="true"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>Signal monitor<span class="soon">Soon</span></a>
+        <a href="home.html" aria-current="page"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h5v-6h4v6h5V9.5"/></svg>Home</a><a href="training.html"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></svg>Training</a><a href="plan.html"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4.5" width="18" height="16.5" rx="2"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/></svg>Weekly plan</a><a href="progress.html"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 6-6"/></svg>Progress</a><a href="device.html"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>Device</a><a class="is-soon" aria-disabled="true"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>Signal monitor<span class="soon">Soon</span></a>
       </nav>
       <div class="side-sep"></div>
       <nav class="side-nav">
@@ -32,30 +32,76 @@
     <div class="app-col">
       <div class="app-top"><button class="icon-btn" id="app-menu" aria-label="Open navigation"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button><a class="logo" href="home.html"><span class="logo-mark"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h4l2-5 4 10 2-5h6"/></svg></span>NeuroHand</a><span class="status ok"><span class="dot"></span>Headset</span></div>
       <main class="main" id="main"><div class="main-inner">
-        <div class="page-title"><div><h1>Good evening, P-01</h1><p>Your headset is connected and your next session is ready.</p></div></div>
+        <div class="page-title"><div><h1>Good evening, P-01</h1><p>Check in, then follow your plan for today.</p></div></div>
+
+        <section class="card plan-card" id="today-plan" aria-labelledby="today-title">
+          <div class="plan-head">
+            <div><p class="eyebrow-sm">Daily Training Assistant</p><h2 id="today-title">Your Training Plan Today</h2><p class="desc" id="today-date"></p></div>
+            <span class="demo-tag" data-demo>Demo data</span>
+          </div>
+
+          <fieldset class="checkin" data-checkin>
+            <legend>How do you feel today?</legend>
+            <div class="checkin-options">
+              <label class="role-option"><input type="radio" name="feeling" value="good"><div><strong>Feeling good</strong><span>Follow the full plan</span></div></label>
+              <label class="role-option"><input type="radio" name="feeling" value="tired"><div><strong>A little tired</strong><span>A shorter session with longer rests</span></div></label>
+              <label class="role-option"><input type="radio" name="feeling" value="uncomfortable"><div><strong>Feeling uncomfortable</strong><span>Rest today</span></div></label>
+            </div>
+          </fieldset>
+
+          <div class="plan-body">
+            <div class="plan-focus" aria-live="polite">
+              <span class="k">Today&#8217;s focus</span>
+              <strong id="plan-focus"></strong>
+              <span class="detail" id="plan-focus-detail"></span>
+              <p id="plan-summary"></p>
+            </div>
+            <div>
+              <dl class="plan-stats" id="plan-stats">
+                <div><dt>Session length</dt><dd id="plan-min"></dd></div>
+                <div><dt>Practice sets</dt><dd id="plan-sets"></dd></div>
+                <div><dt>Rest</dt><dd id="plan-rest"></dd></div>
+              </dl>
+              <ul class="rest-list" id="rest-list" aria-label="Rest reminders"></ul>
+            </div>
+          </div>
+
+          <div class="notices" id="plan-notices"></div>
+
+          <details class="why"><summary>Why this recommendation?</summary><ul id="why-list"></ul></details>
+
+          <div class="plan-actions">
+            <a class="btn btn-primary" id="check-signal" href="device.html" hidden>Check the signal</a>
+            <button class="btn btn-primary" id="start-today" type="button">Start Today&#8217;s Session</button>
+            <a class="btn btn-ghost" id="week-plan-btn" href="plan.html">View Weekly Plan</a>
+            <span class="hint" id="start-hint" hidden>Answer the check-in above to start.</span>
+          </div>
+          <p class="plan-foot">NeuroHand suggests sessions only within the plan approved by your clinician. It does not diagnose or prescribe treatment.</p>
+        </section>
+
         <div class="grid-2">
-          <div class="card"><h2>Session 9</h2>
-            <p class="desc">20 trials of left and right hand imagery. Takes about 12 minutes.</p>
-            <div style="margin-top:18px"><div class="meter-label"><span>This week</span><span class="tnum">3 of 5 sessions</span></div><div class="meter"><i style="width:60%"></i></div></div>
-            <p style="margin-top:18px"><a class="btn btn-primary" href="training.html">Start training</a></p>
+          <div class="card"><div class="card-head" style="margin-bottom:10px"><h2>This week</h2><a href="plan.html" style="font-size:.875rem;font-weight:600">View Weekly Plan</a></div>
+            <div class="meter-label"><span>Planned sessions</span><span class="tnum" id="week-count"></span></div><div class="meter"><i id="week-meter" style="width:0"></i></div>
+            <ol class="week compact" id="week-strip" aria-label="This week"></ol>
           </div>
           <div class="card"><div class="card-head"><h2>Headset</h2><span class="status ok"><span class="dot"></span>Connected</span></div>
             <p class="desc">NeuroHand EEG headset · NH-01 · Bluetooth</p>
             <dl class="kv"><div><dt>Battery</dt><dd><span class="battery"><span class="batt"><i style="width:12.5px"></i></span><span class="tnum">78%</span></span></dd></div><div><dt>Signal</dt><dd>Good</dd></div><div><dt>Connected</dt><dd class="tnum">22:41</dd></div></dl>
-            <p class="desc" style="font-size:.8125rem;margin-top:12px">Electrodes: C3 good, Cz good, C4 fair</p>
+            <p class="desc" style="font-size:.8125rem;margin-top:12px">Electrodes: C3 <span data-signal="C3">good</span>, Cz <span data-signal="Cz">good</span>, C4 <span data-signal="C4">fair</span></p>
             <p style="margin-top:14px"><a class="btn btn-ghost btn-sm" href="device.html">Manage device</a></p>
           </div>
         </div>
-        <div class="card"><div class="card-head"><h2>Recent sessions</h2><a href="progress.html" style="font-size:.875rem;font-weight:600">See all progress</a></div>
+        <div class="card"><div class="card-head"><h2>Recent sessions <span class="demo-tag" data-demo>Demo data</span></h2><a href="progress.html" style="font-size:.875rem;font-weight:600">See all progress</a></div>
           <div class="table-wrap"><table class="data">
             <thead><tr><th>Session</th><th>Date</th><th class="r">Accuracy</th><th class="r">Duration</th></tr></thead>
             <tbody><tr><td><strong>Session 8</strong></td><td>Thu 22 Oct</td><td class="r tnum">69%</td><td class="r tnum">12 min</td></tr><tr><td><strong>Session 7</strong></td><td>Wed 21 Oct</td><td class="r tnum">67%</td><td class="r tnum">12 min</td></tr><tr><td><strong>Session 6</strong></td><td>Mon 19 Oct</td><td class="r tnum">64%</td><td class="r tnum">11 min</td></tr></tbody>
           </table></div>
-          <p class="subtle" style="font-size:.8125rem;margin-top:12px">Session results are simulated in this prototype.</p>
+          <p class="subtle" style="font-size:.8125rem;margin-top:12px">Accuracy is how often the imagined movement was recognized. It is not a measure of physical recovery.</p>
         </div>
       </div></main>
     </div>
   </div>
+  <script src="js/assistant.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>

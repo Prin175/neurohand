@@ -11,7 +11,8 @@ A student research prototype for motor-imagery training with visual feedback. Th
 | `index.html` | Public landing page |
 | `login.html` | Log in and sign up (`?mode=signup`) |
 | `home.html` | Participant dashboard |
-| `training.html` | Training session, with a **Full screen** simulation mode |
+| `training.html` | Training session: check-in, then a **Full screen** session with sets and rest breaks |
+| `plan.html` | Weekly plan calendar and the clinician-approved plan settings |
 | `progress.html` | Session history, charts and CSV export |
 | `device.html` | Headset pairing (simulated) |
 
@@ -29,7 +30,20 @@ Then go to http://localhost:8000.
 
 On the Training page, press **Full screen**. Trials loop through rest, cue, imagery and feedback. Press Space or tap to pause and Esc to exit.
 
+## Daily Training Assistant
+
+The Home page shows **Your Training Plan Today**. The user checks in (Feeling good / A little tired / Feeling uncomfortable). The suggestion then adjusts within the clinician-approved plan:
+
+- **Feeling good:** follows the full plan.
+- **A little tired:** one set fewer and longer rests.
+- **Feeling uncomfortable:** no session. The app suggests resting and contacting the clinician if the discomfort continues.
+- The left/right mix shifts toward the hand that was recognized less often recently.
+- Poor EEG signal: the app asks the user to check the headset before reading any results.
+
+The assistant never adds sessions, sets or time. The schedule is set on the Weekly plan page and saved in the browser. All results are **DEMO DATA** until `NH.HARDWARE_CONNECTED` in `js/assistant.js` is set to `true` and real data replaces `NH.demo`. Recognition accuracy is not a measure of physical recovery.
+
 ## Files
 
 - `css/style.css`: all styles, including light and dark themes
+- `js/assistant.js`: Daily Training Assistant (plan, check-in, recommendation, weekly calendar)
 - `js/main.js`: page behaviour (menus, login form, device search, training simulation, progress export)

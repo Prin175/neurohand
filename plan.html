@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Weekly plan · NeuroHand</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="in-app">
+  <div class="app" id="app-shell">
+    <aside class="sidebar" id="sidebar" aria-label="App navigation">
+      <a class="logo" href="home.html"><span class="logo-mark"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h4l2-5 4 10 2-5h6"/></svg></span>NeuroHand</a>
+      <nav class="side-nav">
+        <a href="home.html"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h5v-6h4v6h5V9.5"/></svg>Home</a><a href="training.html"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></svg>Training</a><a href="plan.html" aria-current="page"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4.5" width="18" height="16.5" rx="2"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/></svg>Weekly plan</a><a href="progress.html"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 6-6"/></svg>Progress</a><a href="device.html"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>Device</a><a class="is-soon" aria-disabled="true"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>Signal monitor<span class="soon">Soon</span></a>
+      </nav>
+      <div class="side-sep"></div>
+      <nav class="side-nav">
+        <a class="is-soon" aria-disabled="true"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></svg>Settings<span class="soon">Soon</span></a>
+        <a href="index.html"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg>Log out</a>
+      </nav>
+      <div class="side-foot">
+        <div class="side-device">
+            <div class="row"><strong>EEG headset</strong><span class="status ok"><span class="dot"></span>Connected</span></div>
+            <div class="meta"><span class="battery"><span class="batt"><i style="width:12.5px"></i></span><span class="tnum">78%</span></span><span class="battery"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20v-4M9 20v-8M14 20v-12M19 20V4"/></svg>Good</span></div>
+        </div>
+        <div class="user-chip"><span class="avatar">P1</span><div><strong>Participant P-01</strong><span>Patient</span></div></div>
+      </div>
+    </aside>
+    <div class="app-col">
+      <div class="app-top"><button class="icon-btn" id="app-menu" aria-label="Open navigation"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button><a class="logo" href="home.html"><span class="logo-mark"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h4l2-5 4 10 2-5h6"/></svg></span>NeuroHand</a><span class="status ok"><span class="dot"></span>Headset</span></div>
+      <main class="main" id="main"><div class="main-inner">
+        <div class="page-title"><div><h1>Weekly plan</h1><p>Your training days, rest days and completed sessions. The schedule comes from the plan approved by your clinician.</p></div>
+          <div class="head-actions"><button class="icon-btn" id="week-prev" aria-label="Previous week"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 6-6 6 6 6"/></svg></button><span class="week-range tnum" id="week-range" aria-live="polite"></span><button class="icon-btn" id="week-next" aria-label="Next week"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button><button class="btn btn-ghost btn-sm" id="week-this">This week</button></div></div>
+
+        <div class="card">
+          <div class="card-head"><h2>Calendar</h2><span class="demo-tag" data-demo>Demo data</span></div>
+          <ol class="week" id="week" aria-label="Training calendar"></ol>
+          <div class="week-legend" aria-hidden="true">
+            <span class="chip ok"><svg class="icon" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>Completed</span>
+            <span class="chip teal"><svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2.5"/></svg>Today</span>
+            <span class="chip"><svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="7"/></svg>Upcoming</span>
+            <span class="chip"><svg class="icon" viewBox="0 0 24 24"><path d="M7 12h10"/></svg>Rested or rest day</span>
+          </div>
+        </div>
+
+        <div class="stats compact" id="week-stats"></div>
+
+        <div class="grid-main">
+          <form class="card plan-form" id="plan-form" novalidate>
+            <div class="card-head" id="plan-settings"><div><h2>Clinician-approved plan</h2><p class="desc">Enter the plan agreed with your clinician or research team. NeuroHand follows it and never adds sessions or time.</p></div><span class="chip warn" id="plan-status"></span></div>
+            <div class="form-grid">
+              <div class="field"><label for="approved-by">Approved by</label><input class="input" id="approved-by" autocomplete="off" placeholder="Clinician name"></div>
+              <div class="field"><label for="approved-on">Approval date</label><input class="input" id="approved-on" type="date"></div>
+            </div>
+            <fieldset class="field daypicks-field"><legend class="label">Training days <span class="hint">(<span id="sessions-per-week">5</span> per week)</span></legend><div class="daypicks"><label class="daypick"><input type="checkbox" name="day" value="1"><span>Mon</span></label><label class="daypick"><input type="checkbox" name="day" value="2"><span>Tue</span></label><label class="daypick"><input type="checkbox" name="day" value="3"><span>Wed</span></label><label class="daypick"><input type="checkbox" name="day" value="4"><span>Thu</span></label><label class="daypick"><input type="checkbox" name="day" value="5"><span>Fri</span></label><label class="daypick"><input type="checkbox" name="day" value="6"><span>Sat</span></label><label class="daypick"><input type="checkbox" name="day" value="0"><span>Sun</span></label></div></fieldset>
+            <div class="form-grid four">
+              <div class="field"><label for="p-minutes">Session length</label><div class="unit-input"><input class="input" id="p-minutes" type="number" min="3" max="60" inputmode="numeric"><span>min</span></div></div>
+              <div class="field"><label for="p-sets">Sets per session</label><input class="input" id="p-sets" type="number" min="1" max="6" inputmode="numeric"></div>
+              <div class="field"><label for="p-trials">Trials per set</label><input class="input" id="p-trials" type="number" min="4" max="40" inputmode="numeric"></div>
+              <div class="field"><label for="p-rest">Rest between sets</label><div class="unit-input"><input class="input" id="p-rest" type="number" min="15" max="300" step="5" inputmode="numeric"><span>s</span></div></div>
+            </div>
+            <p class="error-text" id="plan-error" role="alert" hidden></p>
+            <div class="plan-actions"><button class="btn btn-primary" type="submit">Save approved plan</button><button class="btn btn-ghost" type="button" id="plan-reset">Reset to example plan</button><span class="saved-msg" id="plan-saved" role="status" hidden>Plan saved</span></div>
+            <p class="plan-foot">This plan is saved in this browser only. Change it only when your clinician or research team approves the change.</p>
+          </form>
+
+          <aside class="stack">
+            <div class="card side-help"><h3>How the plan is used</h3><ol>
+              <li>Each training day, you check in on the Home page.</li>
+              <li>Feeling good: the session follows this plan.</li>
+              <li>A little tired: one set fewer and longer rests.</li>
+              <li>Feeling uncomfortable: no session. Rest, and contact your clinician if it continues.</li>
+              <li>Missed sessions are never added to later days.</li></ol></div>
+            <div class="card side-help" data-demo><h3>Demo controls</h3>
+              <p class="desc" style="margin-bottom:12px">For testing the prototype. Results stay DEMO DATA until a real EEG headset is connected.</p>
+              <div class="field"><label for="demo-c4">C4 signal quality</label><select class="input" id="demo-c4"><option value="good">Good</option><option value="fair">Fair</option><option value="poor">Poor</option></select></div>
+              <div class="plan-actions" style="margin-top:12px"><button class="btn btn-ghost btn-sm" type="button" id="demo-clear">Reset today&#8217;s check-in</button><span class="saved-msg" id="demo-saved" role="status" hidden>Updated</span></div>
+            </div>
+          </aside>
+        </div>
+      </div></main>
+    </div>
+  </div>
+  <script src="js/assistant.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

@@ -14,7 +14,7 @@
     <aside class="sidebar" id="sidebar" aria-label="App navigation">
       <a class="logo" href="home.html"><span class="logo-mark"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h4l2-5 4 10 2-5h6"/></svg></span>NeuroHand</a>
       <nav class="side-nav">
-        <a href="home.html"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h5v-6h4v6h5V9.5"/></svg>Home</a><a href="training.html"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></svg>Training</a><a href="progress.html" aria-current="page"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 6-6"/></svg>Progress</a><a href="device.html"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>Device</a><a class="is-soon" aria-disabled="true"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>Signal monitor<span class="soon">Soon</span></a>
+        <a href="home.html"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h5v-6h4v6h5V9.5"/></svg>Home</a><a href="training.html"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></svg>Training</a><a href="plan.html"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4.5" width="18" height="16.5" rx="2"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/></svg>Weekly plan</a><a href="progress.html" aria-current="page"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 6-6"/></svg>Progress</a><a href="device.html"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>Device</a><a class="is-soon" aria-disabled="true"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>Signal monitor<span class="soon">Soon</span></a>
       </nav>
       <div class="side-sep"></div>
       <nav class="side-nav">
@@ -32,7 +32,7 @@
     <div class="app-col">
       <div class="app-top"><button class="icon-btn" id="app-menu" aria-label="Open navigation"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button><a class="logo" href="home.html"><span class="logo-mark"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h4l2-5 4 10 2-5h6"/></svg></span>NeuroHand</a><span class="status ok"><span class="dot"></span>Headset</span></div>
       <main class="main" id="main"><div class="main-inner">
-        <div class="page-title"><div><h1>Progress</h1><p>8 sessions since 6 October. Results are simulated in this prototype.</p></div>
+        <div class="page-title"><div><h1>Progress</h1><p>8 sessions since 6 October. <span class="demo-tag" data-demo>Demo data</span></p></div>
           <div class="head-actions"><label for="range">Show</label>
             <select class="select" id="range"><option value="all">All sessions</option><option value="5">Last 5 sessions</option><option value="3">Last 3 sessions</option></select>
             <button class="btn btn-primary btn-sm" id="export-btn">Export report</button></div></div>
@@ -43,7 +43,7 @@
           <div class="stat"><div class="k">Best session</div><div class="v">69% <small>(session 8)</small></div></div>
         </div>
         <div class="grid-main">
-          <div class="card"><h2>Accuracy by session</h2><svg class="chart" viewBox="0 0 640 250" role="img" aria-label="Accuracy rose from 52% in session 1 to 69% in session 8">
+          <div class="card"><h2>Accuracy by session</h2><p class="desc" style="margin-bottom:6px">How often the imagined movement was recognized. This is not a measure of physical recovery.</p><svg class="chart" viewBox="0 0 640 250" role="img" aria-label="Accuracy rose from 52% in session 1 to 69% in session 8">
               <g class="grid"><line x1="44" x2="616" y1="220.0" y2="220.0"/><line x1="44" x2="616" y1="171.0" y2="171.0"/><line x1="44" x2="616" y1="122.0" y2="122.0"/><line x1="44" x2="616" y1="73.0" y2="73.0"/><line x1="44" x2="616" y1="24.0" y2="24.0"/></g><g class="axis"><text x="36" y="224.0" text-anchor="end">40%</text><text x="36" y="175.0" text-anchor="end">50%</text><text x="36" y="126.0" text-anchor="end">60%</text><text x="36" y="77.0" text-anchor="end">70%</text><text x="36" y="28.0" text-anchor="end">80%</text><text x="44.0" y="242" text-anchor="middle">S1</text><text x="125.7" y="242" text-anchor="middle">S2</text><text x="207.4" y="242" text-anchor="middle">S3</text><text x="289.1" y="242" text-anchor="middle">S4</text><text x="370.9" y="242" text-anchor="middle">S5</text><text x="452.6" y="242" text-anchor="middle">S6</text><text x="534.3" y="242" text-anchor="middle">S7</text><text x="616.0" y="242" text-anchor="middle">S8</text></g>
               <line class="chance" x1="44" x2="616" y1="171.0" y2="171.0"/>
               <text class="chance-label" x="616" y="165.0" text-anchor="end">Chance level</text>
@@ -69,6 +69,7 @@
       </div></main>
     </div>
   </div>
+  <script src="js/assistant.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>
