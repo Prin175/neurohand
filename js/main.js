@@ -7,10 +7,11 @@
   const root = document.documentElement;
   const getPref = (k, d) => { try { return localStorage.getItem(k) || d; } catch (e) { return d; } };
   const setPref = (k, v) => { try { localStorage.setItem(k, v); } catch (e) { /* storage unavailable */ } };
-  const applyTheme = (t) => { if (t === 'light' || t === 'dark') root.setAttribute('data-theme', t); else root.removeAttribute('data-theme'); };
+  const applyTheme = (t) => { if (t === 'light' || t === 'dark') root.setAttribute('data-nh-theme', t); else root.removeAttribute('data-nh-theme'); };
   const applySize = (v) => root.classList.toggle('large-text', v === 'large');
   applyTheme(getPref('nh.theme', 'system'));
   applySize(getPref('nh.textsize', 'default'));
+  window.addEventListener('storage', (e) => { if (e.key === 'nh.theme') applyTheme(e.newValue); if (e.key === 'nh.textsize') applySize(e.newValue); });
   const themeInputs = document.querySelectorAll('input[name="theme"]');
   if (themeInputs.length) {
     const saved = () => { const m = $('settings-saved'); m.hidden = false; clearTimeout(m._t); m._t = setTimeout(() => { m.hidden = true; }, 1500); };

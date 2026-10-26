@@ -34,7 +34,7 @@
   --r-lg: 14px;
 }
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
+  :root:not([data-theme="light"]):not([data-nh-theme="light"]) {
     --bg: #0c1110; --bg-app: #0a0f0e; --surface: #131a19; --surface-2: #182120;
     --line: #243030; --line-strong: #344341; --ink: #e8eeec; --ink-2: #aab6b2; --ink-3: #7d8a86;
     --teal: #3dbcaa; --teal-strong: #6fd6c6; --teal-soft: #13302c; --teal-line: #2b6c62;
@@ -44,7 +44,7 @@
     color-scheme: dark;
   }
 }
-:root[data-theme="dark"] {
+:root[data-theme="dark"], :root[data-nh-theme="dark"] {
   --bg: #0c1110; --bg-app: #0a0f0e; --surface: #131a19; --surface-2: #182120;
   --line: #243030; --line-strong: #344341; --ink: #e8eeec; --ink-2: #aab6b2; --ink-3: #7d8a86;
   --teal: #3dbcaa; --teal-strong: #6fd6c6; --teal-soft: #13302c; --teal-line: #2b6c62;
@@ -836,3 +836,43 @@ button.day.is-today[aria-pressed="true"] { border-color: var(--teal); box-shadow
 .theme-prev.system .tp-bar { background: #3dbcaa; }
 .theme-prev.system .tp-card { background: rgba(127,140,137,.35); }
 @media (max-width: 640px) { .theme-opts { gap: 8px; } .theme-desc { display: none; } }
+
+/* NeuroHand's own color mode (Settings). Comes last so the user's choice wins over the
+   viewer's data-theme and the device preference. */
+:root[data-nh-theme="dark"] {
+  --bg: #0c1110; --bg-app: #0a0f0e; --surface: #131a19; --surface-2: #182120;
+  --line: #243030; --line-strong: #344341; --ink: #e8eeec; --ink-2: #aab6b2; --ink-3: #7d8a86;
+  --teal: #3dbcaa; --teal-strong: #6fd6c6; --teal-soft: #13302c; --teal-line: #2b6c62;
+  --btn: #e8eeec; --btn-ink: #0c1110; --on-teal: #0a0f0e; --note: #d9a874;
+  --ok: #4cc38a; --warn: #e3ac55; --bad: #f08b5f;
+  --ok-soft: #12291f; --warn-soft: #2b2212; --bad-soft: #2e1a12; --trace: #8d9a96; --focus: #6fd6c6;
+  color-scheme: dark;
+}
+:root[data-nh-theme="light"] {
+  --bg: #ffffff;
+  --bg-app: #f4f6f6;
+  --surface: #ffffff;
+  --surface-2: #f6f8f8;
+  --line: #e1e6e5;
+  --line-strong: #cdd5d3;
+  --ink: #111615;
+  --ink-2: #4b5654;
+  --ink-3: #78837f;
+  --teal: #0f766e;
+  --teal-strong: #0b5b55;
+  --teal-soft: #e6f2f0;
+  --teal-line: #9ccfc7;
+  --btn: #111615;
+  --btn-ink: #ffffff;
+  --on-teal: #ffffff;
+  --note: #8a5a2e;
+  --ok: #1d8a58;
+  --warn: #b7791f;
+  --bad: #c2410c;
+  --ok-soft: #e4f4ec;
+  --warn-soft: #fbf1df;
+  --bad-soft: #fde9df;
+  --trace: #6b7673;
+  --focus: #0f766e;
+  color-scheme: light;
+}
