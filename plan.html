@@ -54,6 +54,7 @@
           <div class="card">
             <div class="card-head"><h2>This week</h2>
               <div class="head-actions"><button class="icon-btn" id="week-prev" aria-label="Previous week"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 6-6 6 6 6"/></svg></button><span class="week-range tnum" id="week-range" aria-live="polite"></span><button class="icon-btn" id="week-next" aria-label="Next week"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button><button class="btn btn-ghost btn-sm" id="week-this">This week</button></div></div>
+            <p class="hint" style="margin:-6px 0 12px">Tap a day to see its results.</p>
             <ol class="week" id="week" aria-label="Training calendar"></ol>
             <div class="week-legend" aria-hidden="true">
               <span class="chip ok"><svg class="icon" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>Completed</span>
@@ -62,6 +63,7 @@
               <span class="chip"><svg class="icon" viewBox="0 0 24 24"><path d="M7 12h10"/></svg>Rested or rest day</span>
               <span class="chip warn"><svg class="icon" viewBox="0 0 24 24"><rect x="7" y="7" width="10" height="10" rx="1.5"/></svg>Stopped early</span>
             </div>
+            <div class="day-detail" id="day-detail" aria-live="polite"></div>
           </div>
 
           <div class="grid-main">

@@ -342,7 +342,7 @@
     rest: { label: 'Rest day', chip: '' },
     before: { label: 'Before start', chip: '' }
   };
-  NH.renderWeek = (el, start, compact, a) => {
+  NH.renderWeek = (el, start, compact, a, selected) => {
     a = a || NH.analyse();
     const t = today();
     const sum = NH.weekSummary(a, start);
@@ -355,10 +355,14 @@
       else if (s === 'today' || s === 'upcoming') meta = 'About ' + a.level.minutes + ' min · ' + a.level.sets + (a.level.sets === 1 ? ' set' : ' sets');
       else if (s === 'rested') meta = 'Rest taken instead';
       const label = NH.longDate(d) + ': ' + STATUS[s].label + (meta ? ', ' + meta : '');
-      return '<li class="day is-' + s + (isToday ? ' is-today' : '') + '" aria-label="' + label + '">' +
-        '<div class="dhead"><span class="dname">' + DAY_SHORT[d.getDay()] + '</span><span class="ddate">' + d.getDate() + '</span></div>' +
+      const cls = 'day is-' + s + (isToday ? ' is-today' : '');
+      const inner = '<span class="dhead"><span class="dname">' + DAY_SHORT[d.getDay()] + '</span><span class="ddate">' + d.getDate() + '</span></span>' +
         '<span class="chip ' + STATUS[s].chip + '">' + NH.icon(s) + '<span>' + STATUS[s].label + '</span></span>' +
-        (compact ? '' : '<span class="dmeta">' + meta + '</span>') + '</li>';
+        (compact ? '' : '<span class="dmeta">' + meta + '</span>');
+      // Home strip links to the day on My plan; My plan days are buttons that open the day's details
+      return '<li>' + (compact
+        ? '<a class="' + cls + '" href="plan.html#d-' + iso(d) + '" aria-label="' + label + '. Open details">' + inner + '</a>'
+        : '<button type="button" class="' + cls + '" data-date="' + iso(d) + '" aria-pressed="' + (selected === iso(d)) + '" aria-label="' + label + '">' + inner + '</button>') + '</li>';
     }).join('');
     return sum;
   };
@@ -443,6 +447,9 @@
   if (weekEl) {
     let start = NH.weekStart(today());
     const thisWeek = start.getTime();
+    let selected = iso(today());
+    const m = /^#d-(\d{4}-\d{2}-\d{2})$/.exec(location.hash);
+    if (m) { selected = m[1]; start = NH.weekStart(fromIso(m[1])); }
     const renderPlan = () => {
       const a = NH.analyse();
       const ob = NH.isOnboarded();
@@ -474,7 +481,10 @@
         : '<li class="subtle">None yet.</li>';
 
       // Calendar
-      const sum = NH.renderWeek(weekEl, start, false, a);
+      const shown = NH.weekDays(start).map(iso);
+      if (!shown.includes(selected)) selected = shown.includes(iso(today())) ? iso(today()) : shown[0];
+      const sum = NH.renderWeek(weekEl, start, false, a, selected);
+      renderDay(a, selected, sum.statuses[shown.indexOf(selected)]);
       const end = sum.days[6];
       $('week-range').textContent = sum.days[0].getDate() + ' ' + MONTHS[sum.days[0].getMonth()].slice(0, 3) + ' – ' + end.getDate() + ' ' + MONTHS[end.getMonth()].slice(0, 3) + ' ' + end.getFullYear();
       $('week-this').disabled = start.getTime() === thisWeek;
@@ -490,6 +500,42 @@
         '<div class="stat"><div class="k">Tired days</div><div class="v">' + (a.feelings.tired + a.feelings.uncomfortable) + '</div><div class="s">of ' + a.history.length + ' sessions</div></div>';
       $('analysis-list').innerHTML = NH.insights(a).map((x) => '<li>' + x + '</li>').join('');
     };
+    // Details for the selected day
+    const FEEL = { good: 'Feeling good', tired: 'A little tired', uncomfortable: 'Feeling uncomfortable' };
+    const renderDay = (a, key, status) => {
+      const d = fromIso(key), L = a.level;
+      const rec = a.history.filter((x) => x.date === key).pop();
+      const title = '<div class="dd-head"><h3>' + NH.longDate(d) + '</h3><span class="chip ' + STATUS[status].chip + '">' + NH.icon(status) + STATUS[status].label + '</span></div>';
+      let body;
+      if (rec) {
+        const pct = (v) => (v == null ? '\u2013' : v + '%');
+        body = '<dl class="plan-stats four">' +
+          '<div><dt>Left hand</dt><dd>' + pct(rec.left) + '<small>Recognized</small></dd></div>' +
+          '<div><dt>Right hand</dt><dd>' + pct(rec.right) + '<small>Recognized</small></dd></div>' +
+          '<div><dt>Overall</dt><dd>' + pct(overall(rec)) + '<small>' + (rec.trials || '\u2013') + ' trials</small></dd></div>' +
+          '<div><dt>Length</dt><dd>' + (rec.minutes || '\u2013') + ' min<small>' + (rec.stopped ? 'Stopped early' : 'Finished') + '</small></dd></div></dl>' +
+          '<ul class="dd-facts"><li><span>Check-in</span>' + (FEEL[rec.feeling] || 'Not answered') + '</li><li><span>Signal</span><span class="q-' + rec.signal + '">' + rec.signal + '</span></li><li><span>Level</span>' + (LEVELS[rec.levelIndex] ? LEVELS[rec.levelIndex].name : '\u2013') + '</li></ul>' +
+          (rec.signal === 'poor' ? '<p class="plan-foot">Poor signal, so this session is left out of your analysis.</p>' : '');
+      } else {
+        const msg = {
+          today: 'Today\u2019s session: about ' + L.minutes + ' min, ' + L.sets + ' \u00d7 ' + L.trialsPerSet + ' trials. <a href="home.html">Go to Home</a>',
+          upcoming: 'Planned: about ' + L.minutes + ' min, ' + L.sets + ' \u00d7 ' + L.trialsPerSet + ' trials.',
+          rested: 'No session. Rest taken instead.',
+          rest: 'Rest day. No session planned.',
+          before: 'Before you started NeuroHand.'
+        }[status] || 'No session.';
+        body = '<p class="dd-msg">' + msg + '</p>';
+      }
+      $('day-detail').innerHTML = title + body;
+    };
+    weekEl.addEventListener('click', (e) => {
+      const b = e.target.closest('button[data-date]');
+      if (!b) return;
+      selected = b.dataset.date;
+      renderPlan();
+      const again = weekEl.querySelector('button[data-date="' + selected + '"]');
+      if (again) again.focus();
+    });
     $('week-prev').addEventListener('click', () => { start.setDate(start.getDate() - 7); renderPlan(); });
     $('week-next').addEventListener('click', () => { start.setDate(start.getDate() + 7); renderPlan(); });
     $('week-this').addEventListener('click', () => { start = NH.weekStart(today()); renderPlan(); });
