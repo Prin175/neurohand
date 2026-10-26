@@ -7,7 +7,7 @@
   const root = document.documentElement;
   const getPref = (k, d) => { try { return localStorage.getItem(k) || d; } catch (e) { return d; } };
   const setPref = (k, v) => { try { localStorage.setItem(k, v); } catch (e) { /* storage unavailable */ } };
-  const applyTheme = (t) => { if (t === 'light' || t === 'dark') root.setAttribute('data-nh-theme', t); else root.removeAttribute('data-nh-theme'); };
+  const applyTheme = (t) => { if (t === 'light' || t === 'dark' || t === 'walnut') root.setAttribute('data-nh-theme', t); else root.removeAttribute('data-nh-theme'); };
   const applySize = (v) => root.classList.toggle('large-text', v === 'large');
   applyTheme(getPref('nh.theme', 'system'));
   applySize(getPref('nh.textsize', 'default'));

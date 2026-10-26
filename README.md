@@ -13,7 +13,7 @@ A student research prototype for motor-imagery training with visual feedback. Th
 | `home.html` | Participant dashboard |
 | `training.html` | Training session: check-in, then a **Full screen** session with sets and rest breaks |
 | `guide.html` | Beginner guide for new users |
-| `settings.html` | Color mode (Light / Dark / System) and text size |
+| `settings.html` | Color mode (Light / Dark / Walnut / System) and text size |
 | `plan.html` | My plan: level, next step, weekly calendar, analysis, safety limits |
 | `progress.html` | Session history, charts and CSV export |
 | `device.html` | Headset pairing (simulated) |

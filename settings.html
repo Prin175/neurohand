@@ -4,11 +4,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Settings · NeuroHand</title>
-  <script>try{var t=localStorage.getItem("nh.theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-nh-theme",t);if(localStorage.getItem("nh.textsize")==="large")document.documentElement.classList.add("large-text")}catch(e){}</script>
+  <script>try{var t=localStorage.getItem("nh.theme");if(t==="light"||t==="dark"||t==="walnut")document.documentElement.setAttribute("data-nh-theme",t);if(localStorage.getItem("nh.textsize")==="large")document.documentElement.classList.add("large-text")}catch(e){}</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
-  <link rel="stylesheet" href="css/style.css?v=20261026b">
+  <link rel="stylesheet" href="css/style.css?v=20261026c">
 </head>
 <body class="in-app">
   <div class="app" id="app-shell">
@@ -37,10 +37,11 @@
         <section class="card" aria-labelledby="appearance-title">
           <div class="settings-list">
             <div class="setting setting-col">
-              <div class="txt"><strong id="appearance-title">Color mode</strong><span>Light, dark, or match your device.</span></div>
+              <div class="txt"><strong id="appearance-title">Color mode</strong><span>Pick a look, or match your device.</span></div>
               <div class="theme-opts" role="radiogroup" aria-labelledby="appearance-title">
                 <label class="theme-opt"><input type="radio" name="theme" value="light"><span class="theme-prev light" aria-hidden="true"><span class="tp-side"></span><span class="tp-main"><span class="tp-bar"></span><span class="tp-card"></span><span class="tp-card short"></span></span></span><span class="theme-name">Light</span><span class="theme-desc">White background</span></label>
                 <label class="theme-opt"><input type="radio" name="theme" value="dark"><span class="theme-prev dark" aria-hidden="true"><span class="tp-side"></span><span class="tp-main"><span class="tp-bar"></span><span class="tp-card"></span><span class="tp-card short"></span></span></span><span class="theme-name">Dark</span><span class="theme-desc">Dark background</span></label>
+                <label class="theme-opt"><input type="radio" name="theme" value="walnut"><span class="theme-prev walnut" aria-hidden="true"><span class="tp-side"></span><span class="tp-main"><span class="tp-bar"></span><span class="tp-card"></span><span class="tp-card short"></span></span></span><span class="theme-name">Walnut</span><span class="theme-desc">Warm wood, like the training scene</span></label>
                 <label class="theme-opt"><input type="radio" name="theme" value="system"><span class="theme-prev system" aria-hidden="true"><span class="tp-side"></span><span class="tp-main"><span class="tp-bar"></span><span class="tp-card"></span><span class="tp-card short"></span></span></span><span class="theme-name">System</span><span class="theme-desc">Matches your device</span></label>
               </div>
             </div>
@@ -54,6 +55,6 @@
       </div></main>
     </div>
   </div>
-  <script src="js/main.js?v=20261026b"></script>
+  <script src="js/main.js?v=20261026c"></script>
 </body>
 </html>

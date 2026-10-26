@@ -876,3 +876,24 @@ button.day.is-today[aria-pressed="true"] { border-color: var(--teal); box-shadow
   --focus: #0f766e;
   color-scheme: light;
 }
+
+/* Walnut: warm wood tones from the full-screen training scene, with its mint "recognized" accent */
+:root[data-nh-theme="walnut"] {
+  --bg: #1d140e; --bg-app: #1a120c; --surface: #2a1d14; --surface-2: #33241a;
+  --line: #43311f; --line-strong: #5a4332; --ink: #f3ece4; --ink-2: #d2c4b5; --ink-3: #a8957f;
+  --teal: #9fe3cf; --teal-strong: #c4f0e2; --teal-soft: #26332b; --teal-line: #4f7a69;
+  --btn: #f3ece4; --btn-ink: #261911; --on-teal: #1d140e; --note: #e3b787;
+  --ok: #93d8ab; --warn: #f0b867; --bad: #f29a7a;
+  --ok-soft: #233120; --warn-soft: #3b2b17; --bad-soft: #3e2219; --trace: #bba692; --focus: #9fe3cf;
+  color-scheme: dark;
+}
+:root[data-nh-theme="walnut"] body.in-app,
+:root[data-nh-theme="walnut"] body {
+  background-image: repeating-linear-gradient(92deg, rgba(255,255,255,.014) 0 2px, transparent 2px 9px);
+}
+.theme-prev.walnut { background: repeating-linear-gradient(92deg, rgba(255,255,255,.03) 0 2px, transparent 2px 7px), #1a120c; }
+.theme-prev.walnut .tp-side { background: #2a1d14; border-right: 1px solid #43311f; }
+.theme-prev.walnut .tp-bar { background: #9fe3cf; }
+.theme-prev.walnut .tp-card { background: #2a1d14; border: 1px solid #43311f; }
+.theme-opts { grid-template-columns: repeat(4, minmax(0, 1fr)); max-width: 820px; }
+@media (max-width: 640px) { .theme-opts { grid-template-columns: 1fr 1fr; } }
