@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Settings · NeuroHand</title>
+  <script>try{var t=localStorage.getItem("nh.theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t);if(localStorage.getItem("nh.textsize")==="large")document.documentElement.classList.add("large-text")}catch(e){}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="in-app">
+  <div class="app" id="app-shell">
+    <aside class="sidebar" id="sidebar" aria-label="App navigation">
+      <a class="logo" href="home.html"><span class="logo-mark"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h4l2-5 4 10 2-5h6"/></svg></span>NeuroHand</a>
+      <nav class="side-nav">
+        <a href="home.html"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h5v-6h4v6h5V9.5"/></svg>Home</a><a href="training.html"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></svg>Training</a><a href="plan.html"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4.5" width="18" height="16.5" rx="2"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/></svg>My plan</a><a href="progress.html"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 6-6"/></svg>Progress</a><a href="device.html"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>Device</a><a class="is-soon" aria-disabled="true"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>Signal monitor<span class="soon">Soon</span></a>
+      </nav>
+      <div class="side-sep"></div>
+      <nav class="side-nav">
+        <a href="settings.html" aria-current="page"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></svg>Settings</a>
+        <a href="index.html"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg>Log out</a>
+      </nav>
+      <div class="side-foot">
+        <div class="side-device">
+            <div class="row"><strong>EEG headset</strong><span class="status ok"><span class="dot"></span>Connected</span></div>
+            <div class="meta"><span class="battery"><span class="batt"><i style="width:12.5px"></i></span><span class="tnum">78%</span></span><span class="battery"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20v-4M9 20v-8M14 20v-12M19 20V4"/></svg>Good</span></div>
+        </div>
+        <div class="user-chip"><span class="avatar">P1</span><div><strong>Participant P-01</strong><span>Patient</span></div></div>
+      </div>
+    </aside>
+    <div class="app-col">
+      <div class="app-top"><button class="icon-btn" id="app-menu" aria-label="Open navigation"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button><a class="logo" href="home.html"><span class="logo-mark"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h4l2-5 4 10 2-5h6"/></svg></span>NeuroHand</a><span class="status ok"><span class="dot"></span>Headset</span></div>
+      <main class="main" id="main"><div class="main-inner">
+        <div class="page-title"><div><h1>Settings</h1><p>Change how NeuroHand looks.</p></div></div>
+        <section class="card" aria-labelledby="appearance-title">
+          <div class="settings-list">
+            <div class="setting setting-col">
+              <div class="txt"><strong id="appearance-title">Color mode</strong><span>Light, dark, or match your device.</span></div>
+              <div class="theme-opts" role="radiogroup" aria-labelledby="appearance-title">
+                <label class="theme-opt"><input type="radio" name="theme" value="light"><span class="theme-prev light" aria-hidden="true"><span class="tp-side"></span><span class="tp-main"><span class="tp-bar"></span><span class="tp-card"></span><span class="tp-card short"></span></span></span><span class="theme-name">Light</span><span class="theme-desc">White background</span></label>
+                <label class="theme-opt"><input type="radio" name="theme" value="dark"><span class="theme-prev dark" aria-hidden="true"><span class="tp-side"></span><span class="tp-main"><span class="tp-bar"></span><span class="tp-card"></span><span class="tp-card short"></span></span></span><span class="theme-name">Dark</span><span class="theme-desc">Dark background</span></label>
+                <label class="theme-opt"><input type="radio" name="theme" value="system"><span class="theme-prev system" aria-hidden="true"><span class="tp-side"></span><span class="tp-main"><span class="tp-bar"></span><span class="tp-card"></span><span class="tp-card short"></span></span></span><span class="theme-name">System</span><span class="theme-desc">Matches your device</span></label>
+              </div>
+            </div>
+            <div class="setting">
+              <div class="txt"><strong id="text-title">Text size</strong><span>Larger text is easier to read.</span></div>
+              <div class="ctl"><div class="seg" role="group" aria-labelledby="text-title"><button type="button" data-size="default" aria-pressed="true">Default</button><button type="button" data-size="large" aria-pressed="false">Large</button></div></div>
+            </div>
+          </div>
+          <p class="saved-msg" id="settings-saved" role="status" hidden style="margin-top:14px">Saved</p>
+        </section>
+      </div></main>
+    </div>
+  </div>
+  <script src="js/main.js"></script>
+</body>
+</html>

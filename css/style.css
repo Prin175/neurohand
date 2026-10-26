@@ -805,3 +805,34 @@ button.day.is-today[aria-pressed="true"] { border-color: var(--teal); box-shadow
 .dd-facts { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px 24px; font-size: 0.875rem; }
 .dd-facts li { display: flex; gap: 8px; }
 .dd-facts li > span:first-child { color: var(--ink-3); }
+
+/* ---------- Settings: color mode ---------- */
+.setting-col { display: grid; gap: 14px; }
+.theme-opts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; max-width: 620px; }
+.theme-opt { position: relative; display: grid; gap: 2px; cursor: pointer; font-weight: 400; }
+.theme-opt input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.theme-name { font-weight: 600; font-size: 0.875rem; margin-top: 8px; }
+.theme-desc { font-size: 0.75rem; color: var(--ink-3); }
+.theme-prev { display: flex; aspect-ratio: 16 / 10; max-width: 100%; border-radius: var(--r); overflow: hidden; border: 2px solid var(--line-strong); transition: border-color .15s; }
+.theme-opt:hover .theme-prev { border-color: var(--ink-3); }
+.theme-opt input:checked + .theme-prev { border-color: var(--teal); box-shadow: 0 0 0 3px var(--teal-soft); }
+.theme-opt input:focus-visible + .theme-prev { outline: 2px solid var(--focus); outline-offset: 3px; }
+.tp-side { width: 26%; }
+.tp-main { flex: 1; display: grid; align-content: start; gap: 6px; padding: 10%; }
+.tp-bar { height: 6px; width: 55%; border-radius: 3px; }
+.tp-card { height: 16px; border-radius: 4px; }
+.tp-card.short { width: 70%; }
+/* Previews use fixed colors on purpose: they show each mode regardless of the current one */
+.theme-prev.light { background: #f4f6f6; }
+.theme-prev.light .tp-side { background: #ffffff; border-right: 1px solid #e1e6e5; }
+.theme-prev.light .tp-bar { background: #111615; }
+.theme-prev.light .tp-card { background: #ffffff; border: 1px solid #e1e6e5; }
+.theme-prev.dark { background: #0a0f0e; }
+.theme-prev.dark .tp-side { background: #131a19; border-right: 1px solid #243030; }
+.theme-prev.dark .tp-bar { background: #e8eeec; }
+.theme-prev.dark .tp-card { background: #131a19; border: 1px solid #243030; }
+.theme-prev.system { background: linear-gradient(135deg, #f4f6f6 0 50%, #0a0f0e 50% 100%); }
+.theme-prev.system .tp-side { background: linear-gradient(135deg, #ffffff 0 50%, #131a19 50% 100%); }
+.theme-prev.system .tp-bar { background: #3dbcaa; }
+.theme-prev.system .tp-card { background: rgba(127,140,137,.35); }
+@media (max-width: 640px) { .theme-opts { gap: 8px; } .theme-desc { display: none; } }

@@ -3,6 +3,28 @@
   'use strict';
   const $ = (id) => document.getElementById(id);
 
+  // Appearance: color mode and text size (saved in this browser; applied early by a snippet in each page head)
+  const root = document.documentElement;
+  const getPref = (k, d) => { try { return localStorage.getItem(k) || d; } catch (e) { return d; } };
+  const setPref = (k, v) => { try { localStorage.setItem(k, v); } catch (e) { /* storage unavailable */ } };
+  const applyTheme = (t) => { if (t === 'light' || t === 'dark') root.setAttribute('data-theme', t); else root.removeAttribute('data-theme'); };
+  const applySize = (v) => root.classList.toggle('large-text', v === 'large');
+  applyTheme(getPref('nh.theme', 'system'));
+  applySize(getPref('nh.textsize', 'default'));
+  const themeInputs = document.querySelectorAll('input[name="theme"]');
+  if (themeInputs.length) {
+    const saved = () => { const m = $('settings-saved'); m.hidden = false; clearTimeout(m._t); m._t = setTimeout(() => { m.hidden = true; }, 1500); };
+    const cur = getPref('nh.theme', 'system');
+    themeInputs.forEach((inp) => {
+      inp.checked = inp.value === cur;
+      inp.addEventListener('change', () => { if (!inp.checked) return; setPref('nh.theme', inp.value); applyTheme(inp.value); saved(); });
+    });
+    const sizeBtns = document.querySelectorAll('[data-size]');
+    const markSize = (v) => sizeBtns.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.size === v)));
+    markSize(getPref('nh.textsize', 'default'));
+    sizeBtns.forEach((b) => b.addEventListener('click', () => { setPref('nh.textsize', b.dataset.size); applySize(b.dataset.size); markSize(b.dataset.size); saved(); }));
+  }
+
   // Public header menu on small screens
   document.querySelectorAll('[data-toggle]').forEach((btn) => {
     btn.addEventListener('click', () => {
