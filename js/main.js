@@ -173,8 +173,8 @@
     cancelAnimationFrame(raf);
     if (set >= plan.sets) {
       record(false);
-      showPanel({ k: 'Session complete', title: 'That’s today’s session', timer: false, next: false, home: true, foot: false, stopLabel: 'Close',
-        text: hits + ' of ' + total + ' trials were recognized' + (window.NH && !NH.HARDWARE_CONNECTED ? ' (DEMO DATA)' : '') + '. This shows how often the system detected your imagined movement. It is not a measure of physical recovery. Rest now.' });
+      showPanel({ k: 'Session complete', title: 'Well done', timer: false, next: false, home: true, foot: false, stopLabel: 'Close',
+        text: hits + ' of ' + total + ' recognized' + (window.NH && !NH.HARDWARE_CONNECTED ? ' (demo)' : '') + '. Rest now.' });
       $('sp-home').focus();
       setStatus('Completed');
       return;
@@ -182,7 +182,7 @@
     let left = plan.restSeconds;
     const fmt = (n) => Math.floor(n / 60) + ':' + String(n % 60).padStart(2, '0');
     showPanel({ k: 'Set ' + set + ' of ' + plan.sets + ' complete', title: 'Time to rest', timer: true, next: true, home: false, foot: true, stopLabel: 'Stop for today',
-      text: 'Rest for ' + plan.restSeconds + ' seconds. Relax your hands and shoulders, and breathe slowly. Take longer if you need it.' });
+      text: 'Relax your hands and breathe slowly.' });
     const next = $('sp-next');
     next.disabled = true; next.textContent = 'Resting…';
     $('sp-timer').textContent = fmt(left);
@@ -190,7 +190,7 @@
     clearInterval(restTimer);
     restTimer = setInterval(() => {
       left--; $('sp-timer').textContent = fmt(Math.max(0, left));
-      if (left <= 0) { clearInterval(restTimer); next.disabled = false; next.textContent = 'Start set ' + (set + 1) + ' when ready'; next.focus(); }
+      if (left <= 0) { clearInterval(restTimer); next.disabled = false; next.textContent = 'Start set ' + (set + 1); next.focus(); }
     }, 1000);
   }
   $('sp-next').addEventListener('click', () => {
@@ -214,7 +214,7 @@
     paused = p;
     pauseBtn.setAttribute('aria-pressed', String(p));
     pauseBtn.querySelector('span').textContent = p ? 'Resume' : 'Pause';
-    if (p) { pausedAt = now; sub.textContent = 'Paused. Take your time. Press Resume or Space to continue.'; cancelAnimationFrame(raf); }
+    if (p) { pausedAt = now; sub.textContent = 'Paused. Press Resume to continue.'; cancelAnimationFrame(raf); }
     else { phaseStart += now - pausedAt; sub.textContent = phaseText(); raf = requestAnimationFrame(tick); }
   }
   function setStatus(t) { const el = $('trial-status'); if (el) el.textContent = t; }

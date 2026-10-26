@@ -36,15 +36,15 @@
         <div class="device-strip"><span class="status ok"><span class="dot"></span>NeuroHand EEG headset connected</span><span class="battery"><span class="batt"><i style="width:12.5px"></i></span><span class="tnum">78%</span></span><span>C3 <span data-signal="C3" class="q-good">good</span> · Cz <span data-signal="Cz" class="q-good">good</span> · C4 <span data-signal="C4" class="q-fair">fair</span></span><a class="push" href="device.html" style="font-weight:600">Change device</a></div>
         <section class="card checkin-card" id="training-checkin">
           <fieldset class="checkin" data-checkin>
-            <legend>Before you start: how do you feel today?</legend>
+            <legend>How do you feel today?</legend>
             <div class="checkin-options">
-              <label class="role-option"><input type="radio" name="feeling" value="good"><div><strong>Feeling good</strong><span>Follow the full plan</span></div></label>
-              <label class="role-option"><input type="radio" name="feeling" value="tired"><div><strong>A little tired</strong><span>A shorter session with longer rests</span></div></label>
+              <label class="role-option"><input type="radio" name="feeling" value="good"><div><strong>Feeling good</strong><span>Full session</span></div></label>
+              <label class="role-option"><input type="radio" name="feeling" value="tired"><div><strong>A little tired</strong><span>Shorter session</span></div></label>
               <label class="role-option"><input type="radio" name="feeling" value="uncomfortable"><div><strong>Feeling uncomfortable</strong><span>Rest today</span></div></label>
             </div>
           </fieldset>
           <p class="tc-plan" id="tc-plan" hidden></p>
-          <p class="hint" id="tc-need">Answer the check-in to start today&#8217;s session.</p>
+          <p class="hint" id="tc-need">Check in to start.</p>
           <div class="notice warn" id="tc-block" role="status" hidden><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 2 20h20L12 3z"/><path d="M12 10v4M12 17h.01"/></svg><div id="tc-block-text"></div></div>
         </section>
         <div class="grid-main">
@@ -70,7 +70,7 @@
             </div>
             <p class="result-line">Recognized as <strong>left hand</strong>, 82% confidence</p>
             <div class="trial-actions"><button class="btn btn-primary" id="start-btn">Start training</button><button class="btn btn-ghost">Skip trial</button></div>
-            <p class="hint" style="text-align:center">You can pause or stop at any time. Stop if you feel tired or uncomfortable.</p>
+            <p class="hint" style="text-align:center">Pause or stop anytime.</p>
           </div>
           <div class="card">
             <div class="card-head" style="margin-bottom:6px"><h3>EEG signal</h3><span class="subtle" style="font-size:.8125rem">last 2 s · <span class="demo-tag" data-demo>Demo data</span></span></div>
@@ -95,10 +95,10 @@
     <div class="sim-panel" id="sim-panel" hidden role="status" aria-live="polite">
       <p class="sim-panel-k" id="sp-k">Set 1 of 2 complete</p>
       <h2 id="sp-title">Time to rest</h2>
-      <p id="sp-text">Relax your hands and shoulders, and breathe slowly.</p>
+      <p id="sp-text">Relax your hands and breathe slowly.</p>
       <p class="sim-timer tnum" id="sp-timer" aria-hidden="true">1:00</p>
       <div class="sim-panel-actions"><button class="sim-btn primary" id="sp-next" type="button" disabled>Resting…</button><button class="sim-btn" id="sp-stop" type="button">Stop for today</button><a class="sim-btn" id="sp-home" href="home.html" hidden>Back to Home</a></div>
-      <p class="sim-panel-foot" id="sp-foot">Feeling tired or uncomfortable? It&#8217;s fine to stop here.</p>
+      <p class="sim-panel-foot" id="sp-foot">Tired? It&#8217;s fine to stop.</p>
     </div>
     <div class="sim-cue" aria-live="polite"><span class="sim-cue-big" id="sim-cue">+</span><span class="sim-cue-sub" id="sim-sub">Relax and look at the cross</span></div>
     <svg class="sim-object" viewBox="0 0 80 96" aria-hidden="true"><ellipse cx="40" cy="86" rx="34" ry="8" fill="rgba(0,0,0,.35)"/><path d="M12 22v52a28 9 0 0 0 56 0V22z" fill="#2c2f33"/><ellipse cx="40" cy="22" rx="28" ry="9" fill="#4a4f55"/></svg>

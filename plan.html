@@ -32,11 +32,11 @@
     <div class="app-col">
       <div class="app-top"><button class="icon-btn" id="app-menu" aria-label="Open navigation"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button><a class="logo" href="home.html"><span class="logo-mark"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h4l2-5 4 10 2-5h6"/></svg></span>NeuroHand</a><span class="status ok"><span class="dot"></span>Headset</span></div>
       <main class="main" id="main"><div class="main-inner">
-        <div class="page-title"><div><h1>My plan</h1><p>Built from your own results, one level at a time, and always within fixed safety limits. <span class="demo-tag" data-demo>Demo data</span></p></div></div>
+        <div class="page-title"><div><h1>My plan</h1><p>Your level, your week, and how you&#8217;re doing. <span class="demo-tag" data-demo>Demo data</span></p></div></div>
 
         <div class="card empty-state" id="plan-empty" hidden>
-          <h2>Your plan starts after the beginner guide</h2>
-          <p class="desc">The guide explains how training works and how to stay safe. Then three short sessions help NeuroHand learn your starting point.</p>
+          <h2>Start with the beginner guide</h2>
+          <p class="desc">It takes about 5 minutes. Your plan starts after that.</p>
           <div class="plan-actions" style="margin-top:16px"><a class="btn btn-primary" href="guide.html">Start beginner guide</a><button class="btn btn-ghost" id="plan-demo" type="button">Explore with demo data</button></div>
         </div>
 
@@ -66,24 +66,24 @@
 
           <div class="grid-main">
             <div class="card">
-              <div class="card-head"><div><h2>How you&#8217;re doing</h2><p class="desc">What NeuroHand learned from your sessions. It uses this to set your level and today&#8217;s focus.</p></div><span class="demo-tag" data-demo>Demo data</span></div>
+              <div class="card-head"><h2>How you&#8217;re doing</h2><span class="demo-tag" data-demo>Demo data</span></div>
               <div class="stats compact" id="analysis-stats"></div>
               <ul class="insights" id="analysis-list"></ul>
               <p style="margin-top:14px"><a href="progress.html" style="font-weight:600;font-size:.875rem">See all results on Progress</a></p>
             </div>
             <aside class="stack">
               <div class="card side-help"><h3>Safety limits</h3>
-                <p class="desc" style="margin-bottom:12px">Set by the NeuroHand research team. Your plan can never go above them.</p>
+                <p class="desc" style="margin-bottom:12px">Your plan never goes above these.</p>
                 <ul class="limits" id="limits"></ul>
-                <p class="plan-foot" style="margin-top:12px">This plan is a training suggestion, not medical advice. If you are recovering from a stroke or have a medical condition, check with a healthcare professional.</p>
+                <p class="plan-foot" style="margin-top:12px">A training suggestion, not medical advice.</p>
               </div>
               <div class="card side-help"><h3>Your data</h3>
-                <p class="desc">NeuroHand saves your recognition results, session length, check-in answers and signal quality in this browser to build your plan.</p>
-                <div class="plan-actions" style="margin-top:12px"><button class="btn btn-danger btn-sm" type="button" id="data-delete">Delete my training data</button></div>
-                <div class="confirm" id="data-confirm" hidden style="margin-top:12px"><span class="desc" style="margin:0">Delete all sessions and start again from the guide?</span><button class="btn btn-danger btn-sm" type="button" id="data-yes">Delete</button><button class="btn btn-ghost btn-sm" type="button" id="data-no">Cancel</button></div>
+                <p class="desc">Your results are saved in this browser to build your plan.</p>
+                <div class="plan-actions" style="margin-top:12px"><button class="btn btn-danger btn-sm" type="button" id="data-delete">Delete my data</button></div>
+                <div class="confirm" id="data-confirm" hidden style="margin-top:12px"><span class="desc" style="margin:0">Delete everything and start over?</span><button class="btn btn-danger btn-sm" type="button" id="data-yes">Delete</button><button class="btn btn-ghost btn-sm" type="button" id="data-no">Cancel</button></div>
               </div>
               <div class="card side-help" data-demo><h3>Demo controls</h3>
-                <p class="desc" style="margin-bottom:12px">For testing the prototype. Results stay DEMO DATA until a real EEG headset is connected.</p>
+                <p class="desc" style="margin-bottom:12px">For testing only.</p>
                 <div class="field"><label for="demo-c4">C4 signal quality</label><select class="input" id="demo-c4"><option value="good">Good</option><option value="fair">Fair</option><option value="poor">Poor</option></select></div>
                 <div class="plan-actions" style="margin-top:12px"><button class="btn btn-ghost btn-sm" type="button" id="demo-load">Load demo history</button><button class="btn btn-ghost btn-sm" type="button" id="demo-checkin">Reset today&#8217;s check-in</button><span class="saved-msg" id="demo-saved" role="status" hidden>Updated</span></div>
               </div>

@@ -36,13 +36,13 @@
   NH.estMinutes = estMinutes;
   const LEVELS = [
     { id: 'starting', name: 'Starting check', days: [1, 3, 5], sets: 2, trialsPerSet: 8, restSeconds: 60,
-      about: 'Three short, easy sessions so NeuroHand can learn your starting point.' },
+      about: 'Finding your starting point.' },
     { id: 'beginner', name: 'Beginner', days: [1, 3, 5], sets: 2, trialsPerSet: 10, restSeconds: 60, up: 60,
-      about: 'Three sessions a week to build a steady routine.' },
+      about: '3 sessions a week.' },
     { id: 'building', name: 'Building', days: [1, 2, 4, 5], sets: 3, trialsPerSet: 10, restSeconds: 60, up: 68,
-      about: 'Four sessions a week, with a third set in each session.' },
+      about: '4 sessions a week, 3 sets each.' },
     { id: 'steady', name: 'Steady', days: [1, 2, 3, 4, 5], sets: 3, trialsPerSet: 12, restSeconds: 45,
-      about: 'Five sessions a week. This is the most NeuroHand ever suggests.' }
+      about: '5 sessions a week. The highest level.' }
   ];
   LEVELS.forEach((l) => {
     l.minutes = estMinutes(l.sets, l.trialsPerSet, l.restSeconds);
@@ -107,15 +107,15 @@
       const unc = last3.some((x) => x.feeling === 'uncomfortable');
       const tiredish = last3.filter((x) => x.feeling === 'tired' || x.stopped).length;
       const move = (to, dir, reason) => { changes.push({ date: s.date, from: LEVELS[li].name, to: LEVELS[to].name, dir, reason }); li = to; atLevel = []; };
-      if (li === 0) { if (atLevel.filter((x) => !x.stopped).length >= 3) move(1, 'up', 'Starting check finished after 3 sessions.'); return; }
+      if (li === 0) { if (atLevel.filter((x) => !x.stopped).length >= 3) move(1, 'up', 'Starting check done.'); return; }
       if (li > 1 && (unc || tiredish >= 2)) {
-        move(li - 1, 'down', unc ? 'You reported feeling uncomfortable, so the plan eased off.' : 'You were tired or stopped early in 2 of your last 3 sessions, so the plan eased off.');
+        move(li - 1, 'down', unc ? 'You felt uncomfortable.' : 'Tired or stopped early twice.');
         return;
       }
       if (li < 3 && atLevel.length >= 3) {
         const a = avg(last3.map(overall));
         if (tiredish === 0 && !unc && last3.every((x) => x.signal !== 'poor') && a >= LEVELS[li].up) {
-          move(li + 1, 'up', 'Average recognition of ' + a + '% over 3 sessions, with no tiredness and no poor signal.');
+          move(li + 1, 'up', 'Average ' + a + '% over 3 sessions.');
         }
       }
     });
@@ -126,14 +126,14 @@
     let next = null;
     if (li === 0) {
       const n = atLevel.filter((x) => !x.stopped).length;
-      next = { target: LEVELS[1].name, items: [{ label: 'Complete 3 starting sessions', done: n >= 3, value: n + ' of 3' }] };
+      next = { target: LEVELS[1].name, items: [{ label: 'Sessions done', done: n >= 3, value: n + ' of 3' }] };
     } else if (li < 3) {
       const a = avg(last3.map(overall));
       next = { target: LEVELS[li + 1].name, items: [
-        { label: '3 sessions at this level', done: atLevel.length >= 3, value: Math.min(atLevel.length, 3) + ' of 3' },
-        { label: 'Average recognition of ' + level.up + '% or more', done: a != null && a >= level.up, value: a == null ? 'No sessions yet' : a + '% so far' },
-        { label: 'No tiredness or early stops', done: last3.length > 0 && tiredish === 0, value: last3.length ? (tiredish ? tiredish + ' recently' : 'None') : 'No sessions yet' },
-        { label: 'No poor-signal sessions', done: last3.length > 0 && last3.every((x) => x.signal !== 'poor'), value: last3.length ? (last3.some((x) => x.signal === 'poor') ? 'Poor signal recently' : 'OK') : 'No sessions yet' }
+        { label: 'Sessions done', done: atLevel.length >= 3, value: Math.min(atLevel.length, 3) + ' of 3' },
+        { label: 'Average ' + level.up + '% or more', done: a != null && a >= level.up, value: a == null ? '' : a + '%' },
+        { label: 'No tired days', done: last3.length > 0 && tiredish === 0, value: tiredish ? tiredish + ' recently' : '' },
+        { label: 'Good signal', done: last3.length > 0 && last3.every((x) => x.signal !== 'poor'), value: '' }
       ] };
     }
 
@@ -164,24 +164,20 @@
   // Plain-language findings for the My plan and Progress pages
   NH.insights = (a) => {
     const out = [];
-    if (!a.history.length) return ['No sessions yet. Your first results will appear here after your first session.'];
-    if (a.levelIndex === 0) out.push('You have done ' + a.atLevel.filter((x) => !x.stopped).length + ' of 3 starting-check sessions. A personal plan starts after the third.');
+    if (!a.history.length) return ['No sessions yet.'];
+    if (a.levelIndex === 0) out.push('Starting check: ' + a.atLevel.filter((x) => !x.stopped).length + ' of 3 done.');
     const [L, R] = a.hands;
     if (L.recent != null && R.recent != null) {
       const gap = L.recent - R.recent;
-      if (Math.abs(gap) >= 4) {
-        const weak = gap > 0 ? 'right' : 'left';
-        out.push('Your ' + weak + '-hand imagery was recognized less often (' + Math.min(L.recent, R.recent) + '% vs ' + Math.max(L.recent, R.recent) + '%), so sessions include a few more ' + weak + '-hand trials.');
-      } else out.push('Left and right hand imagery are recognized about equally often (' + L.recent + '% and ' + R.recent + '%).');
+      if (Math.abs(gap) >= 4) out.push('Your ' + (gap > 0 ? 'right' : 'left') + ' hand gets extra practice (' + Math.min(L.recent, R.recent) + '% vs ' + Math.max(L.recent, R.recent) + '%).');
+      else out.push('Both hands are about even.');
     }
     if (a.baseAvg != null && a.recentAvg != null && a.valid.length >= 4) {
       const ch = a.recentAvg - a.baseAvg;
-      out.push(ch >= 3 ? 'Recognition has risen from ' + a.baseAvg + '% in your starting check to ' + a.recentAvg + '% recently.' : ch <= -3 ? 'Recognition is lower than in your starting check (' + a.recentAvg + '% vs ' + a.baseAvg + '%). This can happen with tiredness or headset fit.' : 'Recognition is about the same as in your starting check (' + a.recentAvg + '%).');
+      out.push(ch >= 3 ? 'Up from ' + a.baseAvg + '% to ' + a.recentAvg + '% since you started.' : ch <= -3 ? 'Down from ' + a.baseAvg + '% to ' + a.recentAvg + '%. Tiredness or headset fit can cause this.' : 'About the same as when you started.');
     }
-    if (a.consistency === 'varies') out.push('Your results vary quite a lot between sessions. Headset fit and tiredness are common reasons.');
-    if (a.feelings.tired) out.push('You reported feeling tired ' + a.feelings.tired + (a.feelings.tired === 1 ? ' time' : ' times') + '. Those sessions were shorter.');
-    if (a.excluded) out.push(a.excluded + (a.excluded === 1 ? ' session was' : ' sessions were') + ' left out of the analysis because the signal was poor.');
-    out.push('Recognition shows how often NeuroHand detected the movement you imagined. It is not a measure of physical recovery.');
+    if (a.consistency === 'varies') out.push('Results vary a lot. Check the headset fit.');
+    if (a.excluded) out.push(a.excluded + (a.excluded === 1 ? ' session' : ' sessions') + ' left out (poor signal).');
     return out;
   };
 
@@ -227,34 +223,28 @@
       mix: { left: 0.5, right: 0.5 }, focus: '', focusDetail: '', summary: '', reasons: [], notices: []
     };
     const LIM = NH.LIMITS;
-    const limitsReason = 'Your plan never goes above the safety limits set by the NeuroHand research team: at most ' + LIM.maxSessionsPerWeek + ' sessions a week and ' + LIM.maxMinutes + ' minutes a session.';
-    const accuracyReason = 'Recognition shows how often NeuroHand detected the movement you imagined. It does not measure physical recovery of your hand.';
-    const demoReason = 'All results here are DEMO DATA. They will come from your own sessions once a real EEG headset is connected.';
-    const adviceReason = 'This plan is a training suggestion, not medical advice. If you are recovering from a stroke or have a medical condition, check with a healthcare professional.';
+    const limitsReason = 'Your plan stays within fixed safety limits.';
+    const adviceReason = 'Recognition is not physical recovery. This is a training suggestion, not medical advice.';
 
     if (!NH.isOnboarded()) {
       r.state = 'onboard';
       r.focus = 'Welcome to NeuroHand';
-      r.summary = 'Start with the beginner guide. It takes about 5 minutes and ends with a short practice round. After that, three short sessions help NeuroHand learn your starting point.';
+      r.summary = 'Start with a 5-minute beginner guide.';
       return r;
     }
     if (feeling === 'uncomfortable') {
       r.state = 'rest';
       r.focus = 'Rest today';
-      r.summary = 'You said you feel uncomfortable, so training is not recommended today.';
-      r.reasons = [
-        'You told us you feel uncomfortable. Resting is the right choice today.',
-        'If the discomfort continues, gets worse, or worries you, contact a healthcare professional.',
-        'A missed session does not need to be made up. Your plan will ease off if this happens again soon.'
-      ];
+      r.summary = 'You feel uncomfortable, so no training today.';
+      r.reasons = ['Rest is the right choice today.', 'If it continues or worries you, contact a healthcare professional.'];
       return r;
     }
     const todayRec = NH.todaySession();
     if (todayRec) {
       r.state = 'done';
-      r.focus = todayRec.stopped ? 'You stopped early today' : 'Today’s session is done';
-      r.summary = todayRec.stopped ? 'Stopping when you need to is the right call. Rest for the rest of the day.' : 'Well done. Rest for the rest of the day. Your plan has been updated with today’s results.';
-      r.reasons = ['There is one session per training day. There is nothing more to do today.', accuracyReason];
+      r.focus = todayRec.stopped ? 'You stopped early' : 'Done for today';
+      r.summary = todayRec.stopped ? 'That’s fine. Rest for today.' : 'Well done. Rest for today.';
+      r.reasons = ['One session per day.'];
       return r;
     }
     const firstEver = a.history.length === 0;
@@ -263,35 +253,34 @@
       const next = NH.nextSessionDate(a);
       r.state = 'rest-day';
       r.focus = 'Rest day';
-      r.summary = (week.completed >= cap ? 'You have done this week’s ' + cap + ' sessions.' : 'Today is a rest day in your plan.') + (next ? ' Your next session is on ' + DAY_LONG[next.getDay()] + '.' : '');
-      r.reasons = ['At the ' + L.name + ' level you train on ' + L.days.map((d) => DAY_LONG[d]).join(', ') + '.', 'Rest days are part of training. There is no need to add an extra session.', limitsReason];
+      r.summary = (week.completed >= cap ? 'This week’s sessions are done.' : 'No session today.') + (next ? ' Next: ' + DAY_LONG[next.getDay()] + '.' : '');
+      r.reasons = ['Rest days are part of training.', limitsReason];
       return r;
     }
 
     // What to practise
     if (L.id === 'starting') {
       r.focus = 'Starting check';
-      r.focusDetail = 'Session ' + (a.atLevel.filter((x) => !x.stopped).length + 1) + ' of 3 · equal left- and right-hand trials';
-      r.summary = 'A short, easy session so NeuroHand can learn your starting point. Do your best and don’t worry about the score.';
-      r.reasons.push('You are in the starting check. NeuroHand needs 3 short sessions before it can suggest a personal plan.');
+      r.focusDetail = 'Session ' + (a.atLevel.filter((x) => !x.stopped).length + 1) + ' of 3';
+      r.summary = 'A short, easy session to find your starting point.';
+      r.reasons.push('3 short sessions help NeuroHand learn your starting point.');
     } else {
       const [Lh, Rh] = a.hands;
       const gap = Lh.recent != null && Rh.recent != null ? Lh.recent - Rh.recent : 0;
       if (Math.abs(gap) >= 4) {
-        const weak = gap > 0 ? 'right' : 'left', strong = weak === 'right' ? 'left' : 'right';
+        const weak = gap > 0 ? 'right' : 'left';
         r.mix = weak === 'right' ? { left: 0.4, right: 0.6 } : { left: 0.6, right: 0.4 };
-        r.focus = (weak === 'right' ? 'Right' : 'Left') + ' hand imagery';
-        r.focusDetail = '60% ' + weak + '-hand trials, 40% ' + strong + '-hand trials';
-        r.summary = 'Your ' + weak + '-hand imagery was recognized a little less often recently, so today has a few more ' + weak + '-hand trials.';
-        r.reasons.push('In your last sessions, ' + weak + '-hand imagery was recognized ' + Math.min(Lh.recent, Rh.recent) + '% of the time and ' + strong + '-hand imagery ' + Math.max(Lh.recent, Rh.recent) + '%. Today has a few more ' + weak + '-hand trials so you can practise that side.');
+        r.focus = (weak === 'right' ? 'Right' : 'Left') + ' hand';
+        r.focusDetail = 'More ' + weak + '-hand trials';
+        r.summary = 'Your ' + weak + ' hand was recognized less often, so it gets more practice.';
       } else {
-        r.focus = 'Left and right hand imagery';
-        r.focusDetail = 'Equal number of left- and right-hand trials';
-        r.summary = 'Both hands were recognized about equally often recently, so today keeps an even mix.';
-        r.reasons.push('Left- and right-hand imagery were recognized about equally often recently (' + Lh.recent + '% and ' + Rh.recent + '%), so today keeps an even mix.');
+        r.focus = 'Both hands';
+        r.focusDetail = 'Equal left and right';
+        r.summary = 'Both hands are about even.';
       }
+      r.reasons.push('Recent recognition: left ' + Lh.recent + '%, right ' + Rh.recent + '%.');
       const lastChange = a.changes[a.changes.length - 1];
-      r.reasons.push('You are at the ' + L.name + ' level: ' + L.days.length + ' sessions a week, ' + L.sets + ' sets of ' + L.trialsPerSet + ' trials.' + (lastChange ? ' ' + lastChange.reason : ''));
+      r.reasons.push('Level: ' + L.name + '.' + (lastChange ? ' ' + lastChange.reason : ''));
     }
 
     // How the user feels
@@ -299,32 +288,29 @@
       r.sets = Math.max(1, L.sets - 1);
       r.restSeconds = Math.round((L.restSeconds * 1.5) / 5) * 5;
       r.minutes = estMinutes(r.sets, r.trialsPerSet, r.restSeconds);
-      r.summary = 'You said you feel a little tired, so today is shorter with longer rests. ' + r.summary;
-      r.reasons.unshift('You said you feel a little tired, so today has ' + r.sets + ' of your usual ' + L.sets + ' sets and longer rests. Stop whenever you need to.');
+      r.summary = 'Shorter today because you’re tired.';
+      r.reasons.unshift('You feel tired: 1 set fewer, longer rests.');
     } else if (feeling === 'good') {
-      r.reasons.unshift('You said you feel good, so today follows your plan.');
+      r.reasons.unshift('You feel good: full session.');
     } else {
-      r.reasons.unshift('Answer the check-in so the session can match how you feel today.');
+      r.reasons.unshift('Check in to start.');
     }
 
-    r.reasons.push('You have done ' + week.completed + ' of ' + week.planned + ' sessions planned this week. Missed sessions do not need to be made up.');
+    r.reasons.push('This week: ' + week.completed + ' of ' + week.planned + ' done.');
 
     // Signal quality
     const poor = Object.keys(signal).filter((k) => signal[k] === 'poor');
     const fair = Object.keys(signal).filter((k) => signal[k] === 'fair');
     if (poor.length) {
       r.state = 'check-signal';
-      r.notices.push({ kind: 'bad', text: 'Electrode ' + poor.join(' and ') + ' has a poor signal. Check the headset before you start. Results from a poor signal are not reliable and are left out of your analysis.', link: { href: 'device.html', label: 'Check the signal' } });
-      r.reasons.push('Electrode ' + poor.join(' and ') + ' has a poor signal. Poor contact can make recognition look lower than it really is, so today’s results would not count toward your plan.');
+      r.notices.push({ kind: 'bad', text: poor.join(' and ') + ' signal is poor. Check the headset first.', link: { href: 'device.html', label: 'Check signal' } });
+      r.reasons.push('Poor signal makes results unreliable, so they won’t count.');
     } else if (fair.length) {
-      const hands = fair.map((k) => HAND_FOR[k]).filter((x, i, arr) => arr.indexOf(x) === i).join(' and ');
-      r.notices.push({ kind: 'warn', text: 'Electrode ' + fair.join(' and ') + ' has a fair signal. Adjust the headset before you start. ' + cap1(hands) + ' results may read lower than they really are.', link: { href: 'device.html', label: 'Check the signal' } });
-      r.reasons.push(fair.join(' and ') + ' sits over the area used for ' + hands + ' imagery. A fair signal there can make those results read lower than they really are.');
+      r.notices.push({ kind: 'warn', text: fair.join(' and ') + ' signal is fair. Adjust the headset for better results.', link: { href: 'device.html', label: 'Check signal' } });
+      r.reasons.push('A fair ' + fair.join(' and ') + ' signal may lower ' + fair.map((k) => HAND_FOR[k]).join(' and ') + ' results.');
     }
 
-    r.reasons.push(limitsReason, accuracyReason);
-    if (!NH.HARDWARE_CONNECTED) r.reasons.push(demoReason);
-    r.reasons.push(adviceReason);
+    r.reasons.push(limitsReason, adviceReason);
     return r;
   };
   function cap1(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
@@ -417,12 +403,10 @@
       $('plan-summary').textContent = r.summary;
       $('plan-side').hidden = !training;
       $('plan-min').innerHTML = r.minutes + ' min<small>' + (r.minutes !== r.level.minutes ? 'Usually ' + r.level.minutes + ' min' : 'About') + '</small>';
-      $('plan-sets').innerHTML = r.sets + (r.sets === 1 ? ' set' : ' sets') + '<small>' + r.trialsPerSet + (r.trialsPerSet === 1 ? ' trial' : ' trials') + ' each</small>';
-      $('plan-rest').innerHTML = (r.sets > 1 ? r.restSeconds + ' s' : 'None') + '<small>' + (r.sets > 1 ? 'Between sets' : 'Only one set today') + '</small>';
+      $('plan-sets').innerHTML = r.sets + (r.sets === 1 ? ' set' : ' sets') + '<small>× ' + r.trialsPerSet + ' trials</small>';
+      $('plan-rest').innerHTML = (r.sets > 1 ? r.restSeconds + ' s' : 'None') + '<small>' + (r.sets > 1 ? 'Between sets' : 'One set') + '</small>';
       $('rest-list').innerHTML = [
-        r.sets > 1 ? 'Rest for ' + r.restSeconds + ' seconds between sets. Relax your hands and shoulders.' : 'Take a short pause whenever you need one.',
-        'You only imagine the movement. Keep your real hands still and relaxed.',
-        'Pause or stop at any time. Stop if you feel tired, dizzy or uncomfortable.'
+        'Stop anytime if tired or uncomfortable'
       ].map((x) => '<li>' + NH.icon('heart') + '<span>' + x + '</span></li>').join('');
       $('plan-notices').innerHTML = r.notices.map((n) =>
         '<div class="notice ' + n.kind + '" role="status">' + NH.icon('warn') + '<div>' + n.text + (n.link ? ' <a href="' + n.link.href + '">' + n.link.label + '</a>' : '') + '</div></div>').join('');
@@ -447,7 +431,7 @@
         const rows = a.history.map((s, i) => ({ s, n: i + 1 })).slice(-3).reverse();
         $('recent-body').innerHTML = rows.length ? rows.map(({ s, n }) =>
           '<tr><td><strong>Session ' + n + '</strong></td><td>' + NH.shortDate(fromIso(s.date)) + '</td><td class="r tnum">' + (overall(s) == null ? '–' : overall(s) + '%') + (s.stopped ? ' <span class="chip warn">Stopped early</span>' : '') + '</td><td class="r tnum">' + (s.minutes || '–') + ' min</td></tr>').join('')
-          : '<tr><td colspan="4" class="subtle">No sessions yet. Your results will appear here after your first session.</td></tr>';
+          : '<tr><td colspan="4" class="subtle">No sessions yet.</td></tr>';
       }
     };
     document.addEventListener('nh:change', renderHome);
@@ -472,22 +456,22 @@
       $('level-about').textContent = L.about;
       $('level-track').innerHTML = levelTrack(a.levelIndex);
       $('level-facts').innerHTML =
-        '<div><dt>Sessions a week</dt><dd>' + L.days.length + '<small>' + L.days.map((d) => DAY_SHORT[d]).join(', ') + '</small></dd></div>' +
-        '<div><dt>Each session</dt><dd>' + L.sets + ' × ' + L.trialsPerSet + '<small>sets × trials</small></dd></div>' +
-        '<div><dt>Rest between sets</dt><dd>' + L.restSeconds + ' s<small>Longer if tired</small></dd></div>' +
-        '<div><dt>Session length</dt><dd>' + L.minutes + ' min<small>About</small></dd></div>';
+        '<div><dt>Per week</dt><dd>' + L.days.length + '<small>' + L.days.map((d) => DAY_SHORT[d]).join(', ') + '</small></dd></div>' +
+        '<div><dt>Sets</dt><dd>' + L.sets + '<small>× ' + L.trialsPerSet + ' trials</small></dd></div>' +
+        '<div><dt>Rest</dt><dd>' + L.restSeconds + ' s<small>Between sets</small></dd></div>' +
+        '<div><dt>Length</dt><dd>' + L.minutes + ' min<small>About</small></dd></div>';
       if (a.next) {
-        $('next-title').textContent = 'To move to ' + a.next.target;
+        $('next-title').textContent = 'Next: ' + a.next.target;
         $('next-list').innerHTML = a.next.items.map((it) => '<li class="' + (it.done ? 'is-done' : '') + '">' + NH.icon(it.done ? 'check' : 'upcoming') + '<span>' + it.label + '</span><span class="nv tnum">' + it.value + '</span></li>').join('');
-        $('next-note').textContent = a.levelIndex === 0 ? 'After the starting check, NeuroHand sets your first level.' : 'The plan also eases off a level if you are tired or stop early in 2 of 3 sessions, or report feeling uncomfortable.';
+        $('next-note').textContent = a.levelIndex === 0 ? '' : 'Feeling tired or uncomfortable often moves you back a level.';
       } else {
         $('next-title').textContent = 'Highest level';
-        $('next-list').innerHTML = '<li class="is-done">' + NH.icon('check') + '<span>You are at the highest level NeuroHand suggests. It will not add more training.</span></li>';
-        $('next-note').textContent = 'The plan eases off a level if you are tired or stop early in 2 of 3 sessions, or report feeling uncomfortable.';
+        $('next-list').innerHTML = '<li class="is-done">' + NH.icon('check') + '<span>Highest level reached.</span></li>';
+        $('next-note').textContent = 'Feeling tired or uncomfortable often moves you back a level.';
       }
       $('changes').innerHTML = a.changes.length ? a.changes.slice().reverse().map((c) =>
         '<li>' + NH.icon(c.dir) + '<div><strong>' + c.from + ' → ' + c.to + '</strong> <span class="subtle">' + NH.shortDate(fromIso(c.date)) + '</span><p>' + c.reason + '</p></div></li>').join('')
-        : '<li class="subtle">No level changes yet.</li>';
+        : '<li class="subtle">None yet.</li>';
 
       // Calendar
       const sum = NH.renderWeek(weekEl, start, false, a);
@@ -500,10 +484,10 @@
       const fmt = (v) => (v == null ? '–' : v + '%');
       const delta = (h) => (h.recent == null || h.base == null || a.valid.length < 4 ? '' : '<small>' + (h.recent - h.base >= 0 ? '+' : '') + (h.recent - h.base) + ' since start</small>');
       $('analysis-stats').innerHTML =
-        '<div class="stat"><div class="k">Sessions</div><div class="v">' + a.history.length + '</div><div class="s">' + a.minutesTotal + ' min in total</div></div>' +
-        '<div class="stat"><div class="k">Left hand, recent</div><div class="v">' + fmt(Lh.recent) + '</div><div class="s">' + (delta(Lh) || 'Last 3 sessions') + '</div></div>' +
-        '<div class="stat"><div class="k">Right hand, recent</div><div class="v">' + fmt(Rh.recent) + '</div><div class="s">' + (delta(Rh) || 'Last 3 sessions') + '</div></div>' +
-        '<div class="stat"><div class="k">Check-ins</div><div class="v"><small>' + a.feelings.good + ' good · ' + a.feelings.tired + ' tired · ' + a.feelings.uncomfortable + ' uncomfortable</small></div></div>';
+        '<div class="stat"><div class="k">Sessions</div><div class="v">' + a.history.length + '</div><div class="s">' + a.minutesTotal + ' min total</div></div>' +
+        '<div class="stat"><div class="k">Left hand</div><div class="v">' + fmt(Lh.recent) + '</div><div class="s">' + (delta(Lh) || 'Recent') + '</div></div>' +
+        '<div class="stat"><div class="k">Right hand</div><div class="v">' + fmt(Rh.recent) + '</div><div class="s">' + (delta(Rh) || 'Recent') + '</div></div>' +
+        '<div class="stat"><div class="k">Tired days</div><div class="v">' + (a.feelings.tired + a.feelings.uncomfortable) + '</div><div class="s">of ' + a.history.length + ' sessions</div></div>';
       $('analysis-list').innerHTML = NH.insights(a).map((x) => '<li>' + x + '</li>').join('');
     };
     $('week-prev').addEventListener('click', () => { start.setDate(start.getDate() - 7); renderPlan(); });
@@ -513,11 +497,11 @@
     // Safety limits
     const LIM = NH.LIMITS;
     $('limits').innerHTML = [
-      'At most ' + LIM.maxSessionsPerWeek + ' sessions a week, and never two on the same day',
-      'At most ' + LIM.maxMinutes + ' minutes a session',
-      'At most ' + LIM.maxSetsPerSession + ' sets of ' + LIM.maxTrialsPerSet + ' trials',
-      'At least ' + LIM.minRestSeconds + ' seconds of rest between sets',
-      'No session after you report feeling uncomfortable'
+      'Max ' + LIM.maxSessionsPerWeek + ' sessions a week',
+      'Max ' + LIM.maxMinutes + ' min a session',
+      'Max ' + LIM.maxSetsPerSession + ' sets of ' + LIM.maxTrialsPerSet + ' trials',
+      'Min ' + LIM.minRestSeconds + ' s rest between sets',
+      'No training when uncomfortable'
     ].map((x) => '<li>' + NH.icon('shield') + '<span>' + x + '</span></li>').join('');
 
     // Your data
@@ -547,13 +531,13 @@
     $('prog-main').hidden = h.length === 0;
     if (h.length) {
       const first = fromIso(h[0].date);
-      $('prog-sub').textContent = h.length + (h.length === 1 ? ' session' : ' sessions') + ' since ' + first.getDate() + ' ' + MONTHS[first.getMonth()] + '. ';
+      $('prog-sub').textContent = h.length + (h.length === 1 ? ' session' : ' sessions') + ' since ' + first.getDate() + ' ' + MONTHS[first.getMonth()] + ' ';
       const best = h.reduce((b, s, i) => (overall(s) != null && (b == null || overall(s) > overall(h[b])) ? i : b), null);
       $('prog-stats').innerHTML =
         '<div class="stat"><div class="k">Sessions</div><div class="v">' + h.length + '</div></div>' +
         '<div class="stat"><div class="k">Training time</div><div class="v">' + (a.minutesTotal >= 60 ? Math.floor(a.minutesTotal / 60) + ' h ' + (a.minutesTotal % 60) + ' min' : a.minutesTotal + ' min') + '</div></div>' +
-        '<div class="stat"><div class="k">Recent recognition</div><div class="v">' + (a.recentAvg == null ? '–' : a.recentAvg + '%') + ' <small>last 3</small></div></div>' +
-        '<div class="stat"><div class="k">Current level</div><div class="v">' + a.level.name + '</div></div>';
+        '<div class="stat"><div class="k">Recent</div><div class="v">' + (a.recentAvg == null ? '–' : a.recentAvg + '%') + ' <small>last 3</small></div></div>' +
+        '<div class="stat"><div class="k">Level</div><div class="v">' + a.level.name + '</div></div>';
 
       // Line chart of overall recognition per session
       const pts = h.map((s, i) => ({ i, v: overall(s), s }));
@@ -603,11 +587,11 @@
       $('tc-block').hidden = !blocked;
       $('tc-need').hidden = !needCheckin || blocked;
       if (!blocked) {
-        $('tc-plan').innerHTML = '<strong>Today (' + r.level.name + '):</strong> ' + r.focus + (r.focusDetail && r.level.id === 'starting' ? ' · ' + r.focusDetail.split(' · ')[0] : '') + ' · ' + r.sets + (r.sets === 1 ? ' set' : ' sets') + ' of ' + r.trialsPerSet + (r.trialsPerSet === 1 ? ' trial' : ' trials') + (r.sets > 1 ? ' · ' + r.restSeconds + ' s rest between sets' : '') + ' · about ' + r.minutes + ' min';
+        $('tc-plan').innerHTML = '<strong>Today:</strong> ' + r.focus + ' · ' + r.sets + ' × ' + r.trialsPerSet + ' trials · about ' + r.minutes + ' min';
       } else if (r.state === 'onboard') {
-        $('tc-block-text').innerHTML = 'Start with the beginner guide before your first session. <a href="guide.html">Open the beginner guide</a>';
+        $('tc-block-text').innerHTML = 'Do the beginner guide first. <a href="guide.html">Open guide</a>';
       } else {
-        $('tc-block-text').innerHTML = esc(r.summary + (r.state === 'rest' ? ' If the discomfort continues, contact a healthcare professional.' : '')) + ' <a href="home.html">Back to Home</a>';
+        $('tc-block-text').innerHTML = esc(r.summary) + ' <a href="home.html">Back to Home</a>';
       }
     };
     document.addEventListener('nh:change', renderTraining);
@@ -654,12 +638,12 @@
       btn.disabled = true;
       const run = () => {
         Object.values(handsEl).forEach((el) => { el.style.setProperty('--close', 0); el.closest('.hand-wrap').classList.remove('target'); el.classList.remove('active'); });
-        if (k >= order.length) { cueEl.textContent = 'Practice done'; subEl.textContent = 'That is all a trial is. In real sessions, the hand moves only when your brain signal is recognized.'; btn.disabled = false; btn.textContent = 'Practise again'; return; }
+        if (k >= order.length) { cueEl.textContent = 'Done!'; subEl.textContent = 'In real sessions, the hand moves when your signal is recognized.'; btn.disabled = false; btn.textContent = 'Practise again'; return; }
         const side = order[k++];
         cueEl.textContent = 'Get ready'; subEl.textContent = 'Trial ' + k + ' of 3';
         timer = setTimeout(() => {
           cueEl.textContent = 'Imagine closing your ' + side + ' hand';
-          subEl.textContent = 'Feel your fingers slowly squeeze. Keep your real hand still.';
+          subEl.textContent = 'Squeeze slowly. Keep your real hand still.';
           const el = handsEl[side]; el.closest('.hand-wrap').classList.add('target');
           const t0 = performance.now();
           const anim = (now) => {

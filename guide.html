@@ -18,26 +18,24 @@
 
         <section class="g-step" data-step="welcome">
           <h1>Welcome to NeuroHand</h1>
-          <p class="lede-sm">NeuroHand helps you practise <strong>motor imagery</strong>: imagining a hand movement without making it. An EEG headset reads your brain activity, and a virtual hand on screen moves when the movement you imagine is recognized.</p>
+          <p class="lede-sm">Imagine moving your hand. When NeuroHand recognizes it, a virtual hand moves on screen.</p>
           <ul class="g-points">
-            <li><strong>About 5 minutes.</strong> This guide covers how training works, how to wear the headset, how to stay safe, and ends with a short practice round.</li>
-            <li><strong>Your plan grows with you.</strong> After 3 short starting sessions, NeuroHand builds a personal plan from your own results.</li>
-            <li><strong>A research prototype.</strong> NeuroHand is not a medical device. If you are recovering from a stroke or have a medical condition, check with a healthcare professional before you start.</li>
+            <li>This guide takes about 5 minutes.</li>
+            <li>Your plan grows from your own results.</li>
+            <li>Not a medical device. If you have a medical condition, ask a healthcare professional first.</li>
           </ul>
         </section>
 
         <section class="g-step" data-step="imagery" hidden>
-          <h1>What is motor imagery?</h1>
-          <p class="lede-sm">Imagining a movement uses many of the same brain areas as making it. Each trial asks you to imagine closing your left or right hand for a few seconds.</p>
+          <h1>Imagine, don&#8217;t move</h1>
+          <p class="lede-sm">Each trial asks you to imagine closing your left or right hand for a few seconds.</p>
           <div class="g-tips">
             <div><h3>Do</h3><ul>
-              <li>Imagine it from inside your body, as if you feel your own fingers squeeze.</li>
-              <li>Picture a slow, steady squeeze, like holding a soft ball.</li>
-              <li>Breathe normally and keep your face and shoulders relaxed.</li></ul></div>
+              <li>Feel your fingers squeeze slowly</li>
+              <li>Breathe normally</li></ul></div>
             <div><h3>Don&#8217;t</h3><ul>
-              <li>Don&#8217;t actually move your hand. Keep it resting still.</li>
-              <li>Don&#8217;t watch yourself from the outside, like in a video.</li>
-              <li>Don&#8217;t strain or hold your breath to make it work.</li></ul></div>
+              <li>Move your real hand</li>
+              <li>Strain or hold your breath</li></ul></div>
           </div>
         </section>
 
@@ -55,42 +53,41 @@
               <text x="100" y="40" text-anchor="middle" class="lbl">Front</text>
             </svg>
             <ol class="g-steps">
-              <li>Charge the headset. An orange light means it needs charging.</li>
-              <li>Place the electrodes across the top of your head, from ear to ear. C3 sits over the left side, Cz in the middle, C4 over the right.</li>
-              <li>Move hair aside so each electrode touches the scalp.</li>
-              <li>Open <strong>Device</strong> to check the signal. Each electrode should show <span class="q-good">good</span> before you start.</li>
+              <li>Charge the headset.</li>
+              <li>Place C3, Cz and C4 across the top of your head.</li>
+              <li>Move hair so each one touches the scalp.</li>
+              <li>Check the signal on the <strong>Device</strong> page.</li>
             </ol>
           </div>
-          <p class="plan-foot">C3 picks up right-hand imagery and C4 picks up left-hand imagery, because each side of the brain controls the opposite hand.</p>
         </section>
 
         <section class="g-step" data-step="safety" hidden>
-          <h1>Stay safe and comfortable</h1>
+          <h1>Stay safe</h1>
           <ul class="g-points">
-            <li><strong>Check in before every session.</strong> If you feel a little tired, the session is shorter with longer rests. If you feel uncomfortable, there is no session that day.</li>
-            <li><strong>Stop whenever you need to.</strong> Pause or stop at any time. Stop if you feel tired, dizzy, get a headache, or feel uncomfortable.</li>
-            <li><strong>Rest between sets.</strong> Each session has rest breaks. Take longer if you need it.</li>
-            <li><strong>There is no catching up.</strong> Missed sessions are never added to later days.</li>
-            <li><strong>Get help if something is wrong.</strong> If discomfort continues or worries you, contact a healthcare professional.</li>
+            <li>Check in before each session.</li>
+            <li>Pause or stop anytime.</li>
+            <li>Rest between sets.</li>
+            <li>Never catch up on missed sessions.</li>
+            <li>Feeling unwell? Contact a healthcare professional.</li>
           </ul>
         </section>
 
         <section class="g-step" data-step="data" hidden>
-          <h1>Your data and your plan</h1>
-          <p class="lede-sm">To build your personal plan, NeuroHand saves after each session:</p>
+          <h1>Your data</h1>
+          <p class="lede-sm">NeuroHand saves your results to build your plan:</p>
           <ul class="g-points compact">
-            <li>How often your left- and right-hand imagery was recognized</li>
-            <li>Session length and whether you stopped early</li>
-            <li>Your check-in answer and the headset signal quality</li>
+            <li>Recognition for each hand</li>
+            <li>Session length</li>
+            <li>Check-in and signal quality</li>
           </ul>
-          <p class="desc">In this prototype, data stays in this browser. You can delete it at any time on the <strong>My plan</strong> page. In a research study, data would be handled as set out in the study&#8217;s ethics approval.</p>
-          <label class="check consent"><input type="checkbox" id="g-consent"><span>I agree that NeuroHand saves my training results to build my plan.</span></label>
+          <p class="desc">Saved in this browser. Delete it anytime on <strong>My plan</strong>.</p>
+          <label class="check consent"><input type="checkbox" id="g-consent"><span>I agree NeuroHand saves my training results.</span></label>
           <p class="hint" id="g-consent-hint">Tick the box to continue.</p>
         </section>
 
         <section class="g-step" data-step="practice" hidden>
           <h1>Try a practice round</h1>
-          <p class="lede-sm">Three quick trials to see how it works. This practice uses simulated feedback, so there is no score.</p>
+          <p class="lede-sm">Three quick trials. No score.</p>
           <div class="g-practice">
             <div class="prompt" aria-live="polite"><span class="big" id="pr-cue">Ready when you are</span><span class="small" id="pr-sub">Rest your hands on the table.</span></div>
             <div class="hands">
@@ -107,7 +104,7 @@
             </div>
             <p style="text-align:center"><button class="btn btn-ghost" id="pr-start" type="button">Start practice</button></p>
           </div>
-          <p class="desc">When you finish, your first <strong>starting check</strong> session is ready on the Home page.</p>
+          <p class="desc">Next: your first session on Home.</p>
         </section>
 
         <div class="g-nav"><button class="btn btn-ghost" id="g-back" type="button" hidden>Back</button><button class="btn btn-primary" id="g-next" type="button">Next</button></div>

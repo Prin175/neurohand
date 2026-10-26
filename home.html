@@ -32,7 +32,7 @@
     <div class="app-col">
       <div class="app-top"><button class="icon-btn" id="app-menu" aria-label="Open navigation"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button><a class="logo" href="home.html"><span class="logo-mark"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h4l2-5 4 10 2-5h6"/></svg></span>NeuroHand</a><span class="status ok"><span class="dot"></span>Headset</span></div>
       <main class="main" id="main"><div class="main-inner">
-        <div class="page-title"><div><h1>Good evening, P-01</h1><p>Check in, then follow your plan for today.</p></div></div>
+        <div class="page-title"><div><h1>Good evening, P-01</h1><p>Here&#8217;s your plan for today.</p></div></div>
 
         <section class="card plan-card" id="today-plan" aria-labelledby="today-title">
           <div class="plan-head">
@@ -43,8 +43,8 @@
           <fieldset class="checkin" data-checkin id="home-checkin">
             <legend>How do you feel today?</legend>
             <div class="checkin-options">
-              <label class="role-option"><input type="radio" name="feeling" value="good"><div><strong>Feeling good</strong><span>Follow the full plan</span></div></label>
-              <label class="role-option"><input type="radio" name="feeling" value="tired"><div><strong>A little tired</strong><span>A shorter session with longer rests</span></div></label>
+              <label class="role-option"><input type="radio" name="feeling" value="good"><div><strong>Feeling good</strong><span>Full session</span></div></label>
+              <label class="role-option"><input type="radio" name="feeling" value="tired"><div><strong>A little tired</strong><span>Shorter session</span></div></label>
               <label class="role-option"><input type="radio" name="feeling" value="uncomfortable"><div><strong>Feeling uncomfortable</strong><span>Rest today</span></div></label>
             </div>
           </fieldset>
@@ -76,9 +76,9 @@
             <a class="btn btn-primary" id="check-signal" href="device.html" hidden>Check the signal</a>
             <button class="btn btn-primary" id="start-today" type="button">Start Today&#8217;s Session</button>
             <a class="btn btn-ghost" id="week-plan-btn" href="plan.html">View Weekly Plan</a>
-            <span class="hint" id="start-hint" hidden>Answer the check-in above to start.</span>
+            <span class="hint" id="start-hint" hidden>Check in first.</span>
           </div>
-          <p class="plan-foot">Your plan is built from your own results and always stays within fixed safety limits. It is a training suggestion, not medical advice.</p>
+          <p class="plan-foot">A training suggestion, not medical advice.</p>
         </section>
 
         <div class="stack" id="home-lower">
@@ -96,10 +96,10 @@
         </div>
         <div class="card"><div class="card-head"><h2>Recent sessions <span class="demo-tag" data-demo>Demo data</span></h2><a href="progress.html" style="font-size:.875rem;font-weight:600">See all progress</a></div>
           <div class="table-wrap"><table class="data">
-            <thead><tr><th>Session</th><th>Date</th><th class="r">Accuracy</th><th class="r">Duration</th></tr></thead>
+            <thead><tr><th>Session</th><th>Date</th><th class="r">Recognized</th><th class="r">Duration</th></tr></thead>
             <tbody id="recent-body"></tbody>
           </table></div>
-          <p class="subtle" style="font-size:.8125rem;margin-top:12px">Accuracy is how often the imagined movement was recognized. It is not a measure of physical recovery.</p>
+          <p class="subtle" style="font-size:.8125rem;margin-top:12px">Recognition is not a measure of physical recovery.</p>
         </div>
         </div>
       </div></main>
