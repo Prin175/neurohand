@@ -706,3 +706,86 @@ h2 .demo-tag { margin-left: 8px; }
 .sim-btn:focus-visible { outline: 2px solid #9fe3cf; outline-offset: 2px; }
 .sim-panel .sim-panel-foot { font-size: .8125rem; color: rgba(243,236,228,.6); }
 .sim:has(.sim-panel:not([hidden])) .sim-cue, .sim:has(.sim-panel:not([hidden])) .sim-foot { visibility: hidden; }
+
+/* ---------- Beginner guide ---------- */
+.guide-card { width: 100%; max-width: 640px; display: grid; gap: 24px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 28px; }
+.g-progress { display: grid; gap: 8px; }
+.g-top { display: flex; justify-content: space-between; align-items: center; font-size: 0.8125rem; }
+.g-step { display: grid; gap: 16px; }
+.g-step h1 { font-size: 1.6rem; }
+.g-step h1:focus { outline: none; }
+.lede-sm { color: var(--ink-2); font-size: 1rem; max-width: 60ch; }
+.g-points { margin: 0; padding-left: 20px; display: grid; gap: 10px; color: var(--ink-2); font-size: 0.9375rem; }
+.g-points strong { color: var(--ink); }
+.g-points.compact { gap: 6px; }
+.g-tips { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.g-tips > div { background: var(--surface-2); border-radius: var(--r); padding: 14px 16px; }
+.g-tips h3 { font-size: 0.875rem; margin-bottom: 8px; }
+.g-tips ul { margin: 0; padding-left: 18px; display: grid; gap: 6px; font-size: 0.875rem; color: var(--ink-2); }
+.g-headset { display: grid; grid-template-columns: 180px 1fr; gap: 20px; align-items: center; }
+.g-head { width: 100%; max-width: 180px; height: auto; }
+.g-head .hd { fill: var(--surface-2); stroke: var(--line-strong); stroke-width: 2; }
+.g-head .hl { stroke: var(--line-strong); stroke-dasharray: 3 4; }
+.g-head .el { fill: var(--teal-soft); stroke: var(--teal); stroke-width: 2; }
+.g-head text { font: 600 10px var(--mono); fill: var(--ink); }
+.g-head text.lbl { font: 500 10px var(--font); fill: var(--ink-3); }
+.g-steps { margin: 0; padding-left: 20px; display: grid; gap: 8px; font-size: 0.9rem; color: var(--ink-2); }
+.consent { padding: 12px 14px; border: 1px solid var(--line-strong); border-radius: var(--r); color: var(--ink); font-weight: 500; }
+.consent:has(input:checked) { border-color: var(--teal); background: var(--teal-soft); }
+.g-practice { display: grid; gap: 16px; padding: 18px; background: var(--surface-2); border-radius: var(--r); }
+.g-practice .prompt { min-height: 84px; }
+.g-practice .prompt .big { font-size: clamp(1.25rem, 3vw, 1.6rem); }
+.g-nav { display: flex; justify-content: space-between; gap: 10px; border-top: 1px solid var(--line); padding-top: 18px; }
+.g-nav #g-next { margin-left: auto; }
+
+/* ---------- My plan ---------- */
+.plan-tags { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.empty-state { display: grid; gap: 6px; }
+.level-card { display: grid; gap: 20px; }
+.level-card .card-head { margin-bottom: 0; }
+.level-card h2 { font-size: 1.45rem; }
+.level-track { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.level-track li { display: grid; justify-items: center; gap: 6px; text-align: center; position: relative; font-size: 0.8125rem; color: var(--ink-3); }
+.level-track li::before { content: ""; position: absolute; top: 15px; left: -50%; right: 50%; height: 2px; background: var(--line); z-index: 0; }
+.level-track li:first-child::before { display: none; }
+.level-track li.is-past::before, .level-track li.is-current::before { background: var(--teal); }
+.lt-dot { position: relative; z-index: 1; width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; font-size: 0.8125rem; background: var(--surface); border: 2px solid var(--line-strong); color: var(--ink-3); }
+.lt-dot .icon { width: 16px; height: 16px; stroke-width: 2.6; }
+.is-past .lt-dot { background: var(--teal); border-color: var(--teal); color: var(--on-teal); }
+.is-current .lt-dot { border-color: var(--teal); color: var(--teal); box-shadow: 0 0 0 4px var(--teal-soft); }
+.is-current .lt-name { color: var(--ink); font-weight: 700; }
+.plan-stats.four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.level-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; padding-top: 18px; border-top: 1px solid var(--line); }
+.level-grid h3 { font-size: 0.95rem; margin-bottom: 10px; }
+.next-list, .changes, .limits { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; font-size: 0.875rem; }
+.next-list li { display: grid; grid-template-columns: 18px 1fr auto; gap: 8px; align-items: start; color: var(--ink-2); }
+.next-list li .icon { width: 16px; height: 16px; margin-top: 2px; color: var(--ink-3); }
+.next-list li.is-done { color: var(--ink); }
+.next-list li.is-done .icon { color: var(--ok); stroke-width: 2.4; }
+.next-list .nv { font-size: 0.8125rem; color: var(--ink-3); white-space: nowrap; }
+.changes li { display: grid; grid-template-columns: 18px 1fr; gap: 8px; }
+.changes li .icon { width: 16px; height: 16px; margin-top: 2px; color: var(--teal); stroke-width: 2.4; }
+.changes p { color: var(--ink-2); font-size: 0.8125rem; margin-top: 2px; }
+.limits li { display: grid; grid-template-columns: 18px 1fr; gap: 8px; color: var(--ink-2); }
+.limits .icon { width: 16px; height: 16px; margin-top: 2px; color: var(--teal); }
+.insights { margin: 16px 0 0; padding-left: 20px; display: grid; gap: 8px; font-size: 0.9rem; color: var(--ink-2); max-width: 70ch; }
+.insights.small { font-size: 0.8125rem; }
+.stats.compact .v small { font-size: 0.8125rem; }
+.stat .s small { font-size: inherit; }
+.lr { display: grid; gap: 16px; margin-top: 14px; }
+.lr-top { display: flex; justify-content: space-between; font-size: 0.9rem; margin-bottom: 6px; }
+.lr-bars .meter.base i { background: var(--ink-3); }
+.chart .pt.muted { stroke: var(--ink-3); }
+
+@media (max-width: 760px) {
+  .level-grid { grid-template-columns: 1fr; }
+  .plan-stats.four { grid-template-columns: 1fr 1fr; }
+  .plan-stats.four div:nth-child(2) { border-right: 0; }
+  .plan-stats.four div:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+}
+@media (max-width: 640px) {
+  .guide-card { padding: 20px; }
+  .g-tips, .g-headset { grid-template-columns: 1fr; }
+  .g-head { justify-self: center; }
+  .level-track .lt-name { font-size: 0.72rem; }
+}

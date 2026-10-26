@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Beginner guide · NeuroHand</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="auth-page">
+    <div class="wrap auth-top"><a class="logo" href="index.html"><span class="logo-mark"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h4l2-5 4 10 2-5h6"/></svg></span>NeuroHand</a><a class="back" href="home.html">Skip for now</a></div>
+    <main class="auth-main wrap" id="main">
+      <div class="guide-card" id="guide">
+        <div class="g-progress"><div class="g-top"><span class="eyebrow-sm" style="margin:0">Beginner guide</span><span class="subtle tnum" id="g-count" aria-live="polite">Step 1 of 6</span></div><div class="meter"><i id="g-bar" style="width:16%"></i></div></div>
+
+        <section class="g-step" data-step="welcome">
+          <h1>Welcome to NeuroHand</h1>
+          <p class="lede-sm">NeuroHand helps you practise <strong>motor imagery</strong>: imagining a hand movement without making it. An EEG headset reads your brain activity, and a virtual hand on screen moves when the movement you imagine is recognized.</p>
+          <ul class="g-points">
+            <li><strong>About 5 minutes.</strong> This guide covers how training works, how to wear the headset, how to stay safe, and ends with a short practice round.</li>
+            <li><strong>Your plan grows with you.</strong> After 3 short starting sessions, NeuroHand builds a personal plan from your own results.</li>
+            <li><strong>A research prototype.</strong> NeuroHand is not a medical device. If you are recovering from a stroke or have a medical condition, check with a healthcare professional before you start.</li>
+          </ul>
+        </section>
+
+        <section class="g-step" data-step="imagery" hidden>
+          <h1>What is motor imagery?</h1>
+          <p class="lede-sm">Imagining a movement uses many of the same brain areas as making it. Each trial asks you to imagine closing your left or right hand for a few seconds.</p>
+          <div class="g-tips">
+            <div><h3>Do</h3><ul>
+              <li>Imagine it from inside your body, as if you feel your own fingers squeeze.</li>
+              <li>Picture a slow, steady squeeze, like holding a soft ball.</li>
+              <li>Breathe normally and keep your face and shoulders relaxed.</li></ul></div>
+            <div><h3>Don&#8217;t</h3><ul>
+              <li>Don&#8217;t actually move your hand. Keep it resting still.</li>
+              <li>Don&#8217;t watch yourself from the outside, like in a video.</li>
+              <li>Don&#8217;t strain or hold your breath to make it work.</li></ul></div>
+          </div>
+        </section>
+
+        <section class="g-step" data-step="headset" hidden>
+          <h1>Put on the headset</h1>
+          <div class="g-headset">
+            <svg class="g-head" viewBox="0 0 200 220" role="img" aria-label="Top view of the head showing electrodes C3 on the left, Cz on top and C4 on the right">
+              <ellipse cx="100" cy="115" rx="78" ry="92" class="hd"/>
+              <path d="M90 24 100 8 110 24" class="hd"/>
+              <ellipse cx="20" cy="115" rx="8" ry="18" class="hd"/><ellipse cx="180" cy="115" rx="8" ry="18" class="hd"/>
+              <line x1="22" y1="115" x2="178" y2="115" class="hl"/>
+              <circle cx="58" cy="115" r="13" class="el"/><text x="58" y="119" text-anchor="middle">C3</text>
+              <circle cx="100" cy="115" r="13" class="el"/><text x="100" y="119" text-anchor="middle">Cz</text>
+              <circle cx="142" cy="115" r="13" class="el"/><text x="142" y="119" text-anchor="middle">C4</text>
+              <text x="100" y="40" text-anchor="middle" class="lbl">Front</text>
+            </svg>
+            <ol class="g-steps">
+              <li>Charge the headset. An orange light means it needs charging.</li>
+              <li>Place the electrodes across the top of your head, from ear to ear. C3 sits over the left side, Cz in the middle, C4 over the right.</li>
+              <li>Move hair aside so each electrode touches the scalp.</li>
+              <li>Open <strong>Device</strong> to check the signal. Each electrode should show <span class="q-good">good</span> before you start.</li>
+            </ol>
+          </div>
+          <p class="plan-foot">C3 picks up right-hand imagery and C4 picks up left-hand imagery, because each side of the brain controls the opposite hand.</p>
+        </section>
+
+        <section class="g-step" data-step="safety" hidden>
+          <h1>Stay safe and comfortable</h1>
+          <ul class="g-points">
+            <li><strong>Check in before every session.</strong> If you feel a little tired, the session is shorter with longer rests. If you feel uncomfortable, there is no session that day.</li>
+            <li><strong>Stop whenever you need to.</strong> Pause or stop at any time. Stop if you feel tired, dizzy, get a headache, or feel uncomfortable.</li>
+            <li><strong>Rest between sets.</strong> Each session has rest breaks. Take longer if you need it.</li>
+            <li><strong>There is no catching up.</strong> Missed sessions are never added to later days.</li>
+            <li><strong>Get help if something is wrong.</strong> If discomfort continues or worries you, contact a healthcare professional.</li>
+          </ul>
+        </section>
+
+        <section class="g-step" data-step="data" hidden>
+          <h1>Your data and your plan</h1>
+          <p class="lede-sm">To build your personal plan, NeuroHand saves after each session:</p>
+          <ul class="g-points compact">
+            <li>How often your left- and right-hand imagery was recognized</li>
+            <li>Session length and whether you stopped early</li>
+            <li>Your check-in answer and the headset signal quality</li>
+          </ul>
+          <p class="desc">In this prototype, data stays in this browser. You can delete it at any time on the <strong>My plan</strong> page. In a research study, data would be handled as set out in the study&#8217;s ethics approval.</p>
+          <label class="check consent"><input type="checkbox" id="g-consent"><span>I agree that NeuroHand saves my training results to build my plan.</span></label>
+          <p class="hint" id="g-consent-hint">Tick the box to continue.</p>
+        </section>
+
+        <section class="g-step" data-step="practice" hidden>
+          <h1>Try a practice round</h1>
+          <p class="lede-sm">Three quick trials to see how it works. This practice uses simulated feedback, so there is no score.</p>
+          <div class="g-practice">
+            <div class="prompt" aria-live="polite"><span class="big" id="pr-cue">Ready when you are</span><span class="small" id="pr-sub">Rest your hands on the table.</span></div>
+            <div class="hands">
+              <div class="hand-wrap"><svg class="hand" id="pr-left" viewBox="0 0 120 150" aria-hidden="true"><g>
+                  <rect class="part finger" x="18" y="38" width="15" height="52" rx="7.5"/><rect class="part finger" x="35" y="20" width="16" height="70" rx="8"/>
+                  <rect class="part finger" x="53" y="12" width="16" height="78" rx="8"/><rect class="part finger" x="71" y="20" width="16" height="70" rx="8"/>
+                  <g transform="rotate(32 92 118)"><rect class="part thumb" x="86" y="74" width="16" height="46" rx="8"/></g>
+                  <rect class="part" x="32" y="126" width="44" height="22" rx="6"/><rect class="part" x="16" y="70" width="76" height="64" rx="20"/></g></svg><span>Left</span></div>
+              <div class="hand-wrap"><svg class="hand" id="pr-right" viewBox="0 0 120 150" aria-hidden="true"><g transform="translate(120 0) scale(-1 1)">
+                  <rect class="part finger" x="18" y="38" width="15" height="52" rx="7.5"/><rect class="part finger" x="35" y="20" width="16" height="70" rx="8"/>
+                  <rect class="part finger" x="53" y="12" width="16" height="78" rx="8"/><rect class="part finger" x="71" y="20" width="16" height="70" rx="8"/>
+                  <g transform="rotate(32 92 118)"><rect class="part thumb" x="86" y="74" width="16" height="46" rx="8"/></g>
+                  <rect class="part" x="32" y="126" width="44" height="22" rx="6"/><rect class="part" x="16" y="70" width="76" height="64" rx="20"/></g></svg><span>Right</span></div>
+            </div>
+            <p style="text-align:center"><button class="btn btn-ghost" id="pr-start" type="button">Start practice</button></p>
+          </div>
+          <p class="desc">When you finish, your first <strong>starting check</strong> session is ready on the Home page.</p>
+        </section>
+
+        <div class="g-nav"><button class="btn btn-ghost" id="g-back" type="button" hidden>Back</button><button class="btn btn-primary" id="g-next" type="button">Next</button></div>
+      </div>
+    </main>
+  </div>
+  <script src="js/assistant.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

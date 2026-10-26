@@ -43,7 +43,7 @@
       if (signup && !$('name').value.trim()) return showError('Enter your full name.');
       if (!/^\S+@\S+\.\S+$/.test(email)) return showError('Enter a valid email address, like name@example.com.');
       if (!$('password').value) return showError('Enter your password.');
-      location.href = 'home.html';
+      location.href = signup ? 'guide.html' : 'home.html';
     });
   }
   function showError(msg) { const el = $('form-error'); el.textContent = msg; el.hidden = false; }
@@ -113,7 +113,8 @@
   const T = { rest: 2000, cue: 1200, imagery: 3500, feedback: 1600 };
   let raf = 0, paused = false, phase = 'rest', phaseStart = 0, pausedAt = 0, restTimer = 0;
   let plan = { sets: 2, trialsPerSet: 10, restSeconds: 60, mix: { left: 0.5, right: 0.5 } };
-  let set = 1, trial = 1, hits = 0, total = 0, side = 'left', willHit = true, peak = 0;
+  let set = 1, trial = 1, hits = 0, total = 0, side = 'left', willHit = true, peak = 0, startedAt = 0, recorded = false;
+  const byHand = { left: { hits: 0, total: 0 }, right: { hits: 0, total: 0 } };
 
   const setClose = (el, c) => el.querySelector('.sim-hand').style.setProperty('--c', c.toFixed(3));
   const openHands = () => ['left', 'right'].forEach((s) => setClose(hands[s], 0));
@@ -132,8 +133,8 @@
       cue.textContent = side === 'left' ? 'Left hand' : 'Right hand';
       hands[side].classList.add('cued');
     } else if (p === 'feedback') {
-      total++;
-      if (willHit) { hits++; cue.textContent = 'Recognized'; cue.classList.add('hit'); } else { cue.textContent = 'Not recognized'; }
+      total++; byHand[side].total++;
+      if (willHit) { hits++; byHand[side].hits++; cue.textContent = 'Recognized'; cue.classList.add('hit'); } else { cue.textContent = 'Not recognized'; }
     }
     sub.textContent = phaseText();
     updateCount();
@@ -171,7 +172,7 @@
   function endOfSet() {
     cancelAnimationFrame(raf);
     if (set >= plan.sets) {
-      window.NH && NH.markDoneToday();
+      record(false);
       showPanel({ k: 'Session complete', title: 'That’s today’s session', timer: false, next: false, home: true, foot: false, stopLabel: 'Close',
         text: hits + ' of ' + total + ' trials were recognized' + (window.NH && !NH.HARDWARE_CONNECTED ? ' (DEMO DATA)' : '') + '. This shows how often the system detected your imagined movement. It is not a measure of physical recovery. Rest now.' });
       $('sp-home').focus();
@@ -199,6 +200,14 @@
   });
   $('sp-stop').addEventListener('click', () => close());
 
+  // Save this session's results so the plan can be analysed and updated
+  function record(stopped) {
+    if (recorded || !total || !window.NH) return;
+    recorded = true;
+    const pct = (h) => (h.total ? Math.round((h.hits / h.total) * 100) : null);
+    NH.recordSession({ left: pct(byHand.left), right: pct(byHand.right), trials: total, minutes: Math.max(1, Math.round((Date.now() - startedAt) / 60000)), stopped });
+  }
+
   function setPaused(p) {
     if (!panel.hidden || p === paused) return;
     const now = performance.now();
@@ -214,7 +223,8 @@
     const r = window.NH ? NH.recommend() : null;
     if (r) plan = { sets: r.sets, trialsPerSet: r.trialsPerSet, restSeconds: r.restSeconds, mix: r.mix };
     sim.hidden = false; document.body.classList.add('sim-on'); panel.hidden = true; pauseBtn.disabled = false;
-    set = 1; trial = 1; hits = 0; total = 0; paused = false;
+    set = 1; trial = 1; hits = 0; total = 0; paused = false; startedAt = Date.now(); recorded = false;
+    byHand.left = { hits: 0, total: 0 }; byHand.right = { hits: 0, total: 0 };
     pauseBtn.setAttribute('aria-pressed', 'false'); pauseBtn.querySelector('span').textContent = 'Pause';
     try { const p = sim.requestFullscreen && sim.requestFullscreen(); if (p && p.catch) p.catch(() => {}); } catch (e) { /* fullscreen not allowed: overlay still fills the window */ }
     enter('rest', performance.now()); raf = requestAnimationFrame(tick);
@@ -227,8 +237,7 @@
     const finished = panel.hidden === false && $('sp-home').hidden === false;
     sim.hidden = true; document.body.classList.remove('sim-on');
     try { if (document.fullscreenElement) document.exitFullscreen().catch(() => {}); } catch (e) { /* ignore */ }
-    if (!finished) setStatus('Stopped');
-    if (window.NH) document.dispatchEvent(new CustomEvent('nh:checkin'));
+    if (!finished) { setStatus('Stopped'); record(true); }
     openBtn.focus();
   }
   openBtn.addEventListener('click', open);

@@ -12,7 +12,8 @@ A student research prototype for motor-imagery training with visual feedback. Th
 | `login.html` | Log in and sign up (`?mode=signup`) |
 | `home.html` | Participant dashboard |
 | `training.html` | Training session: check-in, then a **Full screen** session with sets and rest breaks |
-| `plan.html` | Weekly plan calendar and the clinician-approved plan settings |
+| `guide.html` | Beginner guide for new users |
+| `plan.html` | My plan: level, next step, weekly calendar, analysis, safety limits |
 | `progress.html` | Session history, charts and CSV export |
 | `device.html` | Headset pairing (simulated) |
 
@@ -30,20 +31,27 @@ Then go to http://localhost:8000.
 
 On the Training page, press **Full screen**. Trials loop through rest, cue, imagery and feedback. Press Space or tap to pause and Esc to exit.
 
-## Daily Training Assistant
+## Beginner guide and personal plan
 
-The Home page shows **Your Training Plan Today**. The user checks in (Feeling good / A little tired / Feeling uncomfortable). The suggestion then adjusts within the clinician-approved plan:
+New users start with the **beginner guide** (`guide.html`): what motor imagery is, how to wear the headset, how to stay safe, consent to save training data, and a short practice round. Sign-up leads straight to it.
 
-- **Feeling good:** follows the full plan.
-- **A little tired:** one set fewer and longer rests.
-- **Feeling uncomfortable:** no session. The app suggests resting and contacting the clinician if the discomfort continues.
-- The left/right mix shifts toward the hand that was recognized less often recently.
-- Poor EEG signal: the app asks the user to check the headset before reading any results.
+After each session NeuroHand saves the recognition rate for each hand, session length, the check-in answer, signal quality and whether the user stopped early. The **My plan** page (`plan.html`) analyses this and sets a level:
 
-The assistant never adds sessions, sets or time. The schedule is set on the Weekly plan page and saved in the browser. All results are **DEMO DATA** until `NH.HARDWARE_CONNECTED` in `js/assistant.js` is set to `true` and real data replaces `NH.demo`. Recognition accuracy is not a measure of physical recovery.
+| Level | Sessions a week | Each session | Moves up when |
+|---|---|---|---|
+| Starting check | 3 | 2 sets × 8 trials | 3 sessions are done |
+| Beginner | 3 | 2 sets × 10 trials | 3 sessions average 60%+ with no tiredness or poor signal |
+| Building | 4 | 3 sets × 10 trials | 3 sessions average 68%+ with no tiredness or poor signal |
+| Steady | 5 | 3 sets × 12 trials | Highest level |
+
+The plan moves down a level after a report of feeling uncomfortable, or tiredness or early stops in 2 of 3 sessions. Every day the user checks in. "A little tired" means one set fewer and longer rests, and "Feeling uncomfortable" means no session. The left/right mix leans toward the hand recognized less often. Results from poor-signal sessions are left out of the analysis.
+
+**Safety limits** in `NH.LIMITS` (`js/assistant.js`) can never be exceeded: at most 5 sessions a week, 20 minutes a session, 3 sets of 12 trials, and at least 45 s of rest between sets. The plan is a training suggestion, not medical advice.
+
+Data is saved in the browser (localStorage) and labelled **DEMO DATA** until `NH.HARDWARE_CONNECTED` is set to `true`. "Explore with demo data" loads 8 example sessions. Recognition accuracy is not a measure of physical recovery.
 
 ## Files
 
 - `css/style.css`: all styles, including light and dark themes
-- `js/assistant.js`: Daily Training Assistant (plan, check-in, recommendation, weekly calendar)
+- `js/assistant.js`: Daily Training Assistant (session history, analysis, levels, safety limits, check-in, guide)
 - `js/main.js`: page behaviour (menus, login form, device search, training simulation, progress export)
