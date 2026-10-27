@@ -24,6 +24,13 @@
     const markSize = (v) => sizeBtns.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.size === v)));
     markSize(getPref('nh.textsize', 'default'));
     sizeBtns.forEach((b) => b.addEventListener('click', () => { setPref('nh.textsize', b.dataset.size); applySize(b.dataset.size); markSize(b.dataset.size); saved(); }));
+    // Language: saved, then the page reloads in the new language
+    const langBtns = document.querySelectorAll('[data-lang]');
+    const curLang = getPref('nh.lang', 'en');
+    langBtns.forEach((b) => {
+      b.setAttribute('aria-pressed', String(b.dataset.lang === curLang));
+      b.addEventListener('click', () => { if (b.dataset.lang === getPref('nh.lang', 'en')) return; setPref('nh.lang', b.dataset.lang); location.reload(); });
+    });
   }
 
   // Public header menu on small screens
@@ -85,7 +92,8 @@
   const start = $('start-btn');
   if (start) {
     start.addEventListener('click', () => {
-      const running = start.textContent !== 'Pause';
+      const running = start.dataset.running !== '1';
+      start.dataset.running = running ? '1' : '0';
       start.textContent = running ? 'Pause' : 'Start training';
       $('trial-status').textContent = running ? 'In progress' : 'Paused';
     });

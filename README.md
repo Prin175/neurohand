@@ -13,7 +13,7 @@ A student research prototype for motor-imagery training with visual feedback. Th
 | `home.html` | Participant dashboard |
 | `training.html` | Training session: check-in, then a **Full screen** session with sets and rest breaks |
 | `guide.html` | Beginner guide for new users |
-| `settings.html` | Color mode (Light / Dark / Walnut / System) and text size |
+| `settings.html` | Color mode (Light / Dark / Walnut / System), language (English / Thai) and text size |
 | `plan.html` | My plan: level, next step, weekly calendar, analysis, safety limits |
 | `progress.html` | Session history, charts and CSV export |
 | `device.html` | Headset pairing (simulated) |
@@ -55,4 +55,5 @@ Data is saved in the browser (localStorage) and labelled **DEMO DATA** until `NH
 
 - `css/style.css`: all styles, including light and dark themes
 - `js/assistant.js`: Daily Training Assistant (session history, analysis, levels, safety limits, check-in, guide)
+- `js/i18n.js`: Thai translations. English is written in the pages; when Thai is chosen, text is translated on the fly, including text the app updates. Add new strings to the `D` dictionary (or a pattern in `P` if the text contains numbers).
 - `js/main.js`: page behaviour (menus, login form, device search, training simulation, progress export)
