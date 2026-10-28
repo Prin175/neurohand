@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
-  <link rel="stylesheet" href="css/style.css?v=20261027a">
+  <link rel="stylesheet" href="css/style.css?v=20261028a">
 </head>
 <body class="in-app">
   <div class="app" id="app-shell">
@@ -32,39 +32,36 @@
     <div class="app-col">
       <div class="app-top"><button class="icon-btn" id="app-menu" aria-label="Open navigation"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button><a class="logo" href="home.html"><span class="logo-mark"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h4l2-5 4 10 2-5h6"/></svg></span>NeuroHand</a><span class="status off"><span class="dot"></span>No headset</span></div>
       <main class="main" id="main"><div class="main-inner">
-        <div class="page-title"><div><h1>Connect your headset</h1><p>Training needs a connected EEG headset. Turn it on and keep it within a few meters of this computer.</p></div></div>
+        <div class="page-title"><div><h1>Connect headset</h1><p>Turn it on and keep it close.</p></div></div>
         <div class="grid-side">
           <div class="card" id="device-card">
             <div id="state-empty">
-              <h2>No headset connected</h2>
-              <p class="desc">Make sure Bluetooth is on, then search for nearby devices.</p>
-              <p style="margin-top:16px"><button class="btn btn-primary" id="search-btn">Search for devices</button></p>
+              <h2>No headset</h2>
+              <p class="desc">Turn on Bluetooth, then search.</p>
+              <p style="margin-top:16px"><button class="btn btn-primary" id="search-btn">Search</button></p>
             </div>
             <div id="state-searching" hidden>
-              <h2><span class="spinner"></span>&nbsp; Searching for devices</h2>
-              <p class="desc">Looking for EEG headsets nearby. This takes a few seconds.</p>
+              <h2><span class="spinner"></span>&nbsp; Searching&#8230;</h2>
             </div>
             <div id="state-found" hidden>
               <h2>1 device found</h2>
               <div class="device-list">
                 <div class="device-row"><span class="logo-mark"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg></span>
-                  <div class="info"><strong>NeuroHand EEG headset</strong><span>NH-01 · Bluetooth · simulated</span></div>
+                  <div class="info"><strong>NeuroHand EEG headset</strong><span>Simulated</span></div>
                   <a class="btn btn-primary btn-sm" href="home.html">Connect</a></div>
               </div>
             </div>
           </div>
           <aside class="side-help"><h3>Before you connect</h3><ol>
-            <li>Charge the headset if the light is orange.</li>
-            <li>Turn on Bluetooth on this computer.</li>
-            <li>Put the headset on so C3, Cz and C4 sit over the top of the head.</li></ol>
-            <p class="note" style="margin-top:14px">No hardware yet? Choose the simulated headset to try training with generated data.</p>
+            <li>Charge the headset.</li>
+            <li>Place C3, Cz and C4 on top of your head.</li></ol>
           </aside>
         </div>
       </div></main>
     </div>
   </div>
-  <script src="js/assistant.js?v=20261027a"></script>
-  <script src="js/main.js?v=20261027a"></script>
-  <script src="js/i18n.js?v=20261027a"></script>
+  <script src="js/assistant.js?v=20261028a"></script>
+  <script src="js/main.js?v=20261028a"></script>
+  <script src="js/i18n.js?v=20261028a"></script>
 </body>
 </html>

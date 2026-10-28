@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
-  <link rel="stylesheet" href="css/style.css?v=20261027a">
+  <link rel="stylesheet" href="css/style.css?v=20261028a">
 </head>
 <body class="in-app">
   <div class="app" id="app-shell">
@@ -34,21 +34,19 @@
       <div class="app-top"><button class="icon-btn" id="app-menu" aria-label="Open navigation"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button><a class="logo" href="home.html"><span class="logo-mark"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h4l2-5 4 10 2-5h6"/></svg></span>NeuroHand</a><span class="status ok"><span class="dot"></span>Headset</span></div>
       <main class="main" id="main"><div class="main-inner">
         <div class="page-title"><div><h1>Progress</h1><p><span id="prog-sub"></span><span class="demo-tag" data-demo>Demo data</span></p></div>
-          <div class="head-actions"><label for="range">Show</label>
+          <div class="head-actions"><label for="range" class="sr-only">Show</label>
             <select class="select" id="range"><option value="all">All sessions</option><option value="5">Last 5 sessions</option><option value="3">Last 3 sessions</option></select>
             <button class="btn btn-primary btn-sm" id="export-btn">Export report</button></div></div>
         <div class="card empty-state" id="prog-empty" hidden>
           <h2>No sessions yet</h2>
-          <p class="desc">Results appear after your first session.</p>
-          <p style="margin-top:16px"><a class="btn btn-primary" href="home.html">Go to Home</a></p>
+                    <p style="margin-top:16px"><a class="btn btn-primary" href="home.html">Go to Home</a></p>
         </div>
         <div class="stack" id="prog-main">
-        <div class="stats compact" id="prog-stats"></div>
+        <div class="stats compact three" id="prog-stats"></div>
         <div class="grid-main">
-          <div class="card"><h2>Recognition by session</h2><p class="desc" style="margin-bottom:6px">Not a measure of physical recovery.</p><svg class="chart" id="acc-chart" viewBox="0 0 640 250" role="img" aria-label="Recognition by session"></svg></div>
-          <div class="card"><h2>Left and right hand</h2><p class="desc">Now vs. when you started.</p>
-            <div class="lr" id="lr"></div>
-            <ul class="insights small" id="prog-insights"></ul></div>
+          <div class="card"><h2>Results</h2><p class="desc" style="margin-bottom:6px">Not a measure of physical recovery.</p><svg class="chart" id="acc-chart" viewBox="0 0 640 250" role="img" aria-label="Recognition by session"></svg></div>
+          <div class="card"><h2>Left vs. right</h2>
+            <div class="lr" id="lr"></div></div>
         </div>
         <div class="grid-main">
           <div class="card"><h2 style="margin-bottom:10px">Session history</h2>
@@ -56,7 +54,7 @@
               <thead><tr><th>Session</th><th>Date</th><th class="r">Left</th><th class="r">Right</th><th class="r">Overall</th><th class="r">Duration</th></tr></thead>
               <tbody></tbody></table></div></div>
           <div class="card notes"><h2>Researcher notes</h2>
-            <label for="notes" class="desc" style="font-weight:400;margin:0">Notes about this participant</label>
+            <label for="notes" class="sr-only">Notes about this participant</label>
             <textarea class="input" id="notes"></textarea>
             <div style="display:flex;gap:12px;align-items:center"><button class="btn btn-ghost btn-sm" id="save-note">Save note</button><span class="saved" id="note-status" hidden>Saved</span></div></div>
         </div>
@@ -64,8 +62,8 @@
       </div></main>
     </div>
   </div>
-  <script src="js/assistant.js?v=20261027a"></script>
-  <script src="js/main.js?v=20261027a"></script>
-  <script src="js/i18n.js?v=20261027a"></script>
+  <script src="js/assistant.js?v=20261028a"></script>
+  <script src="js/main.js?v=20261028a"></script>
+  <script src="js/i18n.js?v=20261028a"></script>
 </body>
 </html>

@@ -150,7 +150,7 @@
   const setClose = (el, c) => el.querySelector('.sim-hand').style.setProperty('--c', c.toFixed(3));
   const openHands = () => ['left', 'right'].forEach((s) => setClose(hands[s], 0));
   const updateCount = () => { count.textContent = 'Set ' + set + ' of ' + plan.sets + ' · Trial ' + trial + ' of ' + plan.trialsPerSet; };
-  const phaseText = () => ({ rest: 'Relax and look at the cross', cue: 'Get ready', imagery: 'Imagine closing your ' + side + ' hand', feedback: Math.round(peak * 100) + '% confidence' }[phase]);
+  const phaseText = () => ({ rest: 'Relax', cue: 'Get ready', imagery: 'Imagine squeezing', feedback: Math.round(peak * 100) + '%' }[phase]);
 
   function enter(p, now) {
     phase = p; phaseStart = now;
@@ -205,15 +205,15 @@
     if (set >= plan.sets) {
       record(false);
       showPanel({ k: 'Session complete', title: 'Well done', timer: false, next: false, home: true, foot: false, stopLabel: 'Close',
-        text: hits + ' of ' + total + ' recognized' + (window.NH && !NH.HARDWARE_CONNECTED ? ' (demo)' : '') + '. Rest now.' });
+        text: hits + ' of ' + total + ' recognized' + (window.NH && !NH.HARDWARE_CONNECTED ? ' (demo)' : '') + '.' });
       $('sp-home').focus();
       setStatus('Completed');
       return;
     }
     let left = plan.restSeconds;
     const fmt = (n) => Math.floor(n / 60) + ':' + String(n % 60).padStart(2, '0');
-    showPanel({ k: 'Set ' + set + ' of ' + plan.sets + ' complete', title: 'Time to rest', timer: true, next: true, home: false, foot: true, stopLabel: 'Stop for today',
-      text: 'Relax your hands and breathe slowly.' });
+    showPanel({ k: 'Set ' + set + ' of ' + plan.sets + ' complete', title: 'Rest', timer: true, next: true, home: false, foot: true, stopLabel: 'Stop for today',
+      text: 'Relax and breathe.' });
     const next = $('sp-next');
     next.disabled = true; next.textContent = 'Resting…';
     $('sp-timer').textContent = fmt(left);
@@ -245,7 +245,7 @@
     paused = p;
     pauseBtn.setAttribute('aria-pressed', String(p));
     pauseBtn.querySelector('span').textContent = p ? 'Resume' : 'Pause';
-    if (p) { pausedAt = now; sub.textContent = 'Paused. Press Resume to continue.'; cancelAnimationFrame(raf); }
+    if (p) { pausedAt = now; sub.textContent = 'Paused'; cancelAnimationFrame(raf); }
     else { phaseStart += now - pausedAt; sub.textContent = phaseText(); raf = requestAnimationFrame(tick); }
   }
   function setStatus(t) { const el = $('trial-status'); if (el) el.textContent = t; }

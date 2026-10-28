@@ -8,35 +8,26 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
-  <link rel="stylesheet" href="css/style.css?v=20261027a">
+  <link rel="stylesheet" href="css/style.css?v=20261028a">
 </head>
 <body>
   <div class="auth-page">
     <div class="wrap auth-top"><a class="logo" href="index.html"><span class="logo-mark"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h4l2-5 4 10 2-5h6"/></svg></span>NeuroHand</a><a class="back" href="home.html">Skip for now</a></div>
     <main class="auth-main wrap" id="main">
       <div class="guide-card" id="guide">
-        <div class="g-progress"><div class="g-top"><span class="eyebrow-sm" style="margin:0">Beginner guide</span><span class="subtle tnum" id="g-count" aria-live="polite">Step 1 of 6</span></div><div class="meter"><i id="g-bar" style="width:16%"></i></div></div>
+        <div class="g-progress"><div class="g-top"><span class="eyebrow-sm" style="margin:0">Guide</span><span class="subtle tnum" id="g-count" aria-live="polite">Step 1 of 5</span></div><div class="meter"><i id="g-bar" style="width:16%"></i></div></div>
 
         <section class="g-step" data-step="welcome">
-          <h1>Welcome to NeuroHand</h1>
-          <p class="lede-sm">Imagine moving your hand. When NeuroHand recognizes it, a virtual hand moves on screen.</p>
-          <ul class="g-points">
-            <li>This guide takes about 5 minutes.</li>
-            <li>Your plan grows from your own results.</li>
-            <li>Not a medical device. If you have a medical condition, ask a healthcare professional first.</li>
-          </ul>
+          <h1>Welcome</h1>
+          <p class="lede-sm">Imagine moving your hand. The virtual hand moves with you.</p>
+          <p class="plan-foot">Not a medical device.</p>
         </section>
 
         <section class="g-step" data-step="imagery" hidden>
           <h1>Imagine, don&#8217;t move</h1>
-          <p class="lede-sm">Each trial asks you to imagine closing your left or right hand for a few seconds.</p>
           <div class="g-tips">
-            <div><h3>Do</h3><ul>
-              <li>Feel your fingers squeeze slowly</li>
-              <li>Breathe normally</li></ul></div>
-            <div><h3>Don&#8217;t</h3><ul>
-              <li>Move your real hand</li>
-              <li>Strain or hold your breath</li></ul></div>
+            <div><h3>Do</h3><ul><li>Feel your fingers squeeze slowly</li><li>Breathe normally</li></ul></div>
+            <div><h3>Don&#8217;t</h3><ul><li>Move your real hand</li><li>Hold your breath</li></ul></div>
           </div>
         </section>
 
@@ -54,41 +45,25 @@
               <text x="100" y="40" text-anchor="middle" class="lbl">Front</text>
             </svg>
             <ol class="g-steps">
-              <li>Charge the headset.</li>
-              <li>Place C3, Cz and C4 across the top of your head.</li>
-              <li>Move hair so each one touches the scalp.</li>
+              <li>Place C3, Cz and C4 on top of your head.</li>
               <li>Check the signal on the <strong>Device</strong> page.</li>
             </ol>
           </div>
         </section>
 
-        <section class="g-step" data-step="safety" hidden>
+        <section class="g-step" data-step="data" hidden>
           <h1>Stay safe</h1>
           <ul class="g-points">
-            <li>Check in before each session.</li>
-            <li>Pause or stop anytime.</li>
+            <li>Stop anytime.</li>
             <li>Rest between sets.</li>
-            <li>Never catch up on missed sessions.</li>
-            <li>Feeling unwell? Contact a healthcare professional.</li>
+            <li>Feel unwell? See a doctor.</li>
           </ul>
-        </section>
-
-        <section class="g-step" data-step="data" hidden>
-          <h1>Your data</h1>
-          <p class="lede-sm">NeuroHand saves your results to build your plan:</p>
-          <ul class="g-points compact">
-            <li>Recognition for each hand</li>
-            <li>Session length</li>
-            <li>Check-in and signal quality</li>
-          </ul>
-          <p class="desc">Saved in this browser. Delete it anytime on <strong>My plan</strong>.</p>
-          <label class="check consent"><input type="checkbox" id="g-consent"><span>I agree NeuroHand saves my training results.</span></label>
+          <label class="check consent"><input type="checkbox" id="g-consent"><span>Save my results to build my plan.</span></label>
           <p class="hint" id="g-consent-hint">Tick the box to continue.</p>
         </section>
 
         <section class="g-step" data-step="practice" hidden>
-          <h1>Try a practice round</h1>
-          <p class="lede-sm">Three quick trials. No score.</p>
+          <h1>Practice</h1>
           <div class="g-practice">
             <div class="prompt" aria-live="polite"><span class="big" id="pr-cue">Ready when you are</span><span class="small" id="pr-sub">Rest your hands on the table.</span></div>
             <div class="hands">
@@ -105,15 +80,14 @@
             </div>
             <p style="text-align:center"><button class="btn btn-ghost" id="pr-start" type="button">Start practice</button></p>
           </div>
-          <p class="desc">Next: your first session on Home.</p>
         </section>
 
         <div class="g-nav"><button class="btn btn-ghost" id="g-back" type="button" hidden>Back</button><button class="btn btn-primary" id="g-next" type="button">Next</button></div>
       </div>
     </main>
   </div>
-  <script src="js/assistant.js?v=20261027a"></script>
-  <script src="js/main.js?v=20261027a"></script>
-  <script src="js/i18n.js?v=20261027a"></script>
+  <script src="js/assistant.js?v=20261028a"></script>
+  <script src="js/main.js?v=20261028a"></script>
+  <script src="js/i18n.js?v=20261028a"></script>
 </body>
 </html>

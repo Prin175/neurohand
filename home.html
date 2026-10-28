@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
-  <link rel="stylesheet" href="css/style.css?v=20261027a">
+  <link rel="stylesheet" href="css/style.css?v=20261028a">
 </head>
 <body class="in-app">
   <div class="app" id="app-shell">
@@ -33,81 +33,55 @@
     <div class="app-col">
       <div class="app-top"><button class="icon-btn" id="app-menu" aria-label="Open navigation"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button><a class="logo" href="home.html"><span class="logo-mark"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h4l2-5 4 10 2-5h6"/></svg></span>NeuroHand</a><span class="status ok"><span class="dot"></span>Headset</span></div>
       <main class="main" id="main"><div class="main-inner">
-        <div class="page-title"><div><h1>Good evening, P-01</h1><p>Here&#8217;s your plan for today.</p></div></div>
+        <div class="page-title"><div><h1>Good evening, P-01</h1></div></div>
 
         <section class="card plan-card" id="today-plan" aria-labelledby="today-title">
           <div class="plan-head">
-            <div><p class="eyebrow-sm">Daily Training Assistant</p><h2 id="today-title">Your Training Plan Today</h2><p class="desc" id="today-date"></p></div>
+            <div><h2 id="today-title">Today&#8217;s plan</h2><p class="desc" id="today-date"></p></div>
             <div class="plan-tags"><span class="chip teal" id="level-chip" hidden></span><span class="demo-tag" data-demo>Demo data</span></div>
           </div>
 
           <fieldset class="checkin" data-checkin id="home-checkin">
-            <legend>How do you feel today?</legend>
+            <legend>How do you feel?</legend>
             <div class="checkin-options">
-              <label class="role-option"><input type="radio" name="feeling" value="good"><div><strong>Feeling good</strong><span>Full session</span></div></label>
-              <label class="role-option"><input type="radio" name="feeling" value="tired"><div><strong>A little tired</strong><span>Shorter session</span></div></label>
-              <label class="role-option"><input type="radio" name="feeling" value="uncomfortable"><div><strong>Feeling uncomfortable</strong><span>Rest today</span></div></label>
+              <label class="role-option"><input type="radio" name="feeling" value="good"><div><strong>Feeling good</strong></div></label>
+              <label class="role-option"><input type="radio" name="feeling" value="tired"><div><strong>A little tired</strong></div></label>
+              <label class="role-option"><input type="radio" name="feeling" value="uncomfortable"><div><strong>Feeling uncomfortable</strong></div></label>
             </div>
           </fieldset>
 
           <div class="plan-body">
-            <div class="plan-focus" aria-live="polite">
-              <span class="k" id="plan-focus-k">Today&#8217;s focus</span>
-              <strong id="plan-focus"></strong>
-              <span class="detail" id="plan-focus-detail"></span>
-              <p id="plan-summary"></p>
-            </div>
-            <div id="plan-side">
-              <dl class="plan-stats" id="plan-stats">
-                <div><dt>Session length</dt><dd id="plan-min"></dd></div>
-                <div><dt>Practice sets</dt><dd id="plan-sets"></dd></div>
-                <div><dt>Rest</dt><dd id="plan-rest"></dd></div>
-              </dl>
-              <ul class="rest-list" id="rest-list" aria-label="Rest reminders"></ul>
-            </div>
+            <div class="plan-focus" aria-live="polite"><strong id="plan-focus"></strong><p id="plan-summary"></p></div>
+            <dl class="plan-stats" id="plan-side">
+              <div><dt>Time</dt><dd id="plan-min"></dd></div>
+              <div><dt>Sets</dt><dd id="plan-sets"></dd></div>
+              <div><dt>Rest</dt><dd id="plan-rest"></dd></div>
+            </dl>
           </div>
 
           <div class="notices" id="plan-notices"></div>
 
-          <details class="why" id="why"><summary>Why this recommendation?</summary><ul id="why-list"></ul></details>
-
           <div class="plan-actions">
-            <a class="btn btn-primary" id="go-guide" href="guide.html" hidden>Start beginner guide</a>
-            <button class="btn btn-ghost" id="go-demo" type="button" hidden>Explore with demo data</button>
-            <a class="btn btn-primary" id="check-signal" href="device.html" hidden>Check the signal</a>
-            <button class="btn btn-primary" id="start-today" type="button">Start Today&#8217;s Session</button>
-            <a class="btn btn-ghost" id="week-plan-btn" href="plan.html">View Weekly Plan</a>
+            <a class="btn btn-primary" id="go-guide" href="guide.html" hidden>Start guide</a>
+            <button class="btn btn-ghost" id="go-demo" type="button" hidden>Try demo</button>
+            <a class="btn btn-primary" id="check-signal" href="device.html" hidden>Check signal</a>
+            <button class="btn btn-primary" id="start-today" type="button">Start session</button>
+            <a class="btn btn-ghost" id="week-plan-btn" href="plan.html">View plan</a>
             <span class="hint" id="start-hint" hidden>Check in first.</span>
           </div>
-          <p class="plan-foot">A training suggestion, not medical advice.</p>
+          <p class="plan-foot" id="plan-foot">Stop anytime if you feel tired or unwell.</p>
+          <details class="why" id="why"><summary>Why this plan?</summary><ul id="why-list"></ul></details>
         </section>
 
-        <div class="stack" id="home-lower">
-        <div class="grid-2">
-          <div class="card"><div class="card-head" style="margin-bottom:10px"><h2>This week</h2><a href="plan.html" style="font-size:.875rem;font-weight:600">View Weekly Plan</a></div>
-            <div class="meter-label"><span>Planned sessions</span><span class="tnum" id="week-count"></span></div><div class="meter"><i id="week-meter" style="width:0"></i></div>
-            <ol class="week compact" id="week-strip" aria-label="This week"></ol>
-          </div>
-          <div class="card"><div class="card-head"><h2>Headset</h2><span class="status ok"><span class="dot"></span>Connected</span></div>
-            <p class="desc">NeuroHand EEG headset · NH-01 · Bluetooth</p>
-            <dl class="kv"><div><dt>Battery</dt><dd><span class="battery"><span class="batt"><i style="width:12.5px"></i></span><span class="tnum">78%</span></span></dd></div><div><dt>Signal</dt><dd>Good</dd></div><div><dt>Connected</dt><dd class="tnum">22:41</dd></div></dl>
-            <p class="desc" style="font-size:.8125rem;margin-top:12px">Electrodes: C3 <span data-signal="C3">good</span>, Cz <span data-signal="Cz">good</span>, C4 <span data-signal="C4">fair</span></p>
-            <p style="margin-top:14px"><a class="btn btn-ghost btn-sm" href="device.html">Manage device</a></p>
-          </div>
-        </div>
-        <div class="card"><div class="card-head"><h2>Recent sessions <span class="demo-tag" data-demo>Demo data</span></h2><a href="progress.html" style="font-size:.875rem;font-weight:600">See all progress</a></div>
-          <div class="table-wrap"><table class="data">
-            <thead><tr><th>Session</th><th>Date</th><th class="r">Recognized</th><th class="r">Duration</th></tr></thead>
-            <tbody id="recent-body"></tbody>
-          </table></div>
-          <p class="subtle" style="font-size:.8125rem;margin-top:12px">Recognition is not a measure of physical recovery.</p>
-        </div>
-        </div>
+        <section class="card" id="home-lower">
+          <div class="card-head" style="margin-bottom:0"><h2>This week</h2><span class="subtle tnum" id="week-count"></span></div>
+          <ol class="week compact" id="week-strip" aria-label="This week"></ol>
+        </section>
       </div></main>
     </div>
   </div>
-  <script src="js/assistant.js?v=20261027a"></script>
-  <script src="js/main.js?v=20261027a"></script>
-  <script src="js/i18n.js?v=20261027a"></script>
+  <script src="js/assistant.js?v=20261028a"></script>
+  <script src="js/main.js?v=20261028a"></script>
+  <script src="js/i18n.js?v=20261028a"></script>
 </body>
 </html>

@@ -11,7 +11,7 @@ A student research prototype for motor-imagery training with visual feedback. Th
 | `index.html` | Public landing page |
 | `login.html` | Log in and sign up (`?mode=signup`) |
 | `home.html` | Participant dashboard |
-| `training.html` | Training session: check-in, then a **Full screen** session with sets and rest breaks |
+| `training.html` | Check-in, then **Start session** opens the full-screen session with sets and rest breaks |
 | `guide.html` | Beginner guide for new users |
 | `settings.html` | Color mode (Light / Dark / Walnut / System), language (English / Thai) and text size |
 | `plan.html` | My plan: level, next step, weekly calendar, analysis, safety limits |

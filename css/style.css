@@ -905,3 +905,18 @@ button.day.is-today[aria-pressed="true"] { border-color: var(--teal); box-shadow
 :root[lang="th"] .btn, :root[lang="th"] .chip, :root[lang="th"] .seg button, :root[lang="th"] .sim-btn, :root[lang="th"] .sim-exit { line-height: 1.35; }
 :root[lang="th"] .prompt .big, :root[lang="th"] .sim-cue-big, :root[lang="th"] .plan-focus strong { line-height: 1.35; letter-spacing: 0; }
 :root[lang="th"] .eyebrow, :root[lang="th"] .eyebrow-sm, :root[lang="th"] .day .dname, :root[lang="th"] .sim-panel-k { letter-spacing: 0.02em; }
+
+/* ---------- Simpler layout ---------- */
+.stats.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.stats.three .stat:nth-child(2) { border-right: 1px solid var(--line); }
+.stats.three .stat:nth-child(-n+2) { border-bottom: 0; }
+.stats.three .stat:last-child { border-right: 0; }
+.start-card { display: grid; justify-items: center; gap: 14px; text-align: center; padding-block: 28px; }
+.start-card .tc-plan { justify-self: stretch; }
+.btn-lg { min-height: 52px; padding: 0 28px; font-size: 1rem; }
+.btn-lg .icon { width: 18px; height: 18px; }
+.level-grid > .plan-stats { align-self: start; }
+.plan-head .desc { margin-top: 2px; }
+.page-title > .demo-tag { align-self: center; }
+#home-lower .week.compact { margin-top: 14px; }
+.why summary { font-weight: 500; color: var(--ink-2); }
