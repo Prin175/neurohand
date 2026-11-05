@@ -51,9 +51,15 @@ The plan moves down a level after a report of feeling uncomfortable, or tirednes
 
 Data is saved in the browser (localStorage) and labelled **DEMO DATA** until `NH.HARDWARE_CONNECTED` is set to `true`. "Explore with demo data" loads 8 example sessions. Recognition accuracy is not a measure of physical recovery.
 
+## Live EEG headset
+
+See [bci/README.md](bci/README.md): a Python bridge reads the headset, records calibration trials, trains a left/right AI (CSP + LDA) and moves the virtual hand. Choose **Settings → EEG source → Live headset**. Test without a headset with `python bci/bridge.py --source synthetic`.
+
 ## Files
 
 - `css/style.css`: all styles, including light and dark themes
 - `js/assistant.js`: Daily Training Assistant (session history, analysis, levels, safety limits, check-in, guide)
 - `js/i18n.js`: Thai translations. English is written in the pages; when Thai is chosen, text is translated on the fly, including text the app updates. Add new strings to the `D` dictionary (or a pattern in `P` if the text contains numbers).
+- `js/live.js`: connection to the EEG bridge (ws://localhost:8765)
+- `bci/`: EEG bridge, training script and signal processing (Python)
 - `js/main.js`: page behaviour (menus, login form, device search, training simulation, progress export)

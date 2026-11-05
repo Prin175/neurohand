@@ -8,6 +8,7 @@
 
   // Set to true once a real EEG headset streams data. Until then every result is labelled DEMO DATA.
   NH.HARDWARE_CONNECTED = false;
+  try { NH.HARDWARE_CONNECTED = localStorage.getItem('nh.source') === 'live'; } catch (e) { /* storage unavailable */ }
 
   const DAY_LONG = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   const DAY_SHORT = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -587,7 +588,25 @@
       const r = NH.recommend();
       const blocked = ['onboard', 'rest', 'rest-day', 'done'].includes(r.state);
       const needCheckin = !r.feeling;
-      ['sim-open', 'start-btn'].forEach((id) => { const b = $(id); if (b) b.disabled = blocked || needCheckin; });
+      const L = NH.live;
+      const liveOn = !!(L && L.enabled);
+      const liveBlocked = liveOn && !L.ready();
+      ['sim-open', 'start-btn'].forEach((id) => { const b = $(id); if (b) b.disabled = blocked || needCheckin || liveBlocked; });
+      // Live headset status
+      $('sim-strip').hidden = liveOn;
+      $('live-strip').hidden = !liveOn;
+      $('live-help').hidden = !liveOn || L.connected;
+      $('live-need').hidden = !(liveOn && L.connected && !L.ready());
+      if (liveOn) {
+        const st = L.status;
+        $('live-state').className = 'status ' + (L.connected ? 'ok' : 'off');
+        $('live-text').textContent = !L.connected ? 'EEG bridge not running' : st && st.model ? 'Live EEG · AI ' + Math.round(st.accuracy * 100) + '%' : 'Live EEG · needs calibration';
+        $('live-q').hidden = !L.connected;
+        const cb = $('calib-open');
+        cb.hidden = !L.connected;
+        cb.textContent = st && st.model ? 'Recalibrate' : 'Calibrate';
+        cb.disabled = needCheckin || r.state === 'rest';
+      }
       tc.querySelector('[data-checkin]').hidden = ['onboard', 'rest-day', 'done'].includes(r.state);
       $('tc-plan').hidden = blocked || needCheckin;
       $('tc-block').hidden = !blocked;
@@ -601,6 +620,7 @@
       }
     };
     document.addEventListener('nh:change', renderTraining);
+    document.addEventListener('nh:live', renderTraining);
     renderTraining();
   }
 

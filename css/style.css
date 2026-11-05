@@ -920,3 +920,8 @@ button.day.is-today[aria-pressed="true"] { border-color: var(--teal); box-shadow
 .page-title > .demo-tag { align-self: center; }
 #home-lower .week.compact { margin-top: 14px; }
 .why summary { font-weight: 500; color: var(--ink-2); }
+
+/* ---------- Live EEG ---------- */
+.live-strip .status.off .dot { background: transparent; border: 1.5px solid currentColor; }
+.device-strip code, .notice code, .setting code { font: 500 0.8125rem var(--mono); background: var(--surface-2); padding: 1px 6px; border-radius: 4px; }
+.sim.is-calibration .sim-meter { visibility: hidden; }

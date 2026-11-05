@@ -1,0 +1,4 @@
+# Participant EEG recordings and trained models stay on this computer, never on GitHub
+data/
+models/
+__pycache__/

@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
-  <link rel="stylesheet" href="css/style.css?v=20261028a">
+  <link rel="stylesheet" href="css/style.css?v=20261105a">
 </head>
 <body class="in-app">
   <div class="app" id="app-shell">
@@ -34,7 +34,9 @@
       <div class="app-top"><button class="icon-btn" id="app-menu" aria-label="Open navigation"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button><a class="logo" href="home.html"><span class="logo-mark"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h4l2-5 4 10 2-5h6"/></svg></span>NeuroHand</a><span class="status ok"><span class="dot"></span>Headset</span></div>
       <main class="main" id="main"><div class="main-inner">
         <div class="page-title"><div><h1>Training</h1></div><span class="demo-tag" data-demo>Demo data</span></div>
-        <div class="device-strip"><span class="status ok"><span class="dot"></span>NeuroHand EEG headset connected</span><span class="battery"><span class="batt"><i style="width:12.5px"></i></span><span class="tnum">78%</span></span><span>C3 <span data-signal="C3" class="q-good">good</span> · Cz <span data-signal="Cz" class="q-good">good</span> · C4 <span data-signal="C4" class="q-fair">fair</span></span><a class="push" href="device.html" style="font-weight:600">Change device</a></div>
+        <div class="device-strip" id="sim-strip"><span class="status ok"><span class="dot"></span>NeuroHand EEG headset connected</span><span class="battery"><span class="batt"><i style="width:12.5px"></i></span><span class="tnum">78%</span></span><span>C3 <span data-signal="C3" class="q-good">good</span> · Cz <span data-signal="Cz" class="q-good">good</span> · C4 <span data-signal="C4" class="q-fair">fair</span></span><a class="push" href="device.html" style="font-weight:600">Change device</a></div>
+        <div class="device-strip live-strip" id="live-strip" hidden><span class="status" id="live-state"><span class="dot"></span><span id="live-text"></span></span><span id="live-q">C3 <span data-signal="C3">–</span> · Cz <span data-signal="Cz">–</span> · C4 <span data-signal="C4">–</span></span><button class="btn btn-ghost btn-sm push" id="calib-open" type="button" hidden>Calibrate</button></div>
+        <div class="notice warn" id="live-help" role="status" hidden><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 2 20h20L12 3z"/><path d="M12 10v4M12 17h.01"/></svg><div>Start the EEG bridge on this computer: <code>python bci/bridge.py</code></div></div>
         <section class="card checkin-card" id="training-checkin">
           <fieldset class="checkin" data-checkin>
             <legend>How do you feel?</legend>
@@ -67,6 +69,7 @@
           <p class="hint" id="tc-need">Check in to start.</p>
           <button class="btn btn-primary btn-lg" id="sim-open" type="button"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H3v5M16 3h5v5M8 21H3v-5M16 21h5v-5"/></svg>Start session</button>
           <p class="hint">Opens full screen. Pause or stop anytime.</p>
+          <p class="hint" id="live-need" hidden>Calibrate first so the AI learns your signal.</p>
         </section>
       </div></main>
     </div>
@@ -109,8 +112,9 @@
           <path class="knuckle" d="M58 128 Q99 118 146 130"/></g></svg></div>
     <div class="sim-foot"><div class="sim-meter"><i id="sim-conf"></i></div><span>Tap to pause</span></div>
   </div>
-  <script src="js/assistant.js?v=20261028a"></script>
-  <script src="js/main.js?v=20261028a"></script>
-  <script src="js/i18n.js?v=20261028a"></script>
+  <script src="js/live.js?v=20261105a"></script>
+  <script src="js/assistant.js?v=20261105a"></script>
+  <script src="js/main.js?v=20261105a"></script>
+  <script src="js/i18n.js?v=20261105a"></script>
 </body>
 </html>

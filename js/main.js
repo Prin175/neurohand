@@ -24,6 +24,11 @@
     const markSize = (v) => sizeBtns.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.size === v)));
     markSize(getPref('nh.textsize', 'default'));
     sizeBtns.forEach((b) => b.addEventListener('click', () => { setPref('nh.textsize', b.dataset.size); applySize(b.dataset.size); markSize(b.dataset.size); saved(); }));
+    // EEG source: simulated (demo) or the live headset through bci/bridge.py
+    const srcBtns = document.querySelectorAll('[data-source]');
+    const markSrc = (v) => { srcBtns.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.source === v))); const h = $('src-hint'); if (h) h.hidden = v !== 'live'; };
+    markSrc(getPref('nh.source', 'sim'));
+    srcBtns.forEach((b) => b.addEventListener('click', () => { setPref('nh.source', b.dataset.source); markSrc(b.dataset.source); saved(); }));
     // Language: saved, then the page reloads in the new language
     const langBtns = document.querySelectorAll('[data-lang]');
     const curLang = getPref('nh.lang', 'en');
@@ -145,11 +150,14 @@
   let raf = 0, paused = false, phase = 'rest', phaseStart = 0, pausedAt = 0, restTimer = 0;
   let plan = { sets: 2, trialsPerSet: 10, restSeconds: 60, mix: { left: 0.5, right: 0.5 } };
   let set = 1, trial = 1, hits = 0, total = 0, side = 'left', willHit = true, peak = 0, startedAt = 0, recorded = false;
+  // Live headset: the hand follows the AI's output from bci/bridge.py. Calibration records labelled trials without feedback.
+  const live = () => window.NH && NH.live && NH.live.enabled;
+  let mode = 'session', order = [], probs = [], lastSeq = 0, liveOut = 0;
   const byHand = { left: { hits: 0, total: 0 }, right: { hits: 0, total: 0 } };
 
   const setClose = (el, c) => el.querySelector('.sim-hand').style.setProperty('--c', c.toFixed(3));
   const openHands = () => ['left', 'right'].forEach((s) => setClose(hands[s], 0));
-  const updateCount = () => { count.textContent = 'Set ' + set + ' of ' + plan.sets + ' · Trial ' + trial + ' of ' + plan.trialsPerSet; };
+  const updateCount = () => { count.textContent = (mode === 'calibration' ? 'Calibration · ' : '') + 'Set ' + set + ' of ' + plan.sets + ' · Trial ' + trial + ' of ' + plan.trialsPerSet; };
   const phaseText = () => ({ rest: 'Relax', cue: 'Get ready', imagery: 'Imagine squeezing', feedback: Math.round(peak * 100) + '%' }[phase]);
 
   function enter(p, now) {
@@ -159,11 +167,20 @@
       hands.left.classList.remove('cued'); hands.right.classList.remove('cued');
       conf.style.width = '0%';
     } else if (p === 'cue') {
-      side = Math.random() < plan.mix.left ? 'left' : 'right';
+      side = mode === 'calibration' ? order[(set - 1) * plan.trialsPerSet + trial - 1] : (Math.random() < plan.mix.left ? 'left' : 'right');
       willHit = Math.random() < 0.78; peak = willHit ? 0.7 + Math.random() * 0.25 : 0.25 + Math.random() * 0.3;
       cue.textContent = side === 'left' ? 'Left hand' : 'Right hand';
       hands[side].classList.add('cued');
+      if (live()) NH.live.send({ type: 'cue', side, mode: mode === 'calibration' ? 'calibration' : 'feedback' });
+    } else if (p === 'imagery') {
+      probs = []; liveOut = 0; lastSeq = live() ? NH.live.probSeq : 0;
+      if (live()) NH.live.send({ type: 'imagery_start' });
     } else if (p === 'feedback') {
+      if (live()) {
+        // Recognized when the AI's average output for the cued hand reaches the 0.6 threshold
+        peak = probs.length ? probs.reduce((a, b) => a + b, 0) / probs.length : 0;
+        willHit = peak >= 0.6;
+      }
       total++; byHand[side].total++;
       if (willHit) { hits++; byHand[side].hits++; cue.textContent = 'Recognized'; cue.classList.add('hit'); } else { cue.textContent = 'Not recognized'; }
     }
@@ -173,21 +190,33 @@
   function tick(now) {
     if (paused || !panel.hidden) return;
     const t = now - phaseStart;
-    if (phase === 'imagery') {
-      // Simulated classifier output rises toward this trial's peak, with jitter
-      const k = Math.min(1, t / (T.imagery * 0.7));
-      const out = Math.max(0, Math.min(1, peak * k + (Math.random() - 0.5) * 0.06));
+    if (phase === 'imagery' && mode === 'calibration') {
+      conf.style.width = '0%';
+    } else if (phase === 'imagery') {
+      let out;
+      if (live()) {
+        // Live output for the cued hand from the bridge (about 10 updates a second)
+        const lp = NH.live.prob;
+        if (lp && NH.live.probSeq !== lastSeq) { lastSeq = NH.live.probSeq; liveOut = lp[side]; if (t > 1000) probs.push(liveOut); }
+        out = liveOut;
+      } else {
+        // Simulated classifier output rises toward this trial's peak, with jitter
+        const k = Math.min(1, t / (T.imagery * 0.7));
+        out = Math.max(0, Math.min(1, peak * k + (Math.random() - 0.5) * 0.06));
+      }
       conf.style.width = (out * 100).toFixed(1) + '%';
       const c = out >= 0.6 ? Math.min(1, (out - 0.6) / 0.25 + 0.35) : 0;
       setClose(hands[side], reduce ? (c > 0 ? 1 : 0) : c);
     } else if (phase === 'rest') openHands();
     if (t >= T[phase]) {
-      if (phase === 'feedback') {
+      if (phase === 'imagery' && live()) NH.live.send({ type: 'imagery_end' });
+      const trialDone = phase === 'feedback' || (phase === 'imagery' && mode === 'calibration');
+      if (trialDone) {
         openHands();
         if (trial >= plan.trialsPerSet) { endOfSet(); return; }
         trial++;
-      }
-      enter({ rest: 'cue', cue: 'imagery', imagery: 'feedback', feedback: 'rest' }[phase], now);
+        enter('rest', now);
+      } else enter({ rest: 'cue', cue: 'imagery', imagery: 'feedback' }[phase], now);
     }
     raf = requestAnimationFrame(tick);
   }
@@ -202,6 +231,11 @@
   }
   function endOfSet() {
     cancelAnimationFrame(raf);
+    if (set >= plan.sets && mode === 'calibration') {
+      showPanel({ k: 'Calibration complete', title: 'Training the AI…', timer: false, next: false, home: false, foot: false, stopLabel: 'Close', text: 'This takes a few seconds.' });
+      setTimeout(() => NH.live.send({ type: 'calibration_end' }), 300);
+      return;
+    }
     if (set >= plan.sets) {
       record(false);
       showPanel({ k: 'Session complete', title: 'Well done', timer: false, next: false, home: true, foot: false, stopLabel: 'Close',
@@ -230,6 +264,13 @@
     enter('rest', performance.now()); raf = requestAnimationFrame(tick);
   });
   $('sp-stop').addEventListener('click', () => close());
+  document.addEventListener('nh:trained', (e) => {
+    if (sim.hidden || mode !== 'calibration') return;
+    const m = e.detail;
+    $('sp-title').textContent = m.ok ? 'AI ready' : 'Calibration failed';
+    $('sp-text').textContent = m.ok ? 'Accuracy ' + Math.round(m.accuracy * 100) + '% (50% = guessing).' : m.error;
+    $('sp-stop').focus();
+  });
 
   // Save this session's results so the plan can be analysed and updated
   function record(stopped) {
@@ -245,14 +286,30 @@
     paused = p;
     pauseBtn.setAttribute('aria-pressed', String(p));
     pauseBtn.querySelector('span').textContent = p ? 'Resume' : 'Pause';
-    if (p) { pausedAt = now; sub.textContent = 'Paused'; cancelAnimationFrame(raf); }
-    else { phaseStart += now - pausedAt; sub.textContent = phaseText(); raf = requestAnimationFrame(tick); }
+    if (p) {
+      pausedAt = now; sub.textContent = 'Paused'; cancelAnimationFrame(raf);
+      if (live() && (phase === 'cue' || phase === 'imagery')) NH.live.send({ type: 'abort' });
+    } else if (live() && (phase === 'cue' || phase === 'imagery')) {
+      openHands(); enter('rest', now); raf = requestAnimationFrame(tick);   // repeat the interrupted trial
+    } else { phaseStart += now - pausedAt; sub.textContent = phaseText(); raf = requestAnimationFrame(tick); }
   }
   function setStatus(t) { const el = $('trial-status'); if (el) el.textContent = t; }
 
-  function open() {
+  function open(asCalibration) {
+    mode = asCalibration === true ? 'calibration' : 'session';
     const r = window.NH ? NH.recommend() : null;
-    if (r) plan = { sets: r.sets, trialsPerSet: r.trialsPerSet, restSeconds: r.restSeconds, mix: r.mix };
+    if (mode === 'calibration') {
+      // 2 sets of 20 trials, equal left and right in random order
+      plan = { sets: 2, trialsPerSet: 20, restSeconds: 60, mix: { left: 0.5, right: 0.5 } };
+      order = [];
+      for (let s2 = 0; s2 < plan.sets; s2++) {
+        const block = Array.from({ length: plan.trialsPerSet }, (_, i) => (i % 2 ? 'right' : 'left'));
+        for (let i = block.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [block[i], block[j]] = [block[j], block[i]]; }
+        order = order.concat(block);
+      }
+      NH.live.send({ type: 'calibration_reset' });
+    } else if (r) plan = { sets: r.sets, trialsPerSet: r.trialsPerSet, restSeconds: r.restSeconds, mix: r.mix };
+    sim.classList.toggle('is-calibration', mode === 'calibration');
     sim.hidden = false; document.body.classList.add('sim-on'); panel.hidden = true; pauseBtn.disabled = false;
     set = 1; trial = 1; hits = 0; total = 0; paused = false; startedAt = Date.now(); recorded = false;
     byHand.left = { hits: 0, total: 0 }; byHand.right = { hits: 0, total: 0 };
@@ -268,10 +325,13 @@
     const finished = panel.hidden === false && $('sp-home').hidden === false;
     sim.hidden = true; document.body.classList.remove('sim-on');
     try { if (document.fullscreenElement) document.exitFullscreen().catch(() => {}); } catch (e) { /* ignore */ }
-    if (!finished) { setStatus('Stopped'); record(true); }
+    if (live()) NH.live.send({ type: 'abort' });
+    if (!finished && mode === 'session') { setStatus('Stopped'); record(true); }
     openBtn.focus();
   }
-  openBtn.addEventListener('click', open);
+  openBtn.addEventListener('click', () => open(false));
+  const calBtn = $('calib-open');
+  if (calBtn) calBtn.addEventListener('click', () => open(true));
   $('sim-close').addEventListener('click', close);
   pauseBtn.addEventListener('click', () => setPaused(!paused));
   document.addEventListener('fullscreenchange', () => { if (!document.fullscreenElement && !sim.hidden) close(); });

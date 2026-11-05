@@ -1,0 +1,5 @@
+numpy
+scipy
+scikit-learn
+# Only for --source lsl:
+pylsl
