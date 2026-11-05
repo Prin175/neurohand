@@ -145,9 +145,9 @@ function init() {
     const wrist = new THREE.Vector3();
     bones.wrist.getWorldPosition(wrist);
     root.position.sub(wrist);
-    holder.position.set(0.095 * s, 0.015, 0.0);
-    holder.rotation.y = -0.2 * s;       // fingers angle slightly toward the cup
-    holder.rotation.z = 0.12 * s;       // little-finger side rests lower, like a relaxed hand
+    holder.position.set(0.112 * s, 0.015, 0.0);
+    holder.rotation.y = 0.24 * s;       // fingers point in toward the cup, so the arms run out toward the shoulders
+    holder.rotation.z = 0.18 * s;       // relaxed hands roll slightly onto the little-finger side
     holder.rotation.x = 0.16;           // level the palm so the fingers lie along the table
     scene.add(holder);
 
@@ -163,7 +163,7 @@ function init() {
       map: glowTexture(), color: 0x9fe3cf, transparent: true, opacity: 0, depthWrite: false, blending: THREE.AdditiveBlending
     }));
     g.rotation.x = -Math.PI / 2;
-    g.position.set(holder.position.x, 0.001, -0.07);
+    g.position.set(holder.position.x * 0.8, 0.001, -0.07);
     scene.add(g);
     glow[side] = g;
 
@@ -173,7 +173,49 @@ function init() {
     bendChain(h, CHAIN.map((p) => 'index-finger-' + p), [0, 0.5, 0, 0]);
     const moved = bones['index-finger-tip'].position.clone().sub(tip0);
     if (moved.dot(up) > 0) h.flex = 1;   // moved toward the back of the hand: bend the other way
-    applyCurl(hands[side], 0);
+    // Thumb spread direction: whichever way moves the thumb tip away from the index knuckle
+    Object.keys(rest).forEach((n) => { bones[n].position.copy(rest[n].p); bones[n].quaternion.copy(rest[n].q); });
+    const idx = rest['index-finger-phalanx-proximal'].p;
+    const d0 = rest['thumb-tip'].p.distanceTo(idx);
+    h.spread = 1;
+    bendChain(h, THUMB, [0.3, 0, 0], Y, 1);
+    if (bones['thumb-tip'].position.distanceTo(idx) < d0) h.spread = -1;
+    // Thumb lift direction: whichever way brings the thumb tip out of the palm side
+    Object.keys(rest).forEach((n) => { bones[n].position.copy(rest[n].p); bones[n].quaternion.copy(rest[n].q); });
+    h.fwdM = fwd.clone().normalize();
+    const palm = up.clone().negate();
+    const meta = rest['thumb-metacarpal'].p;
+    const side0 = rest['thumb-tip'].p.clone().sub(meta).dot(palm);
+    h.liftSign = 1;
+    h.liftAngle = 0;
+    void side0; void palm;
+    // Relax the thumb: this model's thumb rests far under the palm (a gripping pose).
+    // Search the thumb's own extension and spread for a natural flat-hand pose:
+    // tip about 1.5 cm below the knuckles, beside the index finger, within joint limits.
+    const palmDir = up.clone().negate();
+    const idxK = rest['index-finger-phalanx-proximal'].p;
+    let best = [0, 0], bestCost = Infinity;
+    for (let ext = 0; ext <= 0.9; ext += 0.05) {
+      for (let abd = -0.6; abd <= 0.6; abd += 0.05) {
+        Object.keys(rest).forEach((n) => { bones[n].position.copy(rest[n].p); bones[n].quaternion.copy(rest[n].q); });
+        bendChain(h, THUMB, [abd, 0, 0], Y, 1);
+        bendChain(h, THUMB, [-ext, -ext * 0.5, 0]);          // negative = extend (away from the palm)
+        const tip = bones['thumb-tip'].position;
+        const depth = tip.clone().sub(idxK).dot(palmDir);     // how far below the knuckles
+        const gap = tip.distanceTo(idxK);                     // distance from the index knuckle
+        const c2 = Math.abs(depth - 0.015) + Math.abs(gap - 0.045) * 0.6 + (ext + Math.abs(abd)) * 0.004;
+        if (c2 < bestCost) { bestCost = c2; best = [ext, abd]; }
+      }
+    }
+    h.thumbExt = best[0]; h.thumbAbd = best[1];
+    const v = new THREE.Vector3();
+    const tableY = (n) => { bones[n].getWorldPosition(v); return v.y; };
+    // Rest the hand on the table: lowest joint just a finger's thickness above the surface
+    applyCurl(h, 0);
+    holder.updateMatrixWorld(true);
+    let low = Infinity;
+    Object.keys(bones).forEach((n) => { if (n !== 'wrist') low = Math.min(low, tableY(n)); });
+    holder.position.y += 0.008 - low;
   }
 
   // ---------- Finger curl (forward kinematics over the flat WebXR joint list) ----------
@@ -184,19 +226,22 @@ function init() {
   const RELAX = [0.0, 0.06, 0.1, 0.04];  // a relaxed open hand is only slightly curved
   const THUMB = ['thumb-metacarpal', 'thumb-phalanx-proximal', 'thumb-phalanx-distal', 'thumb-tip'];
   const THUMB_FIST = [0.35, 0.75, 0.9];
-  const THUMB_RELAX = [0.05, 0.12, 0.15];
+  const THUMB_RELAX = [0.0, 0.05, 0.08];
+  const THUMB_SPREAD = 0.25;   // open the thumb a little away from the index finger
+  const THUMB_LIFT = 0.75;     // swing the thumb out from under the palm to rest beside the hand
+  const Y = new THREE.Vector3(0, 1, 0);
   const X = new THREE.Vector3(1, 0, 0);
   const tmpQ = new THREE.Quaternion();
   const tmpV = new THREE.Vector3();
   const axis = new THREE.Vector3();
 
-  function bendChain(h, names, angles) {
+  function bendChain(h, names, angles, around = X, sign = h.flex) {
     // Work from the fingertip back to the knuckle: each joint rotates everything beyond it
     for (let k = angles.length - 1; k >= 0; k--) {
       const j = h.bones[names[k]];
       if (!j || !angles[k]) continue;
-      axis.copy(X).applyQuaternion(j.quaternion).normalize();
-      tmpQ.setFromAxisAngle(axis, h.flex * angles[k]);  // h.flex makes this bend toward the palm
+      axis.copy(around).applyQuaternion(j.quaternion).normalize();
+      tmpQ.setFromAxisAngle(axis, sign * angles[k]);  // h.flex makes this bend toward the palm
       for (let m = k + 1; m < names.length; m++) {
         const b = h.bones[names[m]];
         if (!b) continue;
@@ -208,6 +253,17 @@ function init() {
     }
   }
 
+  // Swing the whole thumb around the hand's long axis (pivot: thumb base)
+  function liftThumb(h, angle) {
+    const pivot = h.bones['thumb-metacarpal'].position.clone();
+    tmpQ.setFromAxisAngle(h.fwdM, angle * h.liftSign);
+    THUMB.forEach((n) => {
+      const b = h.bones[n];
+      b.position.sub(pivot).applyQuaternion(tmpQ).add(pivot);
+      b.quaternion.premultiply(tmpQ);
+    });
+  }
+
   function applyCurl(h, c) {
     Object.keys(h.rest).forEach((n) => { h.bones[n].position.copy(h.rest[n].p); h.bones[n].quaternion.copy(h.rest[n].q); });
     const e = c * c * (3 - 2 * c);   // smoothstep feels more like a real grip
@@ -215,6 +271,10 @@ function init() {
       const lag = 1 - i * 0.04;       // the little finger follows the index slightly
       bendChain(h, CHAIN.map((p) => f + '-' + p), FIST.map((a, k) => RELAX[k] + (a - RELAX[k]) * e * lag));
     });
+    // Thumb: relaxed beside the hand when open, wraps over the fingers as the hand closes
+    const ext = (h.thumbExt || 0) * (1 - e), abd = (h.thumbAbd || 0) * (1 - e);
+    bendChain(h, THUMB, [abd, 0, 0], Y, 1);
+    bendChain(h, THUMB, [-ext, -ext * 0.5, 0]);
     bendChain(h, THUMB, THUMB_FIST.map((a, k) => THUMB_RELAX[k] + (a - THUMB_RELAX[k]) * e));
   }
 
@@ -364,7 +424,7 @@ function forearmGeometry() {
   const L = 0.52;
   for (let i = 0; i <= 24; i++) {
     const t = i / 24;
-    const r = 0.0235 + 0.008 * Math.pow(t, 0.7) + 0.003 * Math.sin(t * Math.PI);
+    const r = 0.025 + 0.007 * Math.pow(t, 0.7) + 0.003 * Math.sin(t * Math.PI);
     pts.push(new THREE.Vector2(r, t * L));
   }
   const geo = new THREE.LatheGeometry(pts, 48);
@@ -374,8 +434,8 @@ function forearmGeometry() {
   const pos = geo.attributes.position;
   for (let i = 0; i < pos.count; i++) {
     const z = pos.getZ(i), t = Math.max(0, Math.min(1, z / L));
-    const r = 0.0235 + 0.008 * Math.pow(t, 0.7) + 0.003 * Math.sin(t * Math.PI);
-    pos.setY(i, pos.getY(i) + (r - 0.0235) * 0.68);
+    const r = 0.025 + 0.007 * Math.pow(t, 0.7) + 0.003 * Math.sin(t * Math.PI);
+    pos.setY(i, pos.getY(i) + (r - 0.025) * 0.68);
   }
   geo.computeVertexNormals();
   // Close the wrist end so no hole shows
