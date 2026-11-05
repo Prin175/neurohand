@@ -60,6 +60,12 @@ See [bci/README.md](bci/README.md): a Python bridge reads the headset, records c
 - `css/style.css`: all styles, including light and dark themes
 - `js/assistant.js`: Daily Training Assistant (session history, analysis, levels, safety limits, check-in, guide)
 - `js/i18n.js`: Thai translations. English is written in the pages; when Thai is chosen, text is translated on the fly, including text the app updates. Add new strings to the `D` dictionary (or a pattern in `P` if the text contains numbers).
+- `js/scene3d.js`: realistic 3D training scene (Three.js): first-person hands on a wooden table; the fingers curl when the movement is recognized. Falls back to the 2D scene without WebGL.
 - `js/live.js`: connection to the EEG bridge (ws://localhost:8765)
 - `bci/`: EEG bridge, training script and signal processing (Python)
 - `js/main.js`: page behaviour (menus, login form, device search, training simulation, progress export)
+
+## Credits
+
+- [Three.js](https://threejs.org) r160 (MIT), in `vendor/three/`
+- Hand models: WebXR Input Profiles "generic-hand" (MIT, Amazon), in `assets/hands/`

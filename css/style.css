@@ -925,3 +925,9 @@ button.day.is-today[aria-pressed="true"] { border-color: var(--teal); box-shadow
 .live-strip .status.off .dot { background: transparent; border: 1.5px solid currentColor; }
 .device-strip code, .notice code, .setting code { font: 500 0.8125rem var(--mono); background: var(--surface-2); padding: 1px 6px; border-radius: 4px; }
 .sim.is-calibration .sim-meter { visibility: hidden; }
+
+/* ---------- 3D training scene ---------- */
+.sim-3d { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.sim.has-3d { background: #0d0907; }
+.sim.has-3d .sim-hand-wrap, .sim.has-3d .sim-object { visibility: hidden; }
+.sim.has-3d .sim-cue-big, .sim.has-3d .sim-cue-sub, .sim.has-3d .sim-count { text-shadow: 0 1px 12px rgba(0,0,0,.65), 0 0 2px rgba(0,0,0,.5); }
