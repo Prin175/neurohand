@@ -9,13 +9,13 @@
   const setPref = (k, v) => { try { localStorage.setItem(k, v); } catch (e) { /* storage unavailable */ } };
   const applyTheme = (t) => { if (/^(light|dark|navy|sunflower|peach)$/.test(t)) root.setAttribute('data-nh-theme', t); else root.removeAttribute('data-nh-theme'); };
   const applySize = (v) => root.classList.toggle('large-text', v === 'large');
-  applyTheme(getPref('nh.theme', 'system'));
+  applyTheme(getPref('nh.theme', 'navy'));
   applySize(getPref('nh.textsize', 'default'));
   window.addEventListener('storage', (e) => { if (e.key === 'nh.theme') applyTheme(e.newValue); if (e.key === 'nh.textsize') applySize(e.newValue); });
   const themeInputs = document.querySelectorAll('input[name="theme"]');
   if (themeInputs.length) {
     const saved = () => { const m = $('settings-saved'); m.hidden = false; clearTimeout(m._t); m._t = setTimeout(() => { m.hidden = true; }, 1500); };
-    const cur = getPref('nh.theme', 'system');
+    const cur = getPref('nh.theme', 'navy');
     themeInputs.forEach((inp) => {
       inp.checked = inp.value === cur;
       inp.addEventListener('change', () => { if (!inp.checked) return; setPref('nh.theme', inp.value); applyTheme(inp.value); saved(); });
