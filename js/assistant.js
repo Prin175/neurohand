@@ -592,6 +592,9 @@
       const liveOn = !!(L && L.enabled);
       const liveBlocked = liveOn && !L.ready();
       ['sim-open', 'start-btn'].forEach((id) => { const b = $(id); if (b) b.disabled = blocked || needCheckin || liveBlocked; });
+      // Practice: see the scene any time (not saved), but never when the person feels unwell
+      const pb = $('practice-open');
+      if (pb) { pb.hidden = r.state === 'onboard' || r.state === 'rest' || liveBlocked; pb.disabled = false; }
       // Live headset status
       $('sim-strip').hidden = liveOn;
       $('live-strip').hidden = !liveOn;

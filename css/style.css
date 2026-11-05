@@ -877,24 +877,6 @@ button.day.is-today[aria-pressed="true"] { border-color: var(--teal); box-shadow
   color-scheme: light;
 }
 
-/* Walnut: warm wood tones from the full-screen training scene, with its mint "recognized" accent */
-:root[data-nh-theme="walnut"] {
-  --bg: #1d140e; --bg-app: #1a120c; --surface: #2a1d14; --surface-2: #33241a;
-  --line: #43311f; --line-strong: #5a4332; --ink: #f3ece4; --ink-2: #d2c4b5; --ink-3: #a8957f;
-  --teal: #9fe3cf; --teal-strong: #c4f0e2; --teal-soft: #26332b; --teal-line: #4f7a69;
-  --btn: #f3ece4; --btn-ink: #261911; --on-teal: #1d140e; --note: #e3b787;
-  --ok: #93d8ab; --warn: #f0b867; --bad: #f29a7a;
-  --ok-soft: #233120; --warn-soft: #3b2b17; --bad-soft: #3e2219; --trace: #bba692; --focus: #9fe3cf;
-  color-scheme: dark;
-}
-:root[data-nh-theme="walnut"] body.in-app,
-:root[data-nh-theme="walnut"] body {
-  background-image: repeating-linear-gradient(92deg, rgba(255,255,255,.014) 0 2px, transparent 2px 9px);
-}
-.theme-prev.walnut { background: repeating-linear-gradient(92deg, rgba(255,255,255,.03) 0 2px, transparent 2px 7px), #1a120c; }
-.theme-prev.walnut .tp-side { background: #2a1d14; border-right: 1px solid #43311f; }
-.theme-prev.walnut .tp-bar { background: #9fe3cf; }
-.theme-prev.walnut .tp-card { background: #2a1d14; border: 1px solid #43311f; }
 .theme-opts { grid-template-columns: repeat(4, minmax(0, 1fr)); max-width: 820px; }
 @media (max-width: 640px) { .theme-opts { grid-template-columns: 1fr 1fr; } }
 
@@ -931,3 +913,33 @@ button.day.is-today[aria-pressed="true"] { border-color: var(--teal); box-shadow
 .sim.has-3d { background: #0d0907; }
 .sim.has-3d .sim-hand-wrap, .sim.has-3d .sim-object { visibility: hidden; }
 .sim.has-3d .sim-cue-big, .sim.has-3d .sim-cue-sub, .sim.has-3d .sim-count { text-shadow: 0 1px 12px rgba(0,0,0,.65), 0 0 2px rgba(0,0,0,.5); }
+
+/* ---------- Color themes (Settings > Color mode). Contrast checked: text >= 4.5:1 ---------- */
+:root[data-nh-theme="navy"] { --bg: #f7f1e6; --bg-app: #f3ecdf; --surface: #fffbf3; --surface-2: #f6eee0; --line: #e6dccb; --line-strong: #d2c5ae; --ink: #14213d; --ink-2: #3b4864; --ink-3: #5f6880; --teal: #24427a; --teal-strong: #162d57; --teal-soft: #e4e9f3; --teal-line: #a3b3d1; --btn: #14213d; --btn-ink: #fffbf3; --on-teal: #fffbf3; --note: #8a5a2e; --ok: #2c7549; --warn: #935b11; --bad: #b13f27; --ok-soft: #e4f0e6; --warn-soft: #f5e6c9; --bad-soft: #f6dfd6; --trace: #68728c; --focus: #24427a; color-scheme: light; }
+.theme-prev.navy { background: #f3ecdf; }
+.theme-prev.navy .tp-side { background: #fffbf3; border-right: 1px solid #e6dccb; }
+.theme-prev.navy .tp-bar { background: #14213d; }
+.theme-prev.navy .tp-card { background: #fffbf3; border: 1px solid #e6dccb; }
+.theme-prev.navy .tp-card.short { background: #e4e9f3; border-color: #a3b3d1; }
+.theme-opts { grid-template-columns: repeat(auto-fill, minmax(132px, 1fr)); max-width: 900px; }
+@media (max-width: 640px) { .theme-opts { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+:root[data-nh-theme="navy"] .btn-primary:hover { background: var(--teal-strong); color: var(--on-teal); }
+.settings-list, .setting-col { grid-template-columns: minmax(0, 1fr); }
+.theme-opts { min-width: 0; width: 100%; }
+
+.theme-group { grid-column: 1 / -1; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-3); margin-top: 6px; }
+.theme-group:first-child { margin-top: 0; }
+
+:root[data-nh-theme="sunflower"] { --bg: #f4f2e2; --bg-app: #eceddd; --surface: #fdfbf5; --surface-2: #f0efe0; --line: #e4dfcf; --line-strong: #d1ccbc; --ink: #2a2414; --ink-2: #5e5848; --ink-3: #706a5d; --teal: #1f6f6a; --teal-strong: #185753; --teal-soft: #e1e6d7; --teal-line: #98b9ae; --btn: #2a2414; --btn-ink: #ffffff; --on-teal: #ffffff; --note: #8a5a2e; --ok: #2c7549; --warn: #8d5c0e; --bad: #a8372a; --ok-soft: #e3f0e6; --warn-soft: #f4e6ca; --bad-soft: #f7ddd6; --trace: #827c6c; --focus: #1f6f6a; color-scheme: light; }
+.theme-prev.sunflower { background: #eceddd; }
+.theme-prev.sunflower .tp-side { background: #fdfbf5; border-right: 1px solid #e4dfcf; }
+.theme-prev.sunflower .tp-bar { background: #2a2414; }
+.theme-prev.sunflower .tp-card { background: #fdfbf5; border: 1px solid #e4dfcf; }
+.theme-prev.sunflower .tp-card.short { background: #e1e6d7; border-color: #98b9ae; }
+
+:root[data-nh-theme="peach"] { --bg: #f6ece5; --bg-app: #ede4e1; --surface: #fef9f6; --surface-2: #f2e8e3; --line: #e4dad6; --line-strong: #cfc8c7; --ink: #17223f; --ink-2: #50566a; --ink-3: #62636d; --teal: #1f3d73; --teal-strong: #18305a; --teal-soft: #e2dbdb; --teal-line: #99a0b4; --btn: #17223f; --btn-ink: #ffffff; --on-teal: #ffffff; --note: #8a5a2e; --ok: #2c7549; --warn: #8d5c0e; --bad: #a8372a; --ok-soft: #e3f0e6; --warn-soft: #f4e6ca; --bad-soft: #f7ddd6; --trace: #787986; --focus: #1f3d73; color-scheme: light; }
+.theme-prev.peach { background: #ede4e1; }
+.theme-prev.peach .tp-side { background: #fef9f6; border-right: 1px solid #e4dad6; }
+.theme-prev.peach .tp-bar { background: #17223f; }
+.theme-prev.peach .tp-card { background: #fef9f6; border: 1px solid #e4dad6; }
+.theme-prev.peach .tp-card.short { background: #e2dbdb; border-color: #99a0b4; }

@@ -7,7 +7,7 @@
   const root = document.documentElement;
   const getPref = (k, d) => { try { return localStorage.getItem(k) || d; } catch (e) { return d; } };
   const setPref = (k, v) => { try { localStorage.setItem(k, v); } catch (e) { /* storage unavailable */ } };
-  const applyTheme = (t) => { if (t === 'light' || t === 'dark' || t === 'walnut') root.setAttribute('data-nh-theme', t); else root.removeAttribute('data-nh-theme'); };
+  const applyTheme = (t) => { if (/^(light|dark|navy|sunflower|peach)$/.test(t)) root.setAttribute('data-nh-theme', t); else root.removeAttribute('data-nh-theme'); };
   const applySize = (v) => root.classList.toggle('large-text', v === 'large');
   applyTheme(getPref('nh.theme', 'system'));
   applySize(getPref('nh.textsize', 'default'));
@@ -157,7 +157,7 @@
 
   const setClose = (el, c) => el.querySelector('.sim-hand').style.setProperty('--c', c.toFixed(3));
   const openHands = () => ['left', 'right'].forEach((s) => setClose(hands[s], 0));
-  const updateCount = () => { count.textContent = (mode === 'calibration' ? 'Calibration · ' : '') + 'Set ' + set + ' of ' + plan.sets + ' · Trial ' + trial + ' of ' + plan.trialsPerSet; };
+  const updateCount = () => { count.textContent = (mode === 'calibration' ? 'Calibration · ' : mode === 'practice' ? 'Practice · ' : '') + 'Set ' + set + ' of ' + plan.sets + ' · Trial ' + trial + ' of ' + plan.trialsPerSet; };
   const phaseText = () => ({ rest: 'Relax', cue: 'Get ready', imagery: 'Imagine squeezing', feedback: Math.round(peak * 100) + '%' }[phase]);
 
   function enter(p, now) {
@@ -239,9 +239,9 @@
     if (set >= plan.sets) {
       record(false);
       showPanel({ k: 'Session complete', title: 'Well done', timer: false, next: false, home: true, foot: false, stopLabel: 'Close',
-        text: hits + ' of ' + total + ' recognized' + (window.NH && !NH.HARDWARE_CONNECTED ? ' (demo)' : '') + '.' });
+        text: hits + ' of ' + total + ' recognized' + (mode === 'practice' ? ' (practice, not saved)' : window.NH && !NH.HARDWARE_CONNECTED ? ' (demo)' : '') + '.' });
       $('sp-home').focus();
-      setStatus('Completed');
+      if (mode === 'session') setStatus('Completed');
       return;
     }
     let left = plan.restSeconds;
@@ -274,7 +274,7 @@
 
   // Save this session's results so the plan can be analysed and updated
   function record(stopped) {
-    if (recorded || !total || !window.NH) return;
+    if (recorded || !total || !window.NH || mode !== 'session') return;   // practice is never saved
     recorded = true;
     const pct = (h) => (h.total ? Math.round((h.hits / h.total) * 100) : null);
     NH.recordSession({ left: pct(byHand.left), right: pct(byHand.right), trials: total, minutes: Math.max(1, Math.round((Date.now() - startedAt) / 60000)), stopped });
@@ -295,8 +295,8 @@
   }
   function setStatus(t) { const el = $('trial-status'); if (el) el.textContent = t; }
 
-  function open(asCalibration) {
-    mode = asCalibration === true ? 'calibration' : 'session';
+  function open(kind) {
+    mode = kind === 'calibration' || kind === 'practice' ? kind : 'session';
     const r = window.NH ? NH.recommend() : null;
     if (mode === 'calibration') {
       // 2 sets of 20 trials, equal left and right in random order
@@ -308,6 +308,9 @@
         order = order.concat(block);
       }
       NH.live.send({ type: 'calibration_reset' });
+    } else if (mode === 'practice') {
+      // A short look at the training scene; nothing is recorded
+      plan = { sets: 1, trialsPerSet: 6, restSeconds: 30, mix: { left: 0.5, right: 0.5 } };
     } else if (r) plan = { sets: r.sets, trialsPerSet: r.trialsPerSet, restSeconds: r.restSeconds, mix: r.mix };
     sim.classList.toggle('is-calibration', mode === 'calibration');
     sim.hidden = false; document.body.classList.add('sim-on'); panel.hidden = true; pauseBtn.disabled = false;
@@ -329,9 +332,11 @@
     if (!finished && mode === 'session') { setStatus('Stopped'); record(true); }
     openBtn.focus();
   }
-  openBtn.addEventListener('click', () => open(false));
+  openBtn.addEventListener('click', () => open('session'));
+  const pracBtn = $('practice-open');
+  if (pracBtn) pracBtn.addEventListener('click', () => open('practice'));
   const calBtn = $('calib-open');
-  if (calBtn) calBtn.addEventListener('click', () => open(true));
+  if (calBtn) calBtn.addEventListener('click', () => open('calibration'));
   $('sim-close').addEventListener('click', close);
   pauseBtn.addEventListener('click', () => setPaused(!paused));
   document.addEventListener('fullscreenchange', () => { if (!document.fullscreenElement && !sim.hidden) close(); });
