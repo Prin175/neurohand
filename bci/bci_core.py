@@ -9,7 +9,7 @@ import pickle
 
 import numpy as np
 from scipy.linalg import eigh
-from scipy.signal import butter, sosfiltfilt
+from scipy.signal import butter, sosfiltfilt, welch
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 from sklearn.model_selection import StratifiedKFold
 
@@ -19,7 +19,12 @@ LABELS = ("left", "right")
 
 
 def bandpass(x, fs, band=BAND):
-    """Band-pass filter along the last axis (time)."""
+    """Band-pass filter along the last axis (time).
+
+    The mean is removed first, so raw ADC numbers with a large offset
+    (such as the NPG Lite's 12-bit values) filter cleanly too.
+    """
+    x = x - np.mean(x, axis=-1, keepdims=True)
     sos = butter(4, [band[0] / (fs / 2), band[1] / (fs / 2)], btype="band", output="sos")
     return sosfiltfilt(sos, x, axis=-1)
 
@@ -137,15 +142,32 @@ def train(epochs, labels, fs, channels, folds=5, seed=0):
     return model, model.accuracy
 
 
-def signal_quality(window):
-    """Rough per-channel quality from a short window in microvolts."""
+def signal_quality(window, fs, adc_max=None):
+    """Rough per-channel quality: "good", "fair" or "poor".
+
+    Works in any units (microvolts or raw ADC numbers) because it looks at
+    shapes, not sizes:
+      * flat line          -> poor (electrode not connected)
+      * hitting ADC limits -> poor (clipping, usually a loose electrode)
+      * strong 50/60 Hz mains hum compared with the 8-30 Hz EEG band
+                           -> fair or poor (poor contact picks up mains)
+    """
     out = []
-    for ch in window:
-        sd = float(np.std(ch))
-        if sd < 0.5 or sd > 150:
-            out.append("poor")      # flat (loose electrode) or huge (movement, bad contact)
-        elif sd > 75:
-            out.append("fair")
-        else:
-            out.append("good")
+    for ch in np.asarray(window, dtype=float):
+        x = ch - ch.mean()
+        if x.std() < 1e-3:
+            out.append("poor")
+            continue
+        if adc_max and np.mean((ch <= 1) | (ch >= adc_max - 1)) > 0.005:
+            out.append("poor")
+            continue
+        f, p = welch(x, fs, nperseg=min(len(x), int(fs)))
+        eeg = p[(f >= 8) & (f <= 30)].mean()
+        mains = 0.0
+        for hz in (50, 60):
+            band = (f >= hz - 2) & (f <= hz + 2)
+            if band.any() and hz + 2 < fs / 2:
+                mains = max(mains, p[band].mean())
+        ratio = mains / eeg if eeg > 0 else np.inf
+        out.append("poor" if ratio > 20 else "fair" if ratio > 4 else "good")
     return out

@@ -10,7 +10,8 @@ NeuroHand website over a WebSocket (ws://localhost:8765), and:
 
 Start it with one of:
     python bridge.py --source synthetic   # fake EEG for testing, no headset
-    python bridge.py --source lsl         # headset that streams over Lab Streaming Layer
+    python bridge.py --source chords      # NPG Lite: start Chords first (it streams over LSL)
+    python bridge.py --source lsl         # any other headset that streams over Lab Streaming Layer
     python bridge.py --source custom      # your headset's own code (edit CustomSource below)
 
 Only the Python standard library plus numpy, scipy and scikit-learn are needed.
@@ -90,36 +91,60 @@ class SyntheticSource:
 
 
 class LSLSource:
-    """Any headset or vendor app that publishes an EEG stream over Lab Streaming Layer."""
+    """A headset that streams over Lab Streaming Layer.
 
-    def __init__(self, state, channels=DEFAULT_CHANNELS):
+    Works with Upside Down Labs Chords (NPG Lite): its stream is called
+    "BioAmpDataStream", has type "EXG", 500 Hz, no channel names, and sends
+    raw 12-bit ADC numbers. Channels without names are taken in order:
+    channel 1 = C3, channel 2 = Cz, channel 3 = C4 (change with --pick).
+    """
+
+    def __init__(self, state, channels=DEFAULT_CHANNELS, pick=None):
         try:
-            from pylsl import StreamInlet, resolve_byprop
+            from pylsl import StreamInlet, resolve_streams
         except ImportError:
             sys.exit("pylsl is not installed. Run: pip install pylsl")
-        print("Looking for an EEG stream on the network...")
-        streams = resolve_byprop("type", "EEG", timeout=10)
-        if not streams:
-            sys.exit("No EEG stream found. Start your headset's streaming app first.")
-        self.inlet = StreamInlet(streams[0])
+        print("Looking for an EEG stream (EEG / EXG / Chords BioAmpDataStream)...")
+        stream, deadline = None, time.monotonic() + 15
+        while stream is None and time.monotonic() < deadline:
+            found = resolve_streams(2.0)
+            for want in ("EEG", "EXG"):
+                stream = stream or next((s for s in found if s.type().upper() == want), None)
+            stream = stream or next((s for s in found if "BIOAMP" in s.name().upper()), None)
+        if stream is None:
+            sys.exit("No EEG stream found. Start Chords first, for example:\n"
+                     "  python -m chordspy.connection --protocol ble")
+        self.inlet = StreamInlet(stream)
         info = self.inlet.info()
         self.fs = int(round(info.nominal_srate()))
-        names = []
-        ch = info.desc().child("channels").child("channel")
-        for _ in range(info.channel_count()):
-            names.append(ch.child_value("label") or "")
+        n = info.channel_count()
+        names, ch = [], info.desc().child("channels").child("channel")
+        for _ in range(n):
+            names.append((ch.child_value("label") or "").strip())
             ch = ch.next_sibling()
+        bits = info.desc().child("resinfo").child_value("resolution")
+        self.adc_max = (2 ** int(bits) - 1) if bits.isdigit() else None
+
         want = [c.upper() for c in channels]
-        found = [i for i, n in enumerate(names) if n.upper() in want]
-        if len(found) != len(channels):
-            print("Channel names in the stream:", names)
-            sys.exit("Could not find %s. Pass the right names with --channels." % ", ".join(channels))
-        self.idx = [names.index(n) for n in names if n.upper() in want]
-        self.channels = [names[i] for i in self.idx]
-        print("Connected to '%s' at %d Hz, using %s" % (info.name(), self.fs, ", ".join(self.channels)))
+        labelled = [n_.upper() for n_ in names]
+        if pick:
+            self.idx = [p - 1 for p in pick]
+        elif all(w in labelled for w in want):
+            self.idx = [labelled.index(w) for w in want]
+        else:
+            self.idx = list(range(len(channels)))
+            print("The stream has no channel names, so channels %s are used as %s."
+                  % (", ".join(str(i + 1) for i in self.idx), ", ".join(channels)))
+            print("Connect the electrodes in that order, or choose others with --pick, e.g. --pick 1,2,3")
+        if max(self.idx) >= n:
+            sys.exit("The stream has %d channels; --pick asked for channel %d." % (n, max(self.idx) + 1))
+        self.channels = list(channels)
+        units = "raw ADC values (%s-bit)" % bits if self.adc_max else "microvolts"
+        print("Connected to '%s' (%s): %d channels at %d Hz, %s"
+              % (info.name(), info.type(), n, self.fs, units))
 
     def read(self):
-        chunk, _ = self.inlet.pull_chunk(timeout=0.0)
+        chunk, _ = self.inlet.pull_chunk(timeout=0.0, max_samples=4096)
         if not chunk:
             return None
         return np.asarray(chunk, dtype=float).T[self.idx]
@@ -253,12 +278,12 @@ class Client:
 
 # --------------------------------------------------------------------------- bridge
 class Bridge:
-    def __init__(self, source_name, channels, port):
+    def __init__(self, source_name, channels, port, pick=None):
         self.state = State()
         if source_name == "synthetic":
             self.source = SyntheticSource(self.state, channels=channels)
-        elif source_name == "lsl":
-            self.source = LSLSource(self.state, channels)
+        elif source_name in ("lsl", "chords"):
+            self.source = LSLSource(self.state, channels, pick)
         else:
             self.source = CustomSource(self.state, channels)
         self.source_name = source_name
@@ -325,7 +350,7 @@ class Bridge:
             await asyncio.sleep(1.0)
             win = self.ring.last(int(2 * self.fs))
             if win is not None and win.shape[1] >= self.fs and self.clients:
-                q = signal_quality(win - win.mean(axis=1, keepdims=True))
+                q = signal_quality(win, self.fs, getattr(self.source, "adc_max", None))
                 await self.broadcast({"type": "quality", "channels": dict(zip(self.channels, q))})
 
     # ---- messages from the website
@@ -414,12 +439,15 @@ class Bridge:
 
 def main():
     ap = argparse.ArgumentParser(description="NeuroHand EEG bridge")
-    ap.add_argument("--source", choices=["synthetic", "lsl", "custom"], default="synthetic")
+    ap.add_argument("--source", choices=["synthetic", "chords", "lsl", "custom"], default="synthetic",
+                    help="chords = NPG Lite via Upside Down Labs Chords (an LSL stream)")
+    ap.add_argument("--pick", default=None, help="stream channel numbers to use as C3,Cz,C4, e.g. 1,2,3")
     ap.add_argument("--channels", default="C3,Cz,C4", help="channel names to use, comma separated")
     ap.add_argument("--port", type=int, default=8765)
     a = ap.parse_args()
     try:
-        asyncio.run(Bridge(a.source, [c.strip() for c in a.channels.split(",")], a.port).run())
+        pick = [int(x) for x in a.pick.split(",")] if a.pick else None
+        asyncio.run(Bridge(a.source, [c.strip() for c in a.channels.split(",")], a.port, pick).run())
     except KeyboardInterrupt:
         print("\nStopped.")
 

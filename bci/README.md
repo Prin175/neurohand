@@ -43,8 +43,42 @@ because electrode positions change slightly.
 
 ## 4. Connect your headset
 
-**If its software streams over LSL** (Lab Streaming Layer — most research headsets do,
-for example OpenBCI GUI, g.tec, BrainProducts, Emotiv with their LSL app):
+### NPG Lite (Upside Down Labs) with Chords Python
+
+The NPG Lite's own software, **Chords Python**, streams the EEG over LSL. The bridge reads
+that stream directly, so you don't need to change any code.
+
+1. Flash the firmware for the connection you want (Bluetooth, Wi-Fi or USB) with the
+   **NPG Lite Flasher**.
+2. Install both tools, in the same Python environment:
+   ```
+   pip install chordspy
+   pip install -r bci/requirements.txt
+   ```
+3. Start the Chords stream and **leave this window open**:
+   ```
+   python -m chordspy.connection --protocol ble     # or: --protocol usb / --protocol wifi
+   ```
+   (Or run `chordspy`, connect in its web page — the LSL stream starts when connected.)
+4. In a second window, start the bridge:
+   ```
+   python bci/bridge.py --source chords
+   ```
+   You should see: `Connected to 'BioAmpDataStream' (EXG): 3 channels at 500 Hz, raw ADC values (12-bit)`.
+
+**Electrodes:** Chords doesn't name its channels, so the bridge uses
+**channel 1 = C3, channel 2 = Cz, channel 3 = C4**. Place the electrodes that way, and the
+reference and ground electrodes as shown in Upside Down Labs' EEG guide (usually behind
+the ear or on the earlobe). If you wire them differently, tell the bridge, for example
+`--pick 3,2,1`. On a 6-channel NPG Lite, pick the three channels you used.
+
+Chords sends raw 12-bit numbers, not microvolts. That's fine: the AI and the
+signal-quality check don't depend on units. Quality shows **poor** for a flat line or a
+clipped signal (loose electrode) and **fair/poor** for strong 50 Hz mains hum (poor contact).
+
+### Other headsets
+
+**If its software streams over LSL** (OpenBCI GUI, g.tec, BrainProducts, Emotiv with their LSL app):
 
 ```
 python bci/bridge.py --source lsl
