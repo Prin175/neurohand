@@ -9,6 +9,7 @@
 import * as THREE from 'three';
 import { GLTFLoader } from '../vendor/three/examples/jsm/loaders/GLTFLoader.js';
 import { RoomEnvironment } from '../vendor/three/examples/jsm/environments/RoomEnvironment.js';
+import * as HAND_MODELS from '../assets/hands/hands.js';
 
 const sim = document.getElementById('sim');
 if (sim) init();
@@ -99,9 +100,13 @@ function init() {
   const hands = {};
   const glow = {};
   const loader = new GLTFLoader();
-  const base3d = new URL('../assets/hands/', import.meta.url).href;
+  const parse = (b64) => new Promise((resolve, reject) => {
+    const bin = atob(b64), buf = new Uint8Array(bin.length);
+    for (let i = 0; i < bin.length; i++) buf[i] = bin.charCodeAt(i);
+    loader.parse(buf.buffer, '', resolve, reject);
+  });
 
-  Promise.all(['left', 'right'].map((side) => loader.loadAsync(base3d + side + '.glb').then((g) => setupHand(side, g))))
+  Promise.all(['left', 'right'].map((side) => parse(HAND_MODELS[side]).then((g) => setupHand(side, g))))
     .then(() => {
       sim.classList.add('has-3d');
       ready = true;
