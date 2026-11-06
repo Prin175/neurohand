@@ -4,11 +4,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>NeuroHand</title>
-  <script>try{var d=document.documentElement,t=localStorage.getItem("nh.theme")||"navy";if(/^(light|dark|navy|sunflower|peach)$/.test(t))d.setAttribute("data-nh-theme",t);if(localStorage.getItem("nh.textsize")==="large")d.classList.add("large-text");if(localStorage.getItem("nh.lang")==="th"){d.lang="th";d.classList.add("nh-i18n-wait");setTimeout(function(){d.classList.remove("nh-i18n-wait")},1500);var l=document.createElement("link");l.rel="stylesheet";l.href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap";document.head.appendChild(l)}}catch(e){}</script>
+  <script>try{var d=document.documentElement,t=localStorage.getItem("nh.theme");if(localStorage.getItem("nh.themev")!=="2"){t="navy";localStorage.setItem("nh.theme",t);localStorage.setItem("nh.themev","2")}if(t!=="system"&&!/^(light|dark|navy|sunflower|peach)$/.test(t))t="navy";if(t!=="system")d.setAttribute("data-nh-theme",t);if(localStorage.getItem("nh.textsize")==="large")d.classList.add("large-text");if(localStorage.getItem("nh.lang")==="th"){d.lang="th";d.classList.add("nh-i18n-wait");setTimeout(function(){d.classList.remove("nh-i18n-wait")},1500);var l=document.createElement("link");l.rel="stylesheet";l.href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap";document.head.appendChild(l)}}catch(e){}</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
-  <link rel="stylesheet" href="css/style.css?v=20261105s">
+  <link rel="stylesheet" href="css/style.css?v=20261106a">
 </head>
 <body>
 <header class="site-header"><div class="wrap header-row">
@@ -54,7 +54,7 @@
     <span>Student research prototype. Not a medical device.</span>
     <nav aria-label="Footer"><a href="#about">About</a><a href="#contact">Contact</a><a href="login.html">Log in</a></nav>
   </div></footer>
-  <script src="js/main.js?v=20261105s"></script>
-  <script src="js/i18n.js?v=20261105s"></script>
+  <script src="js/main.js?v=20261106a"></script>
+  <script src="js/i18n.js?v=20261106a"></script>
 </body>
 </html>
