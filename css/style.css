@@ -34,7 +34,7 @@
   --r-lg: 14px;
 }
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]):not([data-nh-theme="light"]) {
+  :root:not([data-theme="light"]):not([data-nh-theme]) {
     --bg: #0c1110; --bg-app: #0a0f0e; --surface: #131a19; --surface-2: #182120;
     --line: #243030; --line-strong: #344341; --ink: #e8eeec; --ink-2: #aab6b2; --ink-3: #7d8a86;
     --teal: #3dbcaa; --teal-strong: #6fd6c6; --teal-soft: #13302c; --teal-line: #2b6c62;
